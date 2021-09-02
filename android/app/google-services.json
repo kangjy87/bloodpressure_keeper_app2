@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "27978630179",
+    "project_id": "blood-pressure-keeper",
+    "storage_bucket": "blood-pressure-keeper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27978630179:android:4e4744053816bc61229d96",
+        "android_client_info": {
+          "package_name": "com.appkeeper.bloodpressure_keeper_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27978630179-2cev9lahj3mlrfeqru9tc9pn0504fi31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ_T2tRj7hQByI0Hyzm3Hb7uZNub-UVHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27978630179-2cev9lahj3mlrfeqru9tc9pn0504fi31.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27978630179-csjeeg72bj7lkrnr98mjf41qhbsdj1u8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bloodpressure.bloodPressureKeeper"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

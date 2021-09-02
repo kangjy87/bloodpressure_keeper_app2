@@ -1,0 +1,111 @@
+name: bloodpressure_keeper_app
+description: Blood PressureKeeperApp
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.1.4
+  dio: ^4.0.0
+  retrofit: ^2.0.0
+  package_info: ^2.0.2
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  retrofit_generator: any
+  json_serializable: ^4.1.0
+  build_runner: any
+  logger: ^1.0.0
+  shared_preferences: ^2.0.5 #SharedPreferences 사용을 위해
+  permission_handler: ^7.0.0 #수동 퍼미션 사용
+  table_calendar: ^3.0.1 #날짜선택
+  fluttertoast: ^8.0.8 #토스트메시지
+  sqflite: ^2.0.0+3 #SQLITE 사용
+  path_provider: ^2.0.2 #SQLITE 사용
+  intl: ^0.17.0 #날짜받아오기
+  #flutter_blue: ^0.8.0 #블루투스 IOS대응 (flutter_ble_lib: ^2.3.2 #BLE 사용)
+  flutter_kakao_login: ^3.3.0
+  firebase_auth: ^3.1.0 #구글로그인
+  google_sign_in: ^5.0.4 #구글로그인
+  firebase_core: ^1.6.0 #구글로그인
+  sign_in_with_apple: ^3.0.0 #애플로그인
+  charts_flutter: ^0.11.0 #차트
+  firebase_messaging: ^10.0.5 #FCM 토큰
+  geolocator: ^7.4.0 #위치정보 받기
+  geocoding: ^2.0.0 # 위치를 통한 주소조회
+  flutter_easyloading: ^3.0.0 #로딩
+  firebase_crashlytics: ^2.2.1 #파이어베이스 크래쉬
+  adaptive_dialog: ^1.1.0
+  flutter_staggered_grid_view: ^0.4.0
+  cached_network_image: ^3.1.0
+  youtube_player_flutter: ^8.0.0
+  flutter_vlc_player: ^6.0.2
+  video_player: ^2.1.12
+  carousel_slider: ^4.0.0
+  lottie: ^1.1.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - images/
+    - assets/splash.json
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: NanumRoundB
+      fonts:
+        - asset: fonts/nanum_square_round_b.ttf
+    - family: NanumRoundEB
+      fonts:
+        - asset: fonts/nanum_square_round_eb.ttf
+    - family: NanumRoundL
+      fonts:
+        - asset: fonts/nanum_square_round_l.ttf
+    - family: NanumRoundR
+      fonts:
+        - asset: fonts/nanum_square_round_r.ttf
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
