@@ -21,7 +21,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
     return Container(
       // padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
       width: double.infinity,
-      height: 280.0,
+      height: 340.0,
       child: Container(
         width: double.infinity,
         height: double.infinity,
@@ -34,11 +34,11 @@ class BpInfoViewSelectDay extends StatelessWidget {
               width: 250.0,
               height: 36,
               // padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color(0xfff4f7fc),
-                borderRadius: BorderRadius.circular(89.0),
-              ),
+              // decoration: BoxDecoration(
+              //   shape: BoxShape.rectangle,
+              //   color: Color(0xfff4f7fc),
+              //   borderRadius: BorderRadius.circular(89.0),
+              // ),
               child: Visibility(
                 visible: data.systolic! > 0,
                 child: Center(
@@ -76,20 +76,26 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'images/mini_main_sys_icon.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '${data.systolic}',
-                        style: TextStyle(
-                            fontFamily: 'NanumRoundEB',
-                            fontSize: 16.0,
-                            color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'images/mini_main_sys_icon.png',
+                            height: 40,
+                            width: 40,
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            '${data.systolic}',
+                            style: TextStyle(
+                                fontFamily: 'NanumRoundEB',
+                                fontSize: 32.0,
+                                color: Colors.black),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 4,
@@ -99,7 +105,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 12.0,
+                          fontSize: 12.5,
                           color: Color(0xff78849e),
                         ),
                       )
@@ -107,11 +113,9 @@ class BpInfoViewSelectDay extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  width: 0.5,
-                  child: Container(
-                    color: Color(0xff78849e),
-                  ),
+                  padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+                  width: 2,
+                  color: Color(0xfff4f5f7),
                 ),
                 Expanded(
                   flex: 1,
@@ -119,20 +123,26 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'images/mini_main_dia_icon.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '${data.diastole}',
-                        style: TextStyle(
-                            fontFamily: 'NanumRoundEB',
-                            fontSize: 15.0,
-                            color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'images/mini_main_dia_icon.png',
+                            height: 40,
+                            width: 40,
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            '${data.diastole}',
+                            style: TextStyle(
+                                fontFamily: 'NanumRoundEB',
+                                fontSize: 32.0,
+                                color: Colors.black),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 4,
@@ -142,7 +152,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 12.0,
+                          fontSize: 12.5,
                           color: Color(0xff78849e),
                         ),
                       )
@@ -156,107 +166,119 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     color: Color(0xff78849e),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'images/mini_main_pul_icon.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '${data.pulse}',
-                        style: TextStyle(
-                            fontFamily: 'NanumRoundEB',
-                            fontSize: 15.0,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '심박수\nPUL/min',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'NanumRoundEB',
-                          fontSize: 12.0,
-                          color: Color(0xff78849e),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
               ],
             ),
             // Expanded(child: Text(''), flex: 1),
+            SizedBox(height: 20,),
+            Container(
+              padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+              height: 2,
+              child: Container(
+                color: Color(0xfff4f5f7),
+              ),
+            ),
+            SizedBox(height: 20,),
+            Expanded(
+              flex: 1,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(''),
+                  ),
+                  Image.asset(
+                    'images/mini_main_pul_icon.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                  Expanded(
+                    child: Text(''),
+                  ),
+                  Text(
+                    '${data.pulse}',
+                    style: TextStyle(
+                        fontFamily: 'NanumRoundEB',
+                        fontSize: 32.0,
+                        color: Colors.black),
+                  ),
+                  Expanded(
+                    child: Text(''),
+                  ),
+                  Text(
+                    '심박수\nPUL/min',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'NanumRoundEB',
+                      fontSize: 12.5,
+                      color: Color(0xff78849e),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(''),
+                  )
+                ],
+              ),
+            ),
             SizedBox(height: 20,),
             /**
              * 메모
              */
             Container(
-                height: (memoController.text.length > 10) ? 69.0 : 54.0 ,
+                // height: (memoController.text.length > 10) ? 69.0 : 54.0 ,
                 // padding: EdgeInsets.fromLTRB(10, 0, 20, 00),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'images/memo_icon.png',
-                      height: 30,
-                      width: 30,
-                    ),
-                    SizedBox(width: 10),
                     SizedBox(
-                        width: 80,
+                        width: 40,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Image.asset(
+                              'images/memo_icon.png',
+                              height: 30,
+                              width: 30,
+                            ),
                             Text(
                               '메모',
                               style: TextStyle(
                                   fontFamily: 'NanumRoundEB',
-                                  fontSize: 13.0,
+                                  fontSize: 12.0,
                                   color: Colors.black),
-                            ),
-                            Text(
-                              '선택사항',
-                              style: TextStyle(
-                                fontFamily: 'NanumRoundEB',
-                                fontSize: 11.0,
-                                color: Color(0xff78849e),
-                              ),
                             )
                           ],
                         )),
                     Expanded(child: Text(''), flex: 1),
                     Expanded(
                       child: TextFormField(
+                          textAlign: TextAlign.center,
                           controller: memoController,
                           readOnly: true,
-                          maxLines: 2,
-                          //   controller: memo,
-                          textAlign: TextAlign.center,
+                          maxLines: 1,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32.0)),
-                            // labelText: '',
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff78849e)),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff78849e))),
                           ),
-                      style: TextStyle(fontSize: 13.0),),
-                      flex: 17,
+                          // decoration: InputDecoration(
+                          //   border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(32.0)),
+                          //   // labelText: '',
+                          // ),
+                      style: TextStyle(fontSize: 13.0, ),),
+                      flex: 20,
                     ),
-                    Expanded(child: Text(''), flex: 1),
+                    Expanded(child: Text(''), flex: 2),
                     GestureDetector(
                       child: Image.asset(
                         'images/note_pencil_icon.png',
-                        height: 35,
-                        width: 35,
+                        height: 30,
+                        width: 30,
                       ),
                       onTap: () {
                         print('클릭>>>>>>>>${data.id}');
@@ -266,7 +288,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                   ],
                 )),
             // Expanded(child: Text(''), flex: 1),
-            SizedBox(height: 10,),
+            SizedBox(height: 20,),
           ],
         ),
       ),

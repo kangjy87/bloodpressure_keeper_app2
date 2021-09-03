@@ -157,24 +157,48 @@ class LoginController extends GetxController {
    *
    * 애플로그인
    */
-  void appleLogin() async {
-    if (Platform.isIOS) {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-      print(credential);
-      userGubun(credential.identityToken, AppleIDAuthorizationScopes.email.toString() ,'apple');
+  void appleLogin()async{
+    UserCredential  getLogin = await  appleLoginGo();
+    User? data = getLogin.user ;
+    print('>>>>>>>>>>>>>${data!.email}');
+    userGubun(data.uid, data.email.toString() ,'apple');
+  }
+  Future<UserCredential> appleLoginGo() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      webAuthenticationOptions: WebAuthenticationOptions(
+        clientId: "bloodpressureKeeperApp.appkeeper.com",
+        redirectUri: Uri.parse(
+            "https://infrequent-glacier-cauliflower.glitch.me/callbacks/sign_in_with_apple"),
+      ),
+    );
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${credential.authorizationCode}');
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: credential.identityToken,
         accessToken: credential.authorizationCode,
       );
-      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-    } else {
-      Get.toNamed(AppRoutes.JoinAddInfo);
-    }
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    // if (Platform.isIOS) {
+    //   final credential = await SignInWithApple.getAppleIDCredential(
+    //     scopes: [
+    //       AppleIDAuthorizationScopes.email,
+    //       AppleIDAuthorizationScopes.fullName,
+    //     ],
+    //   );
+    //   print(credential);
+    //   userGubun(credential.identityToken, AppleIDAuthorizationScopes.email.toString() ,'apple');
+    //   final oauthCredential = OAuthProvider("apple.com").credential(
+    //     idToken: credential.identityToken,
+    //     accessToken: credential.authorizationCode,
+    //   );
+    //   await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    // } else {
+    //   Get.toNamed(AppRoutes.JoinAddInfo);
+    // }
   }
   void userGubun(String? uuid, String email, String provider) async{
     GetClientCredentialsGrantDto gcDto = await getClientCredentiaksGrant();

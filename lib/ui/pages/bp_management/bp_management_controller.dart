@@ -26,6 +26,7 @@ class BpManagementController extends GetxController {
   String weatherStr  = "" ;
   String weatherTemp = "" ;
   bool weatherImgCheck = false ;
+  bool gpsCheck = true ;
 
   @override
   void onInit() {
@@ -40,7 +41,7 @@ class BpManagementController extends GetxController {
     weatherImgCheck = false ;
     chartRefresh();
     selectDayInfo();
-    getGeolocation();
+    permissionChecked();
   }
   //날짜 선택시
   void changeSelectedDay(DateTime sDay,DateTime fDay){
@@ -143,7 +144,7 @@ class BpManagementController extends GetxController {
       update();
     }else{
       Fluttertoast.showToast(
-          msg: "마지막 데이터 입니다.",
+          msg: "이전 데이터가 없습니다.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -240,6 +241,16 @@ class BpManagementController extends GetxController {
     });
   }
 
+  permissionChecked() async {
+    var status = await Permission.location.request();
+    if(!status.isGranted){
+      gpsCheck = false ;
+      update();
+    }else{
+      gpsCheck = true ;
+      getGeolocation();
+    }
+  }
 
   callPermissionChecked(BuildContext context) async {
     var status = await Permission.location.request();
@@ -250,8 +261,13 @@ class BpManagementController extends GetxController {
           '혈압데이터 저장시 그날의 날씨를 확인하고 싶으면 위치권한을 허용해주세요!',
           '설정', () {
         Navigator.pop(context);
-        openAppSettings();
+        openAppSettings().then((value){
+          callPermissionChecked(context);
+        });
+
       });
+    }else{
+      update();
     }
   }
 }

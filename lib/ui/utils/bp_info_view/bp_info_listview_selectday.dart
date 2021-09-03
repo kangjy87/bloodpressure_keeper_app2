@@ -75,7 +75,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'NanumRoundEB',
-                      fontSize: 11,
+                      fontSize: 12,
                       color: Colors.white),
                 )
               ],
@@ -93,13 +93,13 @@ class BpInfoListviewSelectDay extends StatelessWidget {
         Container(
           // padding: EdgeInsets.fromLTRB(25, 0, 25, 25),
           width: double.infinity,
-          height: 280.0,
+          height: 340.0,
           child: Row(
             children: [
               SizedBox(width: 10,),
               GestureDetector(
                 child: Image.asset(beforeBtnImg,
-                  height: 40,
+                  height: 70,
                   width: 40,
                 ),
                 onTap: (){
@@ -128,7 +128,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
                 flex: 1,),
               GestureDetector(
                 child: Image.asset(afterBtnImg,
-                  height: 40,
+                  height: 70,
                   width: 40,
                 ),
                 onTap: (){

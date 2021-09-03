@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'bp_management_controller.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/week_calendar/week_calendar_table.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/bp_management/bp_appbar_title.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/chart/combo_bar_line_chart.dart';
 
 import 'bp_page_header.dart';
@@ -60,7 +59,7 @@ class BpManagementPage extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Visibility(
-                                      visible: !controller.weatherImgCheck,
+                                      visible: (!controller.weatherImgCheck && !controller.gpsCheck),
                                       child: GestureDetector(
                                         child: Image.asset(
                                           'images/main_pul_icon.png',
