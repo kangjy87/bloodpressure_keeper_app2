@@ -128,10 +128,19 @@ class SelfBpInputController extends GetxController {
   }
   Future<void> localDbInsert(Function saved)async {
     if(saveCheck()){
-      String? weatherImg = await getWeatherImg();
-      print('선택일 날???????????씨${weatherImg}');
-      String? weatherTemp = await getWeatherTemp();
-      String? weatherInfo = await getWeatherInfo();
+      String? weatherImg ;
+      String? weatherTemp ;
+      String? weatherInfo ;
+      print('${DateFormat('yyyy-MM-dd').format(DateTime.now())}>>>>>>>>>>${DateFormat('yyyy-MM-dd').format(selectedDay)}>>>>>>>>>>>>날짜 비교 >>>>>>>${DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(selectedDay)}');
+      if(DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(selectedDay)){
+        weatherImg = await getWeatherImg();
+        weatherTemp = await getWeatherTemp();
+        weatherInfo = await getWeatherInfo();
+      }else{
+        weatherImg = "";
+        weatherTemp = "";
+        weatherInfo = "";
+      }
       BloodPressureLocalDB db = BloodPressureLocalDB();
       db.database ;
       BloodPressureItem data =
@@ -154,4 +163,16 @@ class SelfBpInputController extends GetxController {
     }
   }
 
+  selectDataPicker(BuildContext context)async{
+    Future<DateTime?> future =  showDatePicker(
+        locale: const Locale('ko', 'KO'),
+        context: context,
+        initialDate: focusedDay,
+        firstDate: DateTime(2018),
+        lastDate: DateTime.now());
+
+    focusedDay = (await future)! ;
+    selectedDay = (await future)! ;
+    update();
+  }
 }

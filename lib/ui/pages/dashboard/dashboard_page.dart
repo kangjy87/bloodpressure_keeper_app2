@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:bloodpressure_keeper_app/ui/pages/bp_management/bp_management_pa
 import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_page.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/my/my_page.dart';
 import 'dashboard_controller.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DashboardPage extends StatelessWidget {
   List _list=[
@@ -12,13 +15,31 @@ class DashboardPage extends StatelessWidget {
     FeedPage(),
     MyPage(),
   ];
+  late DateTime backbuttonpressedTime;
+  Future<bool> onWillPop() async {
+    DateTime currentTime = DateTime.now();
 
+    //Statement 1 Or statement2
+    bool backButton = backbuttonpressedTime == null ||
+        currentTime.difference(backbuttonpressedTime) > Duration(seconds: 3);
+
+    if (backButton) {
+      backbuttonpressedTime = currentTime;
+      Fluttertoast.showToast(
+          msg: "Double Click to exit app",
+          backgroundColor: Colors.black,
+          textColor: Colors.white);
+      return false;
+    }
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DashboardController>(
+    return WillPopScope(child: GetBuilder<DashboardController>(
       builder: (controller) {
         return Scaffold(
-          body: this._list[controller.tabIndex],//SingleChildScrollView(child: this._list[controller.tabIndex],),
+          body: this._list[controller.tabIndex],
+          //SingleChildScrollView(child: this._list[controller.tabIndex],),
           bottomNavigationBar: BottomAppBar(
             child: Container(
               //margin: EdgeInsets.only(left: 6.0, right: 6.0),
@@ -26,35 +47,53 @@ class DashboardPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Expanded(flex : 1,child: Text(''),),
+                  Expanded(
+                    flex: 1,
+                    child: Text(''),
+                  ),
                   GestureDetector(
                     //update the bottom app bar view each time an item is clicked
                     onTap: () {
                       controller.changeTabIndex(0);
                     },
                     child: controller.tabIndex == 0
-                        ? Image.asset('images/menu_on_1.png', height: 70, width: 120)
-                        : Image.asset('images/menu_off_1.png', height: 70, width: 120),
+                        ? Image.asset('images/menu_on_1.png',
+                            height: 70, width: 120)
+                        : Image.asset('images/menu_off_1.png',
+                            height: 70, width: 120),
                   ),
-                  Expanded(flex : 1,child: Text(''),),
+                  Expanded(
+                    flex: 1,
+                    child: Text(''),
+                  ),
                   GestureDetector(
                     onTap: () {
                       controller.changeTabIndex(1);
                     },
                     child: controller.tabIndex == 1
-                        ? Image.asset('images/menu_on_2.png', height: 70, width: 120)
-                        : Image.asset('images/menu_off_2.png', height: 70, width: 120),
+                        ? Image.asset('images/menu_on_2.png',
+                            height: 70, width: 120)
+                        : Image.asset('images/menu_off_2.png',
+                            height: 70, width: 120),
                   ),
-                  Expanded(flex : 1,child: Text(''),),
+                  Expanded(
+                    flex: 1,
+                    child: Text(''),
+                  ),
                   GestureDetector(
                     onTap: () {
                       controller.changeTabIndex(2);
                     },
                     child: controller.tabIndex == 2
-                        ? Image.asset('images/menu_on_3.png', height: 70, width: 120)
-                        : Image.asset('images/menu_off_3.png', height: 70, width: 120),
+                        ? Image.asset('images/menu_on_3.png',
+                            height: 70, width: 120)
+                        : Image.asset('images/menu_off_3.png',
+                            height: 70, width: 120),
                   ),
-                  Expanded(flex : 1,child: Text(''),),
+                  Expanded(
+                    flex: 1,
+                    child: Text(''),
+                  ),
                 ],
               ),
             ),
@@ -64,7 +103,6 @@ class DashboardPage extends StatelessWidget {
             color: Colors.white,
           ),
         );
-
 
         //   Scaffold(
         //   body: SafeArea(
@@ -109,6 +147,29 @@ class DashboardPage extends StatelessWidget {
         //   ),
         // );
       },
+    ),
+    // onWillPop: onWillPop,
+        onWillPop: () async {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('앱을 종료 하시겠습니까?'),
+                actions: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: Text("아니요")),
+                  FlatButton(
+                      onPressed: () {
+                        print('!@#>>>>>>>>>');
+                        exit(0);
+                      },
+                      child: Text("예")),
+                ],
+              ));
+      return false;
+    }
     );
   }
 

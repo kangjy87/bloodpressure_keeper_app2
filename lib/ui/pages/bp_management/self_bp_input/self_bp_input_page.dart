@@ -101,6 +101,9 @@ class SelfBpInputPage extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.fromLTRB(10, 160, 10, 10),
                                 child: WeekCalendarTable(
+                                  datePicker: (){
+                                    controller.selectDataPicker(context);
+                                  },
                                   pageControllers: controller.pageControllers,
                                   pageControllerFunction:
                                       (PageController pageController) {

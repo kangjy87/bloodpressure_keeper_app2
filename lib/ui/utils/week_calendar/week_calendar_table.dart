@@ -3,6 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/week_calendar/week_utils.dart';
 import 'package:bloodpressure_keeper_app/utils/day_util.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class WeekCalendarTable extends StatelessWidget {
   final Function(PageController pageController) pageControllerFunction ;
@@ -11,6 +12,7 @@ class WeekCalendarTable extends StatelessWidget {
   final Function(DateTime selectedDay,DateTime focusedDay) onDaySelected ;
   final DateTime selectedDay;
   final DateTime focusedDay ;
+  final Function datePicker ;
   const WeekCalendarTable({
     Key? key,
     required this.pageControllers,
@@ -19,6 +21,7 @@ class WeekCalendarTable extends StatelessWidget {
     required this.onPageChanged,
     required this.selectedDay,
     required this.focusedDay,
+    required this.datePicker,
   }) : super(key: key);
 
   @override
@@ -26,6 +29,9 @@ class WeekCalendarTable extends StatelessWidget {
     return Column(
       children: [
         _CalendarHeader(
+          datePicker: (){
+            datePicker.call();
+          },
           focusedDay: focusedDay,
           onLeftArrowTap: () {
             print('클릭됨!!!!!!1');
@@ -36,6 +42,23 @@ class WeekCalendarTable extends StatelessWidget {
           },
           onRightArrowTap: () {
             print('클릭됨!!!!!!2');
+            print('${focusedDay}클릭됨!!!!!!2');
+            print('클릭됨!!!!!!2');
+            /**
+             * 현 보고 있는 주가 이번주 인경우 오른쪽 버튼을 클릭할 경우 미래의 날짜를 보는것이기 떄문에
+             * 미래의 날짜는 볼수 없습니다.
+             */
+            if(DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(focusedDay)){
+              Fluttertoast.showToast(
+                  msg: "오늘 이후의 날짜는 선택이 불가능 합니다.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Color(0xff454f63),
+                  textColor: Colors.red,
+                  fontSize: 16.0
+              );
+            }
             pageControllers.nextPage(
               duration: Duration(milliseconds: 300),
               curve: Curves.easeOut,
@@ -64,7 +87,6 @@ class WeekCalendarTable extends StatelessWidget {
             }
           },
           onPageChanged: (focusedDay) {
-            print('클릭됨!!!!!!4');
             onPageChanged.call(focusedDay);
           },
         ),
@@ -133,12 +155,13 @@ class _CalendarHeader extends StatelessWidget {
   final DateTime focusedDay;
   final VoidCallback onLeftArrowTap;
   final VoidCallback onRightArrowTap;
-
+  final Function datePicker ;
   const _CalendarHeader({
     Key? key,
     required this.focusedDay,
     required this.onLeftArrowTap,
     required this.onRightArrowTap,
+    required this.datePicker,
   }) : super(key: key);
 
   @override
@@ -154,14 +177,20 @@ class _CalendarHeader extends StatelessWidget {
             onPressed: onLeftArrowTap,
           ),
           const Spacer(),
-          SizedBox(
-            width: 120.0,
-            child: Text(
-              dayText,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0,),
+          GestureDetector(
+            child: SizedBox(
+              width: 120.0,
+              child: Text(
+                dayText,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16.0,),
                 // fontFamily: 'NanumRoundB',),
+              ),
             ),
+            onTap: (){
+              datePicker.call();
+              // selectDayPicker(context);
+            },
           ),
           const Spacer(),
           IconButton(

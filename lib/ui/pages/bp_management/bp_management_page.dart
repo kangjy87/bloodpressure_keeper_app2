@@ -106,6 +106,9 @@ class BpManagementPage extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 160, 0, 10),
                           child: WeekCalendarTable(
+                            datePicker: (){
+                              controller.selectDataPicker(context);
+                            },
                             pageControllers: controller.pageControllers,
                             pageControllerFunction:
                                 (PageController pageController) {

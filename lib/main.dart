@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/routes/app_pages.dart';
 import 'package:bloodpressure_keeper_app/ui/routes/app_routes.dart';
@@ -47,6 +48,15 @@ class SplashScreenApp extends StatelessWidget {
       translations: MyTranslations(),
       locale: Locale('ko', 'KR'),
       builder: EasyLoading.init(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('ko', 'KO'),
+      ],
+
     );
   }
 }

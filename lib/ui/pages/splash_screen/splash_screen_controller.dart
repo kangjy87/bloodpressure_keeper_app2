@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloodpressure_keeper_app/model/users_dto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/dashboard/dashboard_page.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/DioClient.dart';
@@ -65,7 +66,7 @@ class SplashScreenController extends GetxController {
                 "서버와 통신이 원활하지 않습니다.",
                 "종", () {
               Navigator.pop(context);
-              Navigator.pop(context);
+              exit(0);
             });
           }
         }

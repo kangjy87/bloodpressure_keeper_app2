@@ -125,12 +125,15 @@ class BpManagementController extends GetxController {
   void selectDayBpInfoBtn(String btn, int lastIndex){
     print('>>>>>>>>포지션 ${position}>>>>>>>>>>>>>>>라스트 포지션 ${lastIndex}');
     bool refreshCheck = false ;
+    String strBtnMsg = '이전';
     if(btn == "B"){
+      strBtnMsg = '이전';
       if(position > 0){
         position -- ;
         refreshCheck = true ;
       }
     }else{
+      strBtnMsg = '다음';
       if(lastIndex > position){
         position ++ ;
         refreshCheck = true ;
@@ -144,7 +147,7 @@ class BpManagementController extends GetxController {
       update();
     }else{
       Fluttertoast.showToast(
-          msg: "이전 데이터가 없습니다.",
+          msg: "${strBtnMsg} 데이터가 없습니다.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -269,5 +272,18 @@ class BpManagementController extends GetxController {
     }else{
       update();
     }
+  }
+
+  selectDataPicker(BuildContext context)async{
+    Future<DateTime?> future =  showDatePicker(
+        locale: const Locale('ko', 'KO'),
+        context: context,
+        initialDate: focusedDay,
+        firstDate: DateTime(2018),
+        lastDate: DateTime.now());
+
+    focusedDay = (await future)! ;
+    selectedDay = (await future)! ;
+    update();
   }
 }

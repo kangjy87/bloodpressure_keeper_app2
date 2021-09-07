@@ -282,7 +282,9 @@ class BpInfoViewSelectDay extends StatelessWidget {
                       ),
                       onTap: () {
                         print('클릭>>>>>>>>${data.id}');
-                        detailPageClick.call(data);
+                        if(data.id! > 0){
+                          detailPageClick.call(data);
+                        }
                       },
                     )
                   ],
