@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/last_weather_info.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -92,6 +93,21 @@ String getWeekDaySearch(String strSunday,int seachWeekDay){
   DateTime date = DateTime.parse(strSunday);
   String day = DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, date.day - seachWeekDay));
   return day ;
+}
+
+Future<bool> getWeatherSearchCheck()async{
+  String strSaveTime = (await getWeatherSaveTime())!;
+  DateTime saveTime = DateTime.parse(strSaveTime) ;
+  if(saveTime != ""){
+    int day = int.parse(DateTime.now().difference(saveTime).inMinutes.toString());
+    // print('${strSaveTime}!!!!!!!!!!!!!!!!!!!!!!!!>>>>>>>>>${day}');
+    if(day >= 30){
+      return true ;
+    }
+  }else{
+    return true ;
+  }
+  return false ;
 }
 
 String getselectWeekSunday(String strSelectDay){

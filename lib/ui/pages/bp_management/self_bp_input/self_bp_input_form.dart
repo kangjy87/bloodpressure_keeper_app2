@@ -219,58 +219,65 @@ class SelfBpInputForm extends StatelessWidget {
          * 메모
          */
         Container(
-            height: 80.0,
+            // height: 80.0,
             padding: EdgeInsets.fromLTRB(10, 0, 20, 20),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.asset(
-                  'images/memo_icon.png',
-                  height: 55,
-                  width: 55,
+                Row(
+                  children: [
+                    Image.asset(
+                      'images/memo_icon.png',
+                      height: 55,
+                      width: 55,
+                    ),
+                    SizedBox(width: 10),
+                    SizedBox(
+                        width: 80,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '메모',
+                              style: TextStyle(
+                                  fontFamily: 'NanumRoundEB',
+                                  fontSize: 15.0,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              '선택사항',
+                              style: TextStyle(
+                                fontFamily: 'NanumRoundEB',
+                                fontSize: 12.0,
+                                color: Color(0xff78849e),
+                              ),
+                            )
+                          ],
+                        )),
+                    Expanded(child: Text(''), flex: 1),
+                  ],
                 ),
-                SizedBox(width: 10),
-                SizedBox(
-                    width: 80,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '메모',
-                          style: TextStyle(
-                              fontFamily: 'NanumRoundEB',
-                              fontSize: 15.0,
-                              color: Colors.black),
-                        ),
-                        Text(
-                          '선택사항',
-                          style: TextStyle(
-                            fontFamily: 'NanumRoundEB',
-                            fontSize: 12.0,
-                            color: Color(0xff78849e),
-                          ),
-                        )
-                      ],
-                    )),
-                Expanded(child: Text(''), flex: 1),
-                Expanded(
-                  child: TextFormField(
-                      // autovalidateMode: AutovalidateMode.always,
-                      // validator : (String? value) {
-                      //   return (value != null && value ==  '')
-                      //       ? '메모을 입력해주세요.' : null ;
-                      // },
-                      controller: memo,
-                      textAlign: TextAlign.right,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        labelText: '예) 컨디션 좋음',
-                        labelStyle: TextStyle(fontSize: 13)
-                      )),
-                  flex: 9,
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child:
+                    TextFormField(
+                        // autovalidateMode: AutovalidateMode.always,
+                        // validator : (String? value) {
+                        //   return (value != null && value ==  '')
+                        //       ? '메모을 입력해주세요.' : null ;
+                        // },
+                        controller: memo,
+                        minLines: 4,
+                        maxLines: 40,
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            labelText: '예) 컨디션 좋음',
+                            labelStyle: TextStyle(fontSize: 13))
+                    )
                 ),
               ],
             )),

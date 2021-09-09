@@ -3,6 +3,7 @@ import 'package:bloodpressure_keeper_app/model/day_weather_info_dto.dart';
 import 'package:bloodpressure_keeper_app/retrofit/tdi_weather.dart';
 import 'package:bloodpressure_keeper_app/retrofit/weather_server.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/msg_alert_dialog/onebutton_alert.dart';
+import 'package:bloodpressure_keeper_app/utils/day_util.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/last_weather_info.dart';
 import 'package:bloodpressure_keeper_app/utils/weather_util.dart';
 import 'package:get/get.dart';
@@ -239,7 +240,7 @@ class BpManagementController extends GetxController {
       weatherStr = WeatherUtil.getWeatherStr(_weatherResult.weatherInfo.sky, _weatherResult.weatherInfo.pty, _weatherResult.weatherInfo.lgt) ;
       weatherTemp = "${_weatherResult.weatherInfo.t1h}℃ " ;
       weatherImgCheck = true ;
-      setWeather(weatherImg, weatherTemp, weatherStr);
+      setWeather(weatherImg, weatherTemp, weatherStr,DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()));
       update();
     });
   }
@@ -251,7 +252,16 @@ class BpManagementController extends GetxController {
       update();
     }else{
       gpsCheck = true ;
-      getGeolocation();
+      bool searchCheck = await getWeatherSearchCheck();
+      if(searchCheck){
+        getGeolocation();
+      }else{
+        weatherImgCheck = true ;
+        weatherImg  = (await getWeatherImg())! ;
+        weatherStr  = (await getWeatherInfo())! ;
+        weatherTemp = (await getWeatherTemp())! ;
+        update();
+      }
     }
   }
 
@@ -265,12 +275,15 @@ class BpManagementController extends GetxController {
           '설정', () {
         Navigator.pop(context);
         openAppSettings().then((value){
-          callPermissionChecked(context);
+          print('>>>>>>결과값>>>>>>>>>>>>>>>>>>${value}');
+          update();
         });
 
       });
     }else{
-      update();
+      if(!gpsCheck){
+        permissionChecked();
+      }
     }
   }
 

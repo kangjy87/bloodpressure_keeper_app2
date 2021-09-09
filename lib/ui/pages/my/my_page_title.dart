@@ -34,7 +34,7 @@ class MyPageTitle extends StatelessWidget {
                     '마이',
                     style: TextStyle(
                         fontFamily: 'NanumRoundB',
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.white),
                   ),
                   SizedBox(

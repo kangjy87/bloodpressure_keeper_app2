@@ -8,6 +8,7 @@ import 'package:bloodpressure_keeper_app/ui/utils/chart/combo_bar_line_chart.dar
 import 'bp_page_header.dart';
 
 class BpManagementPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +31,10 @@ class BpManagementPage extends StatelessWidget {
                       "혈압관리",
                       style: TextStyle(
                           fontFamily: 'NanumRoundB',
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.black),
                     ),
-                    Expanded(child: Text(''), flex: 2),
+                    Expanded(child: Text(''), flex: (!controller.weatherImgCheck && !controller.gpsCheck) ? 3 :2 ),
                     Expanded(
                         child: Row(
                           children: [
@@ -61,10 +62,13 @@ class BpManagementPage extends StatelessWidget {
                                   Visibility(
                                       visible: (!controller.weatherImgCheck && !controller.gpsCheck),
                                       child: GestureDetector(
-                                        child: Image.asset(
-                                          'images/main_pul_icon.png',
-                                          width: 30,
-                                          height: 30,
+                                        child: Container(
+                                          padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                                          child: Image.asset(
+                                            'images/weather_setting.png',
+                                            width: 30,
+                                            height: 30,
+                                          ),
                                         ),
                                         onTap: (){
                                           controller.callPermissionChecked(context);
@@ -82,7 +86,7 @@ class BpManagementPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        flex: 2),
+                        flex: (!controller.weatherImgCheck && !controller.gpsCheck) ? 1 : 2 ),
                   ],
                 ),
               ),
@@ -227,8 +231,8 @@ class BpManagementPage extends StatelessWidget {
                       height: 20,
                     ),
                     /**
-                         * 차트
-                         */
+                     * 차트
+                     */
                     Container(
                       padding: EdgeInsets.fromLTRB(23, 20 , 0, 0),
                       color: Colors.white,

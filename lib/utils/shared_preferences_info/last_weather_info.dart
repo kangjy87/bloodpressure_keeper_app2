@@ -2,13 +2,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 /**
  * 토큰저장
  */
-void setWeather(String? img, String? temp, String info)async{
+void setWeather(String? img, String? temp, String info,String saveTime)async{
   SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.setString('weather_save_time', (saveTime  == null ? "" : saveTime));
   _prefs.setString('weather_img', (img  == null ? "" : img));
   _prefs.setString('weather_temp',(temp == null ? "" : temp));
   _prefs.setString('weather_info',(info == null ? "" : info));
 }
-
+/**
+ * 마지막 날짜
+ */
+Future<String?> getWeatherSaveTime()async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  return _prefs.getString('weather_save_time') ;
+}
 /**
  * 마지막 이미지
  */

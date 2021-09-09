@@ -37,7 +37,7 @@ class SelfBpInputPage extends StatelessWidget {
                   textAlign : TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'NanumRoundB',
-                      fontSize: 20,
+                      fontSize: 18,
                       color: Color(0xff454f63)),
                 ),
                 SizedBox(width: 55,)

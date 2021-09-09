@@ -1,5 +1,6 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
 import 'package:bloodpressure_keeper_app/model/bp_standard_model.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +18,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController memoController = TextEditingController();
-    memoController.text = data.memo!;
+    memoController.text = (data.memo!.length > 14) ?  "${data.memo!.substring(0,10)}..." : data.memo!  ;
     return Container(
       // padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
       width: double.infinity,
@@ -50,13 +51,13 @@ class BpInfoViewSelectDay extends StatelessWidget {
                           :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(data.rData!))} ",
                         style: TextStyle(
                             fontFamily: 'NanumRoundB',
-                            fontSize: 12.0,
+                            fontSize: 14.0,
                             color: Color(0xff78849e)),
                         textAlign: TextAlign.center,),
                       Expanded(child: Text(''), flex: 1),
                       Text("${data.weatherTemp} ",style: TextStyle(
                           fontFamily: 'NanumRoundB',
-                          fontSize: 12.0,
+                          fontSize: 14.0,
                           color: Color(0xff78849e)),
                         textAlign: TextAlign.center,),
                       Visibility(visible: data.weatherImg != '',child: Image.asset(data.weatherImg!, width: 30, height: 30,),),
@@ -275,10 +276,13 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     ),
                     Expanded(child: Text(''), flex: 2),
                     GestureDetector(
-                      child: Image.asset(
-                        'images/note_pencil_icon.png',
-                        height: 30,
-                        width: 30,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 0, top: 20, right: 0, bottom: 0),
+                        child: Image.asset(
+                          'images/note_pencil_icon.png',
+                          height: 30,
+                          width: 30,
+                        ),
                       ),
                       onTap: () {
                         print('클릭>>>>>>>>${data.id}');
