@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bloodpressure_keeper_app/ui/utils/msg_alert_dialog/twobutton_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -150,24 +151,16 @@ class DashboardPage extends StatelessWidget {
     ),
     // onWillPop: onWillPop,
         onWillPop: () async {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('앱을 종료 하시겠습니까?'),
-                actions: [
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: Text("아니요")),
-                  FlatButton(
-                      onPressed: () {
-                        print('!@#>>>>>>>>>');
-                        exit(0);
-                      },
-                      child: Text("예")),
-                ],
-              ));
+          twoButtonAlert(
+              context,
+              '종료',
+              '앱을 종료 하시겠습니까?',
+              '아니요', () {
+            Get.back();
+          },
+              '예', () {
+            exit(0);
+          });
       return false;
     }
     );

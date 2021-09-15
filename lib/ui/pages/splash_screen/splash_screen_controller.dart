@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'package:bloodpressure_keeper_app/model/users_dto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/dashboard/dashboard_page.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/DioClient.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/FeedsClient.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_dtos/AuthErrorDto.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_dtos/AuthRequestBody.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_dtos/AuthTokenDto.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/apis/FeedsClient.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/auth/AuthErrorDto.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/auth/AuthRequestBody.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/auth/AuthTokenDto.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/DioClient.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/SharedPrefUtil.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/login/sns_login/login_page.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/login_info.dart';
 import 'package:dio/dio.dart';
@@ -64,7 +65,7 @@ class SplashScreenController extends GetxController {
                 context,
                 "에러",
                 "서버와 통신이 원활하지 않습니다.",
-                "종", () {
+                "종료", () {
               Navigator.pop(context);
               exit(0);
             });
@@ -100,7 +101,7 @@ class SplashScreenController extends GetxController {
     final client = FeedsClient(DioClient.dio);
     await client.postToken(AuthRequestBody()).then((result) {
       AuthTokenDto data = result;
-      // SharedPrefUtil.setString(SharedPrefKey.CURATOR9_TOKEN, data.getToken());
+      SharedPrefUtil.setString(SharedPrefKey.CURATOR9_TOKEN, data.getToken());
       setFeedCredentiaksGrant(data.access_token, () {
         print('저장된값!!>>>>>>>>>>>>>>>>>>>>>>>>>${data.access_token}');
         check2 = true ;

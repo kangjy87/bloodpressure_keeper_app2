@@ -24,6 +24,7 @@ class MyPage extends StatelessWidget {
                     nickName: controller.nickName,
                     age: controller.age,
                     sex: controller.sex,
+                    viewMsg: controller.viewMsg,
                   );
                 }),
           ),

@@ -86,9 +86,9 @@ class ComboBarLineChart extends StatelessWidget {
           colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(AppColors.colorRedChartPoint)),
           domainFn: (BloodPressureChartDto sales, _) => sales.checkData!,
           measureFn: (BloodPressureChartDto sales, _) => sales.systolic,
-          radiusPxFn: (BloodPressureChartDto sales, _) => 6.0,
+          radiusPxFn: (BloodPressureChartDto sales, _) => 3.0,
           fillColorFn: (BloodPressureChartDto sales, _) => charts.MaterialPalette.white,
-          strokeWidthPxFn: (BloodPressureChartDto sales, _) => 3.0,
+          strokeWidthPxFn: (BloodPressureChartDto sales, _) => 2.0,
           data: systolicData)
         ..setAttribute(charts.rendererIdKey, 'SystolicPoint'),
 
@@ -104,9 +104,9 @@ class ComboBarLineChart extends StatelessWidget {
           colorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(AppColors.colorBlueChartPoint)),
           domainFn: (BloodPressureChartDto sales, _) => sales.checkData!,
           measureFn: (BloodPressureChartDto sales, _) => sales.diastole,
-          radiusPxFn: (BloodPressureChartDto sales, _) => 6.0,
+          radiusPxFn: (BloodPressureChartDto sales, _) => 3.0,
           fillColorFn: (BloodPressureChartDto sales, _) => charts.MaterialPalette.white,
-          strokeWidthPxFn: (BloodPressureChartDto sales, _) => 3.0,
+          strokeWidthPxFn: (BloodPressureChartDto sales, _) => 2.0,
           data: diastoleData)
         ..setAttribute(charts.rendererIdKey, 'DiastolePoint'),
 

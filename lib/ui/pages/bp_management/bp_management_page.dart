@@ -26,25 +26,35 @@ class BpManagementPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(child: Text(''), flex: 4),
-                    Text(
-                      "혈압관리",
-                      style: TextStyle(
-                          fontFamily: 'NanumRoundB',
-                          fontSize: 18,
-                          color: Colors.black),
-                    ),
-                    Expanded(child: Text(''), flex: (!controller.weatherImgCheck && !controller.gpsCheck) ? 3 :2 ),
+                    SizedBox(width: 100,),
+                    // Expanded(child: Text(''), flex: 7),
                     Expanded(
-                        child: Row(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "혈압관리",
+                            style: TextStyle(
+                                fontFamily: 'NanumRoundB',
+                                fontSize: 18,
+                                color: Color(0xff454f63)),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
                           children: [
-                            Column(
-                              children: [
-                                // SizedBox(
-                                //   height: 8,
-                                // ),
-                                Center(
-                                    child: Text(
+                            // SizedBox(
+                            //   height: 8,
+                            // ),
+                            Center(
+                                child: Text(
                                   "${controller.weatherTemp}",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -52,41 +62,93 @@ class BpManagementPage extends StatelessWidget {
                                       fontSize: 12.5,
                                       color: Colors.black),
                                 ))
-                              ],
-                            ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              child: Row(
-                                children: [
-                                  Visibility(
-                                      visible: (!controller.weatherImgCheck && !controller.gpsCheck),
-                                      child: GestureDetector(
-                                        child: Container(
-                                          padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
-                                          child: Image.asset(
-                                            'images/weather_setting.png',
-                                            width: 30,
-                                            height: 30,
-                                          ),
-                                        ),
-                                        onTap: (){
-                                          controller.callPermissionChecked(context);
-                                        },
-                                      )),
-                                  Visibility(
-                                      visible: controller.weatherImgCheck,
-                                      child: Image.asset(
-                                        controller.weatherImg,
-                                        width: 30,
-                                        height: 30,
-                                      ))
-                                ],
-                              ),
-                            ),
                           ],
                         ),
-                        flex: (!controller.weatherImgCheck && !controller.gpsCheck) ? 1 : 2 ),
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: Row(
+                            children: [
+                              Visibility(
+                                  visible: (!controller.weatherImgCheck && !controller.gpsCheck),
+                                  child: GestureDetector(
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                                      child: Image.asset(
+                                        'images/weather_setting.png',
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      controller.callPermissionChecked(context);
+                                    },
+                                  )),
+                              Visibility(
+                                  visible: controller.weatherImgCheck,
+                                  child: Image.asset(
+                                    controller.weatherImg,
+                                    width: 30,
+                                    height: 30,
+                                  ))
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),),
+                    // Expanded(child: Text(''), flex: (!controller.weatherImgCheck && !controller.gpsCheck) ? 5 : 4 ),
+                    // Expanded(
+                    //     child: Row(
+                    //       children: [
+                    //         Column(
+                    //           children: [
+                    //             // SizedBox(
+                    //             //   height: 8,
+                    //             // ),
+                    //             Center(
+                    //                 child: Text(
+                    //               "${controller.weatherTemp}",
+                    //               textAlign: TextAlign.center,
+                    //               style: TextStyle(
+                    //                   fontFamily: 'NanumRoundB',
+                    //                   fontSize: 12.5,
+                    //                   color: Colors.black),
+                    //             ))
+                    //           ],
+                    //         ),
+                    //         Container(
+                    //           width: 30,
+                    //           height: 30,
+                    //           child: Row(
+                    //             children: [
+                    //               Visibility(
+                    //                   visible: (!controller.weatherImgCheck && !controller.gpsCheck),
+                    //                   child: GestureDetector(
+                    //                     child: Container(
+                    //                       padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                    //                       child: Image.asset(
+                    //                         'images/weather_setting.png',
+                    //                         width: 30,
+                    //                         height: 30,
+                    //                       ),
+                    //                     ),
+                    //                     onTap: (){
+                    //                       controller.callPermissionChecked(context);
+                    //                     },
+                    //                   )),
+                    //               Visibility(
+                    //                   visible: controller.weatherImgCheck,
+                    //                   child: Image.asset(
+                    //                     controller.weatherImg,
+                    //                     width: 30,
+                    //                     height: 30,
+                    //                   ))
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     flex: (!controller.weatherImgCheck && !controller.gpsCheck) ? 2 : 0 ),
                   ],
                 ),
               ),
@@ -151,24 +213,28 @@ class BpManagementPage extends StatelessWidget {
                             controller.selectDayBpInfoBtn(btn, lastIndex);
                           },
                           detailPageClick: (data) {
-                            DateTime nowDate = DateTime.now();
                             controller.detailPageGo(data, () {
-                              controller.changeSelectedDay(
-                                  nowDate, nowDate); //선택일 오늘로 셋팅
+                              controller.chartRefresh(); //차트 리플리쉬
+                              controller.selectDayInfo(); //정보보여지기
+                            });
+                          },
+                          selfPageClick: (){
+                            controller.selfBpInput(() {
                               controller.chartRefresh(); //차트 리플리쉬
                               controller.selectDayInfo(); //정보보여지기
                             });
                           },
                         ),
-                        Container(
-                          width: double.infinity,
-                          height: 300,
-                          child: Visibility(
+                        GestureDetector(
+                          child: Container(
+                            width: double.infinity,
+                            height: 390,
+                            child: Visibility(
                               visible: controller.bpDataCheck,
                               child: Container(
                                 padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                                 width: double.infinity,
-                                height: 300,
+                                height: 390,
                                 decoration: BoxDecoration(
                                   color: Colors.white70,
                                   // color: Colors.black87,
@@ -218,7 +284,14 @@ class BpManagementPage extends StatelessWidget {
                                   ),
                                 ),
                               ),),
-                        ),
+                          ),
+                          onTap: (){
+                            controller.selfBpInput(() {
+                              controller.chartRefresh(); //차트 리플리쉬
+                              controller.selectDayInfo(); //정보보여지기
+                            });
+                          },
+                        )
                       ],
                     ),
                     // BpInfoViewSelectDay(
@@ -277,10 +350,7 @@ class BpManagementPage extends StatelessWidget {
                   child: Icon(Icons.add),
                   backgroundColor: Color(0xff454f63),
                   onPressed: () {
-                    DateTime nowDate = DateTime.now();
                     controller.selfBpInput(() {
-                      controller.changeSelectedDay(
-                          nowDate, nowDate); //선택일 오늘로 셋팅
                       controller.chartRefresh(); //차트 리플리쉬
                       controller.selectDayInfo(); //정보보여지기
                     });

@@ -159,7 +159,7 @@ class BPStandardModel{
       case 2 :
         situationCode = BP2 ;
         bpSituation = '주의혈압' ;
-        situationMsg = "${usersDto.nickname}님, 혈압에 주의가 필요한 단계입니다" ;
+        situationMsg = "${usersDto.nickname}님은, 혈압에 주의가 필요한 단계입니다" ;
         colorCode = Color(0xff57b8fd) ;
         break;
 
@@ -180,14 +180,14 @@ class BPStandardModel{
       case 5 :
         situationCode = BP5 ;
         bpSituation = '2기 고혈압' ;
-        situationMsg = "${usersDto.nickname}은 현재 2단계 고혈압입니다" ;
+        situationMsg = "${usersDto.nickname}님은 현재 2단계 고혈압입니다" ;
         colorCode = Color(0xffe62622) ;
         break;
 
       case 6:
         situationCode = BP6 ;
         bpSituation = '수축기 단독 고혈압' ;
-        situationMsg = "${usersDto.nickname}은 수축기 단독 고혈압입니다" ;
+        situationMsg = "${usersDto.nickname}님은 수축기 단독 고혈압입니다" ;
         colorCode = Color(0xffb65cf2) ;
         break;
 

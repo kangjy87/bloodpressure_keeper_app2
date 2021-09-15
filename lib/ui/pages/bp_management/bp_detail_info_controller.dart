@@ -8,8 +8,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class BpDetailInfoController extends GetxController {
   TextEditingController resultSys = TextEditingController() ;
   TextEditingController resultDia = TextEditingController() ;
+  FocusNode focusDia = FocusNode();
   TextEditingController resultPul = TextEditingController() ;
+  FocusNode focusPul = FocusNode();
   TextEditingController resultMemo = TextEditingController();
+  FocusNode focusMemo = FocusNode();
   BloodPressureItem data = BloodPressureItem();
 
   @override
@@ -17,8 +20,11 @@ class BpDetailInfoController extends GetxController {
     super.onInit();
      resultSys = TextEditingController() ;
      resultDia = TextEditingController() ;
+     focusDia = FocusNode();
      resultPul = TextEditingController() ;
+     focusPul = FocusNode();
      resultMemo = TextEditingController();
+     focusMemo = FocusNode();
      data = BloodPressureItem();
     dataSetting();
   }

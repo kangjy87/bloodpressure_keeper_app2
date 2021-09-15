@@ -97,8 +97,8 @@ String getWeekDaySearch(String strSunday,int seachWeekDay){
 
 Future<bool> getWeatherSearchCheck()async{
   String strSaveTime = (await getWeatherSaveTime())!;
-  DateTime saveTime = DateTime.parse(strSaveTime) ;
-  if(saveTime != ""){
+  if(strSaveTime != ""){
+    DateTime saveTime = DateTime.parse(strSaveTime) ;
     int day = int.parse(DateTime.now().difference(saveTime).inMinutes.toString());
     // print('${strSaveTime}!!!!!!!!!!!!!!!!!!!!!!!!>>>>>>>>>${day}');
     if(day >= 30){
@@ -140,6 +140,46 @@ String getselectWeekSunday(String strSelectDay){
   print('마이너스데이>>>${DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, date.day))}');
   String day = DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, date.day + selectDayMondayDiff));
   return day ;
+}
+
+/**
+ * 오늘날짜 - 선택일해서 포커스 데이 구하기
+ */
+DateTime getFocusedDay(int todayIndex, DateTime selectDay){
+  int selectIndex = selectDayIndex(selectDay);
+  int focusedIndex = (todayIndex >= selectIndex) ?(todayIndex - selectIndex) : (7 - (selectIndex - todayIndex)) ;
+  return DateTime(selectDay.year, selectDay.month, selectDay.day + focusedIndex);
+}
+
+/**
+ * todayIndex 요일
+ */
+int selectDayIndex(DateTime day){
+  int returnIndex = 0 ;
+  switch(DateFormat('EEEE').format(day)){
+    case 'Saturday' :
+      returnIndex = 0 ;
+      break ;
+    case 'Sunday' :
+      returnIndex = 1 ;
+      break ;
+    case 'Monday' :
+      returnIndex = 2 ;
+      break ;
+    case 'Tuesday' :
+      returnIndex = 3 ;
+      break ;
+    case 'Wednesday' :
+      returnIndex = 4 ;
+      break ;
+    case 'Thursday' :
+      returnIndex = 5 ;
+      break ;
+    case 'Friday' :
+      returnIndex = 6 ;
+      break ;
+  }
+  return returnIndex ;
 }
 
 String getselectWeekSaturday(String strSelectDay){

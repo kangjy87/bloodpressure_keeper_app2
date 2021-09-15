@@ -14,7 +14,7 @@ void setWeather(String? img, String? temp, String info,String saveTime)async{
  */
 Future<String?> getWeatherSaveTime()async{
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  return _prefs.getString('weather_save_time') ;
+  return (_prefs.getString('weather_save_time') == null ? '' : _prefs.getString('weather_save_time')) ;
 }
 /**
  * 마지막 이미지

@@ -1,17 +1,25 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SelfBpInputForm extends StatelessWidget {
   final TextEditingController sys ;
   final TextEditingController dia ;
+  final FocusNode focusDia ;
   final TextEditingController pul ;
+  final FocusNode focusPul ;
   final TextEditingController memo ;
+  final FocusNode focusMemo ;
   const SelfBpInputForm({
     Key? key,
     required this.sys,
     required this.dia,
+    required this.focusDia,
     required this.pul,
+    required this.focusPul,
     required this.memo,
+    required this.focusMemo,
   }) : super(key: key);
 
   @override
@@ -68,22 +76,31 @@ class SelfBpInputForm extends StatelessWidget {
               //       )
               //   ),
               Expanded(
-                child: TextFormField(
+                child: SizedBox(
+                  height: 50,
+                  child: TextFormField(
                     // autovalidateMode: AutovalidateMode.always,
                     // validator : (String? value) {
                     //   return (value != null && int.parse(value) > 200)
                     //       ? '혈압지수가 너무 높습니다.' : null ;
                     // },
-                    keyboardType: TextInputType.number,
-                    // ignore: deprecated_member_use
-                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
-                    controller: sys,
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                      // labelText: '수축기혈압',
-                    )),
+                      keyboardType: TextInputType.number,
+                      // ignore: deprecated_member_use
+                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                      controller: sys,
+                      style: TextStyle(fontSize: 17,height: 1),
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0)),
+                        // labelText: '수축기혈압',
+                      ),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (v){
+                        FocusScope.of(context).requestFocus(focusDia);
+                        },
+                  ),
+                ),
                 flex: 3,
               ),
             ],
@@ -131,22 +148,32 @@ class SelfBpInputForm extends StatelessWidget {
               ),
               Expanded(child: Text(''), flex: 1),
               Expanded(
-                child: TextFormField(
+                child: SizedBox(
+                  height: 50,
+                  child: TextFormField(
                     // autovalidateMode: AutovalidateMode.always,
                     // validator : (String? value) {
                     //   return (value != null && int.parse(value) > 200)
                     //       ? '혈압지수가 너무 높습니다.' : null ;
                     // },
-                    keyboardType: TextInputType.number,
-                    // ignore: deprecated_member_use
-                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
-                    textAlign: TextAlign.right,
-                    controller: dia,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                      // labelText: '이완기혈압',
-                    )),
+                      keyboardType: TextInputType.number,
+                      // ignore: deprecated_member_use
+                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                      textAlign: TextAlign.center,
+                      controller: dia,
+                      style: TextStyle(fontSize: 17,height: 1),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0)),
+                        // labelText: '이완기혈압',
+                      ),
+                      textInputAction: TextInputAction.next,
+                      focusNode: focusDia,
+                      onFieldSubmitted: (v){
+                        FocusScope.of(context).requestFocus(focusPul);
+                        },
+                  ),
+                ),
                 flex: 3,
               ),
             ],
@@ -194,22 +221,32 @@ class SelfBpInputForm extends StatelessWidget {
               ),
               Expanded(child: Text(''), flex: 1),
               Expanded(
-                child: TextFormField(
+                child: SizedBox(
+                  height: 50,
+                  child: TextFormField(
                     // autovalidateMode: AutovalidateMode.always,
                     // validator : (String? value) {
                     //   return (value != null && int.parse(value) > 200)
                     //       ? '혈압지수가 너무 높습니다.' : null ;
                     // },
-                    controller: pul,
-                    keyboardType: TextInputType.number,
-                    // ignore: deprecated_member_use
-                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                      // labelText: '심박수혈압',
-                    )),
+                      controller: pul,
+                      style: TextStyle(fontSize: 17,height: 1),
+                      keyboardType: TextInputType.number,
+                      // ignore: deprecated_member_use
+                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0)),
+                        // labelText: '심박수혈압',
+                      ),
+                    textInputAction: TextInputAction.next,
+                    focusNode: focusPul,
+                    onFieldSubmitted: (v){
+                      FocusScope.of(context).requestFocus(focusMemo);
+                    },
+                  ),
+                ),
                 flex: 3,
               ),
             ],
@@ -276,7 +313,9 @@ class SelfBpInputForm extends StatelessWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
                             labelText: '예) 컨디션 좋음',
-                            labelStyle: TextStyle(fontSize: 13))
+                            labelStyle: TextStyle(fontSize: 13)),
+                        textInputAction: TextInputAction.done,
+                        focusNode: focusMemo,
                     )
                 ),
               ],

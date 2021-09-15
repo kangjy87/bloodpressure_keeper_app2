@@ -1,18 +1,20 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
 import 'package:bloodpressure_keeper_app/model/bp_standard_model.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BpInfoViewSelectDay extends StatelessWidget {
   final BloodPressureItem data ;
   final BPStandardModel bpRiskLevel ;
   final Function(BloodPressureItem data) detailPageClick;
+  final Function() selfPageClick;
   const BpInfoViewSelectDay({
     Key? key,
     required this.data,
     required this.bpRiskLevel,
     required this.detailPageClick,
+    required this.selfPageClick,
   }) : super(key: key);
 
   @override
@@ -254,24 +256,24 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         )),
                     Expanded(child: Text(''), flex: 1),
                     Expanded(
-                      child: TextFormField(
-                          textAlign: TextAlign.center,
-                          controller: memoController,
-                          readOnly: true,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xff78849e)),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xff78849e))),
+                      child: SizedBox(child: TextFormField(
+                        textAlign: TextAlign.center,
+                        controller: memoController,
+                        readOnly: true,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff78849e)),
                           ),
-                          // decoration: InputDecoration(
-                          //   border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(32.0)),
-                          //   // labelText: '',
-                          // ),
-                      style: TextStyle(fontSize: 13.0, ),),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff78849e))),
+                        ),
+                        // decoration: InputDecoration(
+                        //   border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(32.0)),
+                        //   // labelText: '',
+                        // ),
+                        style: TextStyle(fontSize: 13.0, height: 1.5),),height: 35,),
                       flex: 20,
                     ),
                     Expanded(child: Text(''), flex: 2),
@@ -288,6 +290,8 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         print('클릭>>>>>>>>${data.id}');
                         if(data.id! > 0){
                           detailPageClick.call(data);
+                        }else{
+                          selfPageClick.call();
                         }
                       },
                     )

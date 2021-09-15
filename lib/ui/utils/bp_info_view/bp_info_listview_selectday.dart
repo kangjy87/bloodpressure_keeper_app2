@@ -12,6 +12,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
   final int position ;
   final BPStandardModel bpRiskLevel ;
   final Function(BloodPressureItem data) detailPageClick;
+  final Function() selfPageClick;
   final Function(String btn, int index,int lastIndex) setonclicked;
   BpInfoListviewSelectDay({
     Key? key,
@@ -23,6 +24,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
     required this.setonclicked,
     required this.position,
     required this.detailPageClick,
+    required this.selfPageClick,
     required this.bpRiskLevel,
   }) : super(key: key);
 
@@ -120,6 +122,9 @@ class BpInfoListviewSelectDay extends StatelessWidget {
                           bpRiskLevel: bpRiskLevel,
                           detailPageClick: (data){
                             detailPageClick.call(data);
+                          },
+                          selfPageClick: (){
+                            selfPageClick.call();
                           },
                         )
                     );

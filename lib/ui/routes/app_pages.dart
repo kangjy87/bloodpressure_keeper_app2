@@ -1,6 +1,6 @@
 import 'package:bloodpressure_keeper_app/ui/pages/bp_management/bp_detail_info_page.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/PageFeedsDetail.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed_detail/FeedsDetailBind.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/bindings/FeedsDetailBind.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/dashboard/dashboard_binding.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/splash_screen/splash_screen_page.dart';

@@ -128,8 +128,11 @@ class SelfBpInputPage extends StatelessWidget {
                           SelfBpInputForm(
                               sys: controller.resultSys,
                               dia: controller.resultDia,
+                              focusDia: controller.focusDia,
                               pul: controller.resultPul,
-                              memo: controller.resultMemo),
+                              focusPul: controller.focusPul,
+                              memo: controller.resultMemo,
+                              focusMemo: controller.focusMemo,),
                         ],
                       ),
                     )),
@@ -149,8 +152,8 @@ class SelfBpInputPage extends StatelessWidget {
                             AppStrings.strSuccessTitle,
                             AppStrings.strSuccessMsg,
                             AppStrings.strButtonClose, () {
-                          Navigator.pop(context);
-                          Navigator.pop(context, 'S');
+                          Get.back();
+                          Get.back(result:{"date":controller.selectedDay});
                         });
                       });
                     })

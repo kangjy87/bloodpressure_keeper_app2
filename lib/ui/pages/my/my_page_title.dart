@@ -4,12 +4,14 @@ class MyPageTitle extends StatelessWidget {
   final String nickName ;
   final String age ;
   final String sex ;
+  final String viewMsg ;
   const MyPageTitle({
     Key? key,
     required this.email,
     required this.nickName,
     required this.age,
     required this.sex,
+    required this.viewMsg
   }) : super(key: key);
 
   @override
@@ -94,7 +96,7 @@ class MyPageTitle extends StatelessWidget {
                                 Container(
                                   // padding: EdgeInsets.fromLTRB(9, 10, 10, 0),
                                   child:  Text(
-                                    '${(age == null || age == '') ? '' : '$age년생'}  ${(sex == null || sex == '') ? '' : sex} ${nickName} 님\n',
+                                    '${viewMsg}\n',
                                     style: TextStyle(
                                       // decoration: TextDecoration.underline,
                                         fontFamily: 'NanumRoundEB',

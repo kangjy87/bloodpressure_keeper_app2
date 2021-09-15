@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'bp_detail_info_controller.dart';
+import 'package:flutter/services.dart';
 
 class BpDetailInfoPage extends StatelessWidget {
   const BpDetailInfoPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class BpDetailInfoPage extends StatelessWidget {
                       textAlign : TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'NanumRoundB',
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Color(0xff454f63)),
                     ),
                     SizedBox(width: 60,)
@@ -166,17 +167,25 @@ class BpDetailInfoPage extends StatelessWidget {
                               //       )
                               //   ),
                               Expanded(
-                                child: TextFormField(
-                                    // readOnly: true,
-                                    keyboardType: TextInputType.number,
-                                    controller: controller.resultSys,
-                                    textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(32.0)),
-                                      // labelText: '수축기혈압',
-                                    )),
+                                child: SizedBox(
+                                  height: 50,
+                                  child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      // ignore: deprecated_member_use
+                                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                      controller: controller.resultSys,
+                                      style: TextStyle(fontSize: 17,height: 1),
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(32.0)),
+                                        // labelText: '수축기혈압',
+                                      ),
+                                      textInputAction: TextInputAction.next,
+                                      onFieldSubmitted: (v){
+                                        FocusScope.of(context).requestFocus(controller.focusDia);
+                                        },),
+                                ),
                                 flex: 3,
                               ),
                             ],
@@ -224,17 +233,26 @@ class BpDetailInfoPage extends StatelessWidget {
                               ),
                               Expanded(child: Text(''), flex: 1),
                               Expanded(
-                                child: TextFormField(
-                                    // readOnly: true,
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.right,
-                                    controller: controller.resultDia,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(32.0)),
-                                      // labelText: '이완기혈압',
-                                    )),
+                                child: SizedBox(
+                                  height: 50,
+                                  child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      // ignore: deprecated_member_use
+                                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                      textAlign: TextAlign.center,
+                                      controller: controller.resultDia,
+                                      style: TextStyle(fontSize: 17,height: 1),
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(32.0)),
+                                        // labelText: '이완기혈압',
+                                      ),
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: controller.focusDia,
+                                      onFieldSubmitted: (v){
+                                        FocusScope.of(context).requestFocus(controller.focusPul);
+                                        },),
+                                ),
                                 flex: 3,
                               ),
                             ],
@@ -282,17 +300,26 @@ class BpDetailInfoPage extends StatelessWidget {
                               ),
                               Expanded(child: Text(''), flex: 1),
                               Expanded(
-                                child: TextFormField(
-                                    // readOnly: true,
-                                    controller: controller.resultPul,
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(32.0)),
-                                      // labelText: '심박수혈압',
-                                    )),
+                                child: SizedBox(
+                                  height: 50,
+                                  child: TextFormField(
+                                      controller: controller.resultPul,
+                                      style: TextStyle(fontSize: 17,height: 1),
+                                      keyboardType: TextInputType.number,
+                                      // ignore: deprecated_member_use
+                                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(32.0)),
+                                        // labelText: '심박수혈압',
+                                      ),
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: controller.focusPul,
+                                      onFieldSubmitted: (v){
+                                        FocusScope.of(context).requestFocus(controller.focusMemo);
+                                        },),
+                                ),
                                 flex: 3,
                               ),
                             ],
@@ -359,7 +386,9 @@ class BpDetailInfoPage extends StatelessWidget {
                                             border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(32.0)),
                                             labelText: '예) 컨디션 좋음',
-                                            labelStyle: TextStyle(fontSize: 13))
+                                            labelStyle: TextStyle(fontSize: 13)),
+                                        textInputAction: TextInputAction.done,
+                                        focusNode: controller.focusMemo,
                                     )
                                 ),
                               ],
@@ -384,8 +413,8 @@ class BpDetailInfoPage extends StatelessWidget {
                           AppStrings.strSuccessTitle,
                           AppStrings.strSuccessMsg,
                           AppStrings.strButtonClose, () {
-                        Navigator.pop(context);
-                        Navigator.pop(context, 'S');
+                        Get.back();
+                        Get.back(result:{"date":DateTime.parse(controller.data.rData!)});
                       });
                     });
                   })

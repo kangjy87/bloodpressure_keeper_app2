@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/utils/day_util.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/last_weather_info.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/routes/app_routes.dart';
@@ -27,13 +28,21 @@ class SelfBpInputController extends GetxController {
   //요일 바꿀시
   void changeFocusedDay(DateTime fDay){
     focusedDay = fDay ;
+    int difference = int.parse(focusedDay.difference(selectedDay).inDays.toString());
+    print('>>>>>두날짜간 차>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.${difference}');
+    if(!(difference > 0 && difference <=6)){
+      selectedDay = fDay ;
+    }
     update();
   }
 
   TextEditingController resultSys = TextEditingController() ;
   TextEditingController resultDia = TextEditingController() ;
+  FocusNode focusDia = FocusNode();
   TextEditingController resultPul = TextEditingController() ;
+  FocusNode focusPul = FocusNode();
   TextEditingController resultMemo = TextEditingController();
+  FocusNode focusMemo = FocusNode();
 
   @override
   void onInit() {
@@ -42,13 +51,18 @@ class SelfBpInputController extends GetxController {
   }
 
   void beforeBloodPressure()async{
+    //혈압관리에서선택한 날짜 화면 표시
+    selectedDay = Get.arguments['date'];
+    int todayIndex = Get.arguments['todayIndex'];
+    focusedDay = getFocusedDay(todayIndex,selectedDay);
+    // focusedDay = Get.arguments['date'];
     // BloodPressureLocalDB db = BloodPressureLocalDB();
     // db.database ;
     // BloodPressureItem? data = await db.getLastBPData();
     // resultSys.text = data!.systolic == null ? '' : data!.systolic.toString() ;
     // resultDia.text = data!.diastole == null ? '' : data!.diastole.toString() ;
     // resultPul.text = data!.pulse == null ? '' : data!.pulse.toString() ;
-    // update();
+    update();
   }
 
   bool saveCheck(){

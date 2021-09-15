@@ -28,12 +28,15 @@ class BpManagementController extends GetxController {
   String weatherTemp = "" ;
   bool weatherImgCheck = false ;
   bool gpsCheck = true ;
+  int todayIndex = 0 ;
+
 
   @override
   void onInit() {
     super.onInit();
     pageControllers = PageController() ;
     selectedDay = DateTime.now();
+    todayIndex = selectDayIndex(selectedDay);
     focusedDay = DateTime.now();
     bpDataPageController = PageController();
     weatherImg  = "" ;
@@ -47,24 +50,31 @@ class BpManagementController extends GetxController {
   //날짜 선택시
   void changeSelectedDay(DateTime sDay,DateTime fDay){
     selectedDay = sDay ;
-    // focusedDay = fDay ;
+    focusedDay = fDay ;
     update();
   }
 
   //요일 바꿀시
   void changeFocusedDay(DateTime fDay){
-    print('날짜 바뀜?$fDay');
-    selectedDay = fDay ;
+    print('$selectedDay날짜 바뀜?$fDay');
     focusedDay = fDay ;
+    int difference = int.parse(focusedDay.difference(selectedDay).inDays.toString());
+    print('>>>>>두날짜간 차>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.${difference}');
+    if(!(difference > 0 && difference <=6)){
+      selectedDay = fDay ;
+    }
     update();
   }
 
 
   //셀프 혈압등록
-  void selfBpInput(Function refresh) {
-    Get.toNamed(AppRoutes.SELFINFUT)!.then((value){
-      refresh();
-    });
+  void selfBpInput(Function refresh)async{
+    final saveData = await Get.toNamed(AppRoutes.SELFINFUT,arguments: {"date":selectedDay,"todayIndex":todayIndex})!;
+    print('저장되고 온 데이터>>>>>>${saveData}');
+    selectedDay = saveData['date'];
+    focusedDay = getFocusedDay(todayIndex,selectedDay);
+    update();
+    refresh();
   }
 
   var firstTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - (DateTime.now().weekday - 1));
@@ -159,10 +169,13 @@ class BpManagementController extends GetxController {
     }
   }
 
-  detailPageGo(BloodPressureItem data,Function refresh){
-    Get.toNamed(AppRoutes.BpDetailInfo,arguments: data)!.then((value){
-      refresh();
-    });
+  detailPageGo(BloodPressureItem data,Function refresh)async{
+    final saveData = await Get.toNamed(AppRoutes.BpDetailInfo,arguments: data)!;
+    print('저장되고 온 데이터>>>>>>${saveData}');
+    selectedDay = saveData['date'];
+    focusedDay = getFocusedDay(todayIndex,selectedDay);
+    update();
+    refresh();
   }
 
   //위험수치
@@ -281,6 +294,7 @@ class BpManagementController extends GetxController {
 
       });
     }else{
+      print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>흠....${gpsCheck}');
       if(!gpsCheck){
         permissionChecked();
       }
@@ -291,12 +305,13 @@ class BpManagementController extends GetxController {
     Future<DateTime?> future =  showDatePicker(
         locale: const Locale('ko', 'KO'),
         context: context,
-        initialDate: focusedDay,
+        initialDate: selectedDay,
         firstDate: DateTime(2018),
         lastDate: DateTime.now());
 
-    focusedDay = (await future)! ;
     selectedDay = (await future)! ;
+    print('날짜선택>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${selectedDay}');
+    focusedDay = getFocusedDay(todayIndex,selectedDay);
     update();
   }
 }

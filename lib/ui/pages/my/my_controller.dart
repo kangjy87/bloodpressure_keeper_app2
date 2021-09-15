@@ -34,7 +34,7 @@ class MyController extends GetxController {
   String age = '';
 
   String sex = '';
-
+  String viewMsg = '' ;
   Future<UsersDto> getInfo() async {
     UsersDto gcDto = await getUserInfo();
     email = gcDto.email!;
@@ -51,6 +51,15 @@ class MyController extends GetxController {
         sex = '미선택';
         break;
     }
+    StringBuffer msg = StringBuffer();
+    if(age != ''){
+      msg.write('${age}년생 ');
+    }
+    if(sex != '' && sex != '미선택'){
+      msg.write('${sex} ');
+    }
+    msg.write('${nickName}님');
+    viewMsg = msg.toString();
     update();
     return gcDto;
   }

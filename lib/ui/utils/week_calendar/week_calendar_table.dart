@@ -81,9 +81,9 @@ class WeekCalendarTable extends StatelessWidget {
             return isSameDay(this.selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
-            print('클릭됨!!!!!!3');
+            print('클릭됨!!!!!!3>>>>>${this.focusedDay}>>>>>>>>>${selectedDay}>>>>>>>>>>>>${focusedDay}');
             if (!isSameDay(this.selectedDay, selectedDay)) {
-              onDaySelected.call(selectedDay,focusedDay);
+              onDaySelected.call(selectedDay,this.focusedDay);
             }
           },
           onPageChanged: (focusedDay) {

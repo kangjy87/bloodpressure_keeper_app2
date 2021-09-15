@@ -57,15 +57,20 @@ dev_dependencies:
   geocoding: ^2.0.0 # 위치를 통한 주소조회
   flutter_easyloading: ^3.0.0 #로딩
   firebase_crashlytics: ^2.2.1 #파이어베이스 크래쉬
+  lottie: ^1.1.0 #로티 (스플래시 애니효과)
+
   adaptive_dialog: ^1.1.0
   flutter_staggered_grid_view: ^0.4.0
   cached_network_image: ^3.1.0
   youtube_player_flutter: ^8.0.0
-  flutter_vlc_player: ^6.0.2
   video_player: ^2.1.12
   carousel_slider: ^4.0.0
-  lottie: ^1.1.0
-
+  flutter_html: ^2.1.1                      # for youtube player
+  #flutter_tags: ^0.4.9+1                    # for tag cloud but not support null safety
+  webview_flutter: ^2.0.12                  # for webview
+  url_launcher: ^6.0.9                      # for native browser
+  share_plus: ^2.1.4                        # for share to sns
+  #flutter_statusbar_manager : ^2.0.0        # for control status bar but not support null safety
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
