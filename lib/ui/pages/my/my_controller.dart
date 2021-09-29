@@ -6,10 +6,11 @@ import 'package:package_info/package_info.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/login_info.dart';
 import 'package:bloodpressure_keeper_app/model/users_dto.dart';
 
-class MyController extends GetxController {
+class MyController extends GetxController with SingleGetTickerProviderMixin{
+  late TabController tabController ;
   final String title = '마이페이지';
   String version = '';
-
+  String strTab1 = "images/book_mark_icon_on.png", strTab2 = "images/option_icon_off.png" ;
   userInfoAgreement() {
     Get.toNamed(AppRoutes.UserInfoAgreement);
   }
@@ -17,6 +18,7 @@ class MyController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    tabController = TabController(length: 2, vsync: this);
     getVersionInfo();
     getInfo();
   }
@@ -70,5 +72,10 @@ class MyController extends GetxController {
         refresh();
       });
     });
+  }
+  tabSetting(int index){
+    strTab1 = index == 0 ? "images/book_mark_icon_on.png" : "images/book_mark_icon_off.png" ;
+    strTab2 = index == 1 ? "images/option_icon_on.png" : "images/option_icon_off.png" ;
+    update();
   }
 }

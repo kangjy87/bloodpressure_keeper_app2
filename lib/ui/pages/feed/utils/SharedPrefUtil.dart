@@ -30,7 +30,16 @@ class SharedPrefUtil {
       pref.setInt(key, value);
     });
   }
+  static Future<bool?> getBool(String key) async {
+    SharedPreferences? pref = await SharedPreferences?.getInstance();
+    return pref.getBool(key);
+  }
 
+  static void setBool(String key, bool value) {
+    SharedPreferences.getInstance().then((pref) {
+      pref.setBool(key, value);
+    });
+  }
   static void clear() {
     SharedPreferences.getInstance().then((pref) {
       pref.clear();

@@ -80,7 +80,7 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
   //맵바 설정
   AppBar? _appBarView (BuildContext context) {
 
-    String? _title = controller.data!.title!.isEmpty ? '피드' : controller.data!.title;
+    String? _title = controller.data.title!.isEmpty ? '소식' : controller.data.title;
 
     AppBar? _appBar;
 
@@ -140,7 +140,7 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
   /** 유저 프로필 이미지 */
   Widget _userThumbnailView () {
 
-    String? _userThumbnailURL = controller.data!.article_owner!.thumbnail_url;
+    String? _userThumbnailURL = controller.data.article_owner!.thumbnail_url;
     print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
     if (_userThumbnailURL == null || _userThumbnailURL.isEmpty) _userThumbnailURL = "";
 
@@ -149,7 +149,6 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
       width: Get.width - getUiSize (2.2),
       child: Row (
         children: [
-
           Stack (
             alignment: Alignment.center,
             children: [
@@ -190,36 +189,67 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
           Container (
             width: Get.width / 3,
             padding: EdgeInsets.only(top:getUiSize(7)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                Text (
-                  controller.data!.article_owner!.name!,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle (
-                    color: Color (0xFF2a2a2a),
-                    fontFamily: Font.NotoSansCJKkrRegular,
-                    fontSize: getUiSize(11),
-                  ),
+                    Text (
+                      controller.data.article_owner!.name!.length > 10 ?
+                      '${controller.data.article_owner!.name!.substring(0,7)}...'
+                      :controller.data.article_owner!.name!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle (
+                        color: Color (0xFF2a2a2a),
+                        fontFamily: Font.NotoSansCJKkrRegular,
+                        fontSize: getUiSize(11),
+                      ),
+                    ),
+
+                    Text (
+                      FormatUtil.printDateTime(controller.data.date!, format: "yyyy.MM.dd"),
+                      style: TextStyle (
+                          color: Color (0xFF2a2a2a),
+                          fontFamily: Font.NotoSansCJKkrRegular,
+                          fontSize: getUiSize(7.5)
+                      ),
+                    )
+
+                  ],
                 ),
-
-                Text (
-                  FormatUtil.printDateTime(controller.data!.date!, format: "yyyy.MM.dd"),
-                  style: TextStyle (
-                      color: Color (0xFF2a2a2a),
-                      fontFamily: Font.NotoSansCJKkrRegular,
-                      fontSize: getUiSize(7.5)
-                  ),
-                )
-
               ],
             ),
           ),
 
-          Spacer (),
+          Spacer (flex: 7,),
+          //좋아요
+          InkWell(
+            child: Container (
+              width: getUiSize(10),
+              height: getUiSize(22),
+              child: Image.asset(AppIcons.ic_heart2, width: getUiSize(10),),
 
+            ),
+            onTap: () {
+              _showModalBottomSheet ();
+            },
+          ),
+          Spacer (flex: 2,),
+          //즐겨찾기
+          InkWell(
+            child: Container (
+              width: getUiSize(10),
+              height: getUiSize(22),
+              child: Image.asset(controller.data.is_favorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, width: getUiSize(10),),
+
+            ),
+            onTap: () {
+              _showModalBottomSheet ();
+            },
+          ),
+          Spacer (flex: 2,),
           InkWell(
             child: Container (
               width: getUiSize(10.5),
@@ -275,7 +305,7 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
                         Image.asset(AppIcons.ic_heart, height: getUiSize(10), color: Color (0xff2a2a2a),),
                         SizedBox (width: getUiSize(3.5),),
                         Text (
-                            FormatUtil.numberWithComma(Random.secure().nextInt(1000)),
+                            FormatUtil.numberWithComma(controller.like),
                             style: TextStyle (
                                 color: Color (0xff2a2a2a),
                                 //fontFamily: Font.NotoSansCJKkrRegular,
@@ -289,7 +319,7 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
                     SizedBox (height: getUiSize(8),),
 
                     Text (
-                      controller.data!.contents!,
+                      controller.data.contents!,
                       style: TextStyle (
                           color: Color (0xff2a2a2a),
                           fontFamily: Font.NotoSansCJKkrRegular,
@@ -306,12 +336,12 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
                         '방문하기',
                         style: TextStyle (fontFamily: Font.NotoSansCJKkrBold, color: Color (0xffeeeeee), fontSize: getUiSize(12)),
                       ),
-                      color: Color (0xff434343),
+                      color: Color (0xff0057fb),
                       height: getUiSize(40.5),
                       elevation: 0.0,
                       onPressed: () async {
-                        canLaunch (controller.data!.url!).then((value) {
-                          launch(controller.data!.url!);
+                        canLaunch (controller.data.url!).then((value) {
+                          launch(controller.data.url!);
                           // Get.toNamed(RouteNames.WEBVIEW, arguments: controller.data!.url!);
                         });
                       },

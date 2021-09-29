@@ -165,7 +165,9 @@ class BpManagementPage extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
-                        BpPageHeader(),
+                        BpPageHeader(
+                          strTitle: controller.strTitleMsg,
+                        ),
                         /**
                              * 날짜 선택 달력
                              */
@@ -311,7 +313,7 @@ class BpManagementPage extends StatelessWidget {
                       color: Colors.white,
                       height: 40,
                       width: double.infinity,
-                      child: Text('평균 혈압 모니터링',
+                      child: Text(controller.strChartTitle,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: 'NanumRoundEB',
@@ -332,13 +334,13 @@ class BpManagementPage extends StatelessWidget {
                               pulseData: controller.pulseData,
                               setOnclick: (String data,int pulse){
                                 if(pulse != null && pulse > 0){
-                                  print('개빡침${data}');
+                                  controller.chartCheck(data);
                                 }
                               },
                           )
                       ),
                     ),
-                    SizedBox(height: 90,)
+                    SizedBox(height: 70,)
                   ],
                 ),
               ),
@@ -353,6 +355,7 @@ class BpManagementPage extends StatelessWidget {
                     controller.selfBpInput(() {
                       controller.chartRefresh(); //차트 리플리쉬
                       controller.selectDayInfo(); //정보보여지기
+                      controller.titleSetting(); //타이틀바
                     });
                   });
             }));

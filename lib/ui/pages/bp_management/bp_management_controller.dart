@@ -18,6 +18,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'main_header_text.dart';
+
 class BpManagementController extends GetxController {
   PageController pageControllers = PageController() ;
   DateTime selectedDay = DateTime.now();
@@ -29,8 +31,8 @@ class BpManagementController extends GetxController {
   bool weatherImgCheck = false ;
   bool gpsCheck = true ;
   int todayIndex = 0 ;
-
-
+  String strTitleMsg = "" ;
+  String strChartTitle = "최근 일주일 평균혈압" ;
   @override
   void onInit() {
     super.onInit();
@@ -46,6 +48,26 @@ class BpManagementController extends GetxController {
     chartRefresh();
     selectDayInfo();
     permissionChecked();
+    titleSetting();
+  }
+  titleSetting()async{
+    BloodPressureLocalDB db = BloodPressureLocalDB();
+    db.database ;
+    BloodPressureItem lastdata = await db.getLastBPData();
+    bool latelyDatacheck = false ;
+    //데이터가 아예없다.
+    if(lastdata.rData == null){
+      latelyDatacheck = false ;
+      strTitleMsg = await getHeaderText(null,latelyDatacheck);
+    }
+    else if(dateDifference(typeChangeDateTime(lastdata.rData!)) <= 7){
+      latelyDatacheck = true;
+      strTitleMsg = await getHeaderText(null,latelyDatacheck);
+    }else{
+      BloodPressureItem toDayBPData = await db.getSelectDayAvgBPData(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+      strTitleMsg = await getHeaderText(toDayBPData,latelyDatacheck);
+    }
+    update();
   }
   //날짜 선택시
   void changeSelectedDay(DateTime sDay,DateTime fDay){
@@ -99,9 +121,9 @@ class BpManagementController extends GetxController {
     for(int i = 0 ;  i< bpList.length; i++ ){
       print('>>>>>>>>>>>>>>>>>>>>>${bpList[i].rData}>>>>>>>>>>>>>>>>${bpList[i].diastole}');
       String rday = DateFormat('MM-dd').format(DateTime.parse(bpList[i].rData!));
-      systolicData.add(BloodPressureChartDto(position : i, checkData: rday, systolic: bpList[i].systolic));
-      diastoleData.add(BloodPressureChartDto(position : i, checkData: rday, diastole: bpList[i].diastole));
-      pulseData.add(BloodPressureChartDto(position : i, checkData: rday, pulse: bpList[i].pulse));
+      systolicData.add(BloodPressureChartDto(position : i, checkData: rday, checkFullData: bpList[i].rData, systolic: bpList[i].systolic));
+      diastoleData.add(BloodPressureChartDto(position : i, checkData: rday, checkFullData: bpList[i].rData, diastole: bpList[i].diastole));
+      pulseData.add(BloodPressureChartDto(position : i, checkData: rday, checkFullData: bpList[i].rData, pulse: bpList[i].pulse));
       if(bpList[i].systolic! > 0){
         bpDataCheck = false ;
       }
@@ -110,6 +132,9 @@ class BpManagementController extends GetxController {
     diastoleData.toList()..sort((a,b) => a.position!.compareTo(b.position!));
     pulseData.toList()..sort((a,b) => a.position!.compareTo(b.position!));
     chartDataCheck = true ;
+
+    //차트 차이틀 체크 ( 이번주인지 지난주인지 체크 )
+    strChartTitle = dateDifference(focusedDay) == 0 ? "최근 일주일 평균혈압" : "일주일 평균혈압" ;
     update();
   }
 
@@ -125,14 +150,20 @@ class BpManagementController extends GetxController {
     selectDayBPDataList = await db.getSelectDayBPDataList(DateFormat('yyyy-MM-dd').format(selectedDay));
     // bpDataCheck = (selectDayBPDataList[0].systolic! > 0 ? false : true) ;
     position = (selectDayBPDataList.length-1);
-    beforeBtnImg = position == 0 ? "images/arrow_le_off.png" : "images/arrow_le_on.png" ;
-    afterBtnImg = position == (position) ?"images/arrow_ri_off.png" : "images/arrow_r.png" ;
+    //화살표 버튼 고정
+    // beforeBtnImg = position == 0 ? "images/arrow_le_off.png" : "images/arrow_le_on.png" ;
+    // afterBtnImg = position == (position) ?"images/arrow_ri_off.png" : "images/arrow_r.png" ;
+    beforeBtnImg = position == 0 ? "images/arrow_le_on.png" : "images/arrow_le_on.png" ;
+    afterBtnImg = position == (position) ?"images/arrow_r.png" : "images/arrow_r.png" ;
     bpRiskLevel.getStandardData(selectDayBPDataList[position].systolic!, selectDayBPDataList[position].diastole!);
     update();
   }
 
-  String beforeBtnImg = "images/arrow_le_off.png" ;
-  String afterBtnImg = "images/arrow_ri_off.png";
+  //화살표 버튼 고정
+  // String beforeBtnImg = "images/arrow_le_off.png" ;
+  // String afterBtnImg = "images/arrow_ri_off.png";
+  String beforeBtnImg = "images/arrow_le_on.png" ;
+  String afterBtnImg = "images/arrow_r.png";
   void selectDayBpInfoBtn(String btn, int lastIndex){
     print('>>>>>>>>포지션 ${position}>>>>>>>>>>>>>>>라스트 포지션 ${lastIndex}');
     bool refreshCheck = false ;
@@ -151,24 +182,47 @@ class BpManagementController extends GetxController {
       }
     }
     if(refreshCheck){
-      beforeBtnImg = position == 0 ? "images/arrow_le_off.png" : "images/arrow_le_on.png" ;
-      afterBtnImg = position == (lastIndex) ?"images/arrow_ri_off.png" : "images/arrow_r.png" ;
+      //화살표 버튼 고정
+      // beforeBtnImg = position == 0 ? "images/arrow_le_off.png" : "images/arrow_le_on.png" ;
+      // afterBtnImg = position == (lastIndex) ?"images/arrow_ri_off.png" : "images/arrow_r.png" ;
+      beforeBtnImg = position == 0 ? "images/arrow_le_on.png" : "images/arrow_le_on.png" ;
+      afterBtnImg = position == (lastIndex) ?"images/arrow_r.png" : "images/arrow_r.png" ;
       print('@@@@@@@@@>>>>>>>>>>>@@@@@@<<<<<<<<<<<<<<<<<!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       bpRiskLevel.getStandardData(selectDayBPDataList[position].systolic!, selectDayBPDataList[position].diastole!);
       update();
     }else{
-      Fluttertoast.showToast(
-          msg: "${strBtnMsg} 데이터가 없습니다.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
-          fontSize: 16.0
-      );
+      if(btn != 'B' && DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(selectedDay)){
+        Fluttertoast.showToast(
+            msg: "오늘 이후의 날짜는 선택이 불가능 합니다.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color(0xff454f63),
+            textColor: Colors.red,
+            fontSize: 16.0
+        );
+      }else{
+        changeSelectedDay(
+            dateShift(selectedDay,btn == 'B' ? -1 : 1), getFocusedDay(todayIndex,selectedDay));
+        selectDayInfo();
+      }
+      // Fluttertoast.showToast(
+      //     msg: "${strBtnMsg} 데이터가 없습니다.",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Color(0xff454f63),
+      //     textColor: Colors.red,
+      //     fontSize: 16.0
+      // );
     }
   }
-
+  chartCheck(String data){
+    DateTime dateType = typeChangeDateTime(data);
+    changeSelectedDay(
+        dateType, getFocusedDay(todayIndex,dateType));
+    selectDayInfo();
+  }
   detailPageGo(BloodPressureItem data,Function refresh)async{
     final saveData = await Get.toNamed(AppRoutes.BpDetailInfo,arguments: data)!;
     print('저장되고 온 데이터>>>>>>${saveData}');
@@ -284,7 +338,7 @@ class BpManagementController extends GetxController {
       oneButtonAlert(
           context,
           '알림!',
-          '혈압데이터 저장시 그날의 날씨를 확인하고 싶으면 위치권한을 허용해주세요!',
+          '혈압데이터 저장시 그날의 날씨를 확인하고 싶으면 \n위치권한을 허용해주세요!',
           '설정', () {
         Navigator.pop(context);
         openAppSettings().then((value){

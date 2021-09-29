@@ -56,7 +56,7 @@ class ComboBarLineChart extends StatelessWidget {
               final selectedDatum = model.selectedDatum;
               print('구르니?!!!!!!!?${selectedDatum.length}');
               if(selectedDatum.length > 0){
-                setOnclick.call(selectedDatum[0].datum.checkData,selectedDatum[0].datum.pulse);
+                setOnclick.call(selectedDatum[0].datum.checkFullData, selectedDatum[0].datum.pulse);
               }
             },
             changedListener: (charts.SelectionModel model){

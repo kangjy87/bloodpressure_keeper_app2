@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/MediaInfo.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/ContentsUtil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +23,9 @@ class MediaItemView extends StatelessWidget {
       child: Image.asset(Images.img_placeholder, fit: BoxFit.cover,)
   );
 
-  Widget _getMediaItemView (ArticleMediaItemDto item, String platform, String thumbnailURL) {
+  Widget _getMediaItemView (ArticleMediaItemDto item, PlatformType platform, String thumbnailURL) {
+
+    MediaInfo _mediaInfo = ContentsUtil.getFeedDetailMediaInfo (item, platform);
 
     switch (enumFromString(MediaType.values, item.type!)) {
       case MediaType.image :
@@ -47,65 +51,14 @@ class MediaItemView extends StatelessWidget {
 
       case MediaType.video :
 
-
-        if (enumFromString(SnsType.values, platform) == SnsType.youtube || item.url!.contains("youtu")) {
-
-          String _videoId = (item.url!.startsWith("https://youtu.be")) ? item.url!.split("/")[3] : item.url!.split('=')[1];
-
-          return TdiYouTubePlayer(videoId: _videoId,);
-
-        } else if (enumFromString(SnsType.values, platform) == SnsType.channel || enumFromString(SnsType.values, platform) == SnsType.instagram) {
-
-          String? _mediaUrl = (item.url!.startsWith("http")) ? item.url : Constants.CDN_URL + item.url!;
-          return TdiVidePlayer(videoUrl: _mediaUrl);
-
-        } else if (item.storage_url == null || item.storage_url!.isEmpty) { //주소가 없는건 거르자...
+        if (_mediaInfo.url == null || _mediaInfo.url!.isEmpty) { //주소가 없는건 거르자...
           return _commonError;
+        } else if (_mediaInfo.type == MediaPlayType.video_youtube) {
+          return TdiYouTubePlayer(videoId: _mediaInfo.url, mController: Get.find<FeedsDetailController>(),);
+        } else if (_mediaInfo.type == MediaPlayType.video_mp4) {
+          return TdiVidePlayer(videoUrl: _mediaInfo.url, mController: Get.find<FeedsDetailController>(),);
         } else {
-
-          String? _mediaUrl = (item.storage_url!.startsWith("http")) ? item.storage_url : Constants.CDN_URL + item.storage_url!;
-          String? _thumbNailUrl = Images.getSampleImagesForFeed().url!;
-
-          return InkWell(
-            child: Container(
-              width: Get.width,
-              height: Get.width,
-              color: Colors.black,
-              child: Stack (
-                children: [
-
-                  CachedNetworkImage(
-                    width: Get.width,
-                    height: Get.width,
-                    imageUrl: _thumbNailUrl,
-                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.black26),
-                    fit: BoxFit.cover,
-                    cacheKey: _thumbNailUrl,
-                  ),
-
-                  Center(
-                    child: Image.asset (AppIcons.ic_video_play, width: getUiSize (60),),
-                  )
-
-                ],
-              ),
-            ),
-            onTap: ()async {
-              Get.toNamed (RouteNames.WEBVIEW, arguments: _mediaUrl!);
-            },
-          );
-
-          /*return Html(
-              shrinkWrap : true,
-              data: """
-              <video controls>
-                <source src="$_mediaUrl" />
-              </video>
-              <iframe width="${Get.width}" height="${getUiSize (150)}" src="$_mediaUrl"></iframe>
-              """,
-              tagsList: Html.tags..remove(Platform.isAndroid ? "iframe" : "video")
-          );*/
-
+          return _commonError;
         }
 
       default :
@@ -132,7 +85,7 @@ class MediaItemView extends StatelessWidget {
     return GetBuilder<FeedsDetailController> (
       init: FeedsDetailController (),
       builder:(controller) =>
-      controller.data!.article_medias!.length > 1 ?
+      controller.data.article_medias!.length > 1 ?
       Obx (() {
         return Container (
             color: Colors.black,
@@ -149,10 +102,10 @@ class MediaItemView extends StatelessWidget {
                         }
                     ),
                     carouselController: controller.mediaCarouselController,
-                    items: controller.data!.article_medias!.map((item) => Container(
+                    items: controller.data.article_medias!.map((item) => Container(
                       width: Get.width,
                       alignment: Alignment.center,
-                      child: _getMediaItemView (item, controller.data!.platform!, controller.data!.thumbnail_url!),
+                      child: _getMediaItemView (item, enumFromString(PlatformType.values, controller.data.platform!), controller.data.thumbnail_url!),
                     )).toList(),
                   ),
 
@@ -160,7 +113,7 @@ class MediaItemView extends StatelessWidget {
                       bottom: getUiSize (5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: controller.data!.article_medias!.asMap().entries.map((entry) {
+                        children: controller.data.article_medias!.asMap().entries.map((entry) {
                           return GestureDetector(
                             onTap: () => controller.mediaCarouselController!.animateToPage(entry.key),
                             child: Container(
@@ -178,7 +131,7 @@ class MediaItemView extends StatelessWidget {
                 ])
         );
       })
-          : controller.data!.article_medias!.length == 0 ?
+          : controller.data.article_medias!.length == 0 ?
       Container (
 
       )
@@ -188,7 +141,7 @@ class MediaItemView extends StatelessWidget {
         height: controller.orientation.value == Orientation.portrait ? Get.width : Get.height,
         color: Colors.black,
         alignment: Alignment.center,
-        child: _getMediaItemView(controller.currentMedia, controller.data!.platform!, controller.data!.thumbnail_url!),
+        child:  _getMediaItemView(controller.currentMedia, enumFromString(PlatformType.values, controller.data.platform!), controller.data.thumbnail_url!),
       )
 
       ,

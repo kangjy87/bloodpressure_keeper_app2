@@ -94,7 +94,13 @@ String getWeekDaySearch(String strSunday,int seachWeekDay){
   String day = DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, date.day - seachWeekDay));
   return day ;
 }
-
+DateTime dateShift(DateTime date,int changeAddDay){
+  String day = DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, date.day + changeAddDay));
+  return DateTime.parse(day);
+}
+DateTime typeChangeDateTime(String date){
+  return DateTime.parse(date);
+}
 Future<bool> getWeatherSearchCheck()async{
   String strSaveTime = (await getWeatherSaveTime())!;
   if(strSaveTime != ""){
@@ -150,7 +156,13 @@ DateTime getFocusedDay(int todayIndex, DateTime selectDay){
   int focusedIndex = (todayIndex >= selectIndex) ?(todayIndex - selectIndex) : (7 - (selectIndex - todayIndex)) ;
   return DateTime(selectDay.year, selectDay.month, selectDay.day + focusedIndex);
 }
-
+/**
+ * 두 날짜 차이
+ */
+int dateDifference(DateTime date){
+  int day = int.parse(DateTime.now().difference(date).inMinutes.toString());
+  return day;
+}
 /**
  * todayIndex 요일
  */

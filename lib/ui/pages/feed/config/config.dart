@@ -38,6 +38,9 @@ class AppIcons {
   static const ic_logo= ICON_PATH + "logo_icon.png";
   static const ic_video_play = ICON_PATH + "play_icon_1.png";
   static const ic_heart = ICON_PATH + "heart_icon_1.png";
+  static const ic_heart2 = ICON_PATH + "ic_heart2.png";
+  static const book_makr_off = ICON_PATH + "book_makr_off.png";
+  static const book_makr_on = ICON_PATH + "book_makr_on.png";
 
   /** for tabs **/
   static const ic_tab_home = ICON_PATH + "home_icon.svg";

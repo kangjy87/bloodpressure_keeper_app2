@@ -70,6 +70,7 @@ dev_dependencies:
   webview_flutter: ^2.0.12                  # for webview
   url_launcher: ^6.0.9                      # for native browser
   share_plus: ^2.1.4                        # for share to sns
+  firebase_dynamic_links: ^2.0.9            # dynamic links
   #flutter_statusbar_manager : ^2.0.0        # for control status bar but not support null safety
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

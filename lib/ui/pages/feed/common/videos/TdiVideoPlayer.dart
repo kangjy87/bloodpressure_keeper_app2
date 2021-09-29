@@ -7,12 +7,16 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/logger_utils.dart';
 import 'package:video_player/video_player.dart';
 
+import 'TdiOrientationController.dart';
+
 class TdiVidePlayer extends StatefulWidget {
 
   String? videoUrl;
+  TdiOrientationController? mController;
 
   TdiVidePlayer ({
-    this.videoUrl
+    this.videoUrl,
+    this.mController
   });
 
   @override
@@ -54,8 +58,6 @@ class _TdiVideoPlayerState extends State<TdiVidePlayer> {
   @override
   Widget build(BuildContext context) {
 
-    FeedsDetailController controller = Get.find<FeedsDetailController>();
-
     return InkWell(
       child: Stack(
         children: [
@@ -67,7 +69,7 @@ class _TdiVideoPlayerState extends State<TdiVidePlayer> {
             ),
           ),
 
-          if (controller.orientation.value == Orientation.portrait || !_controller.value.isPlaying)
+          if (widget.mController!.orientation.value == Orientation.portrait || !_controller.value.isPlaying)
             Positioned(
               bottom: 0,
               child: Container(

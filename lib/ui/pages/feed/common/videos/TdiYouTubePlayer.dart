@@ -7,12 +7,16 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/logger_utils.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'TdiOrientationController.dart';
+
 class TdiYouTubePlayer extends StatefulWidget {
 
   String? videoId;
+  TdiOrientationController? mController;
 
   TdiYouTubePlayer ({
-    this.videoId
+    this.videoId,
+    this.mController
   });
 
   @override
@@ -30,7 +34,6 @@ class _TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
   bool _muted = false;
   bool _isPlayerReady = false;
   ///----------------------------------------------------------------------------
-
 
   @override
   void initState () {
@@ -85,11 +88,9 @@ class _TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
     );
   }
   ///-------------------------------------------------------------------
-
   @override
   Widget build(BuildContext context) {
 
-    FeedsDetailController controller = Get.find<FeedsDetailController>();
     double _progress = _isPlayerReady ? (_youtubePlayerController.value.position.inMilliseconds / _videoMetaData.duration.inMilliseconds) * Get.width : 0.0;
 
     return InkWell(
@@ -100,7 +101,7 @@ class _TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
             controller: _youtubePlayerController,
             width: Get.width,
             showVideoProgressIndicator: true,
-            aspectRatio: controller.orientation.value == Orientation.portrait ? 1 / 1 : Get.width / Get.height,
+            aspectRatio: widget.mController!.orientation.value == Orientation.portrait ? 1 / 1 : Get.width / Get.height,
             progressColors: ProgressBarColors (
               playedColor: Colors.red,
               handleColor: Colors.redAccent,
@@ -113,7 +114,7 @@ class _TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
           ),
 
 
-          if (controller.orientation.value == Orientation.portrait || (_isPlayerReady && _playerState == PlayerState.paused))
+          if (widget.mController!.orientation.value == Orientation.portrait || (_isPlayerReady && _playerState == PlayerState.paused))
             Positioned(
               bottom: 0,
               child: Container(

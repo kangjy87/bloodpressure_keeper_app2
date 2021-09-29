@@ -75,7 +75,7 @@ class BpDetailInfoController extends GetxController {
       );
       return false ;
     }
-    if(int.parse(resultSys.text) > 200){
+    if(int.parse(resultSys.text) > 250){
       Fluttertoast.showToast(
           msg: "수축기 혈압이 비정상적 입니다.",
           toastLength: Toast.LENGTH_SHORT,
@@ -87,7 +87,7 @@ class BpDetailInfoController extends GetxController {
       );
       return false ;
     }
-    if(int.parse(resultDia.text) > 200){
+    if(int.parse(resultDia.text) > 250){
       Fluttertoast.showToast(
           msg: "이완기 혈압이 비정상적 입니다.",
           toastLength: Toast.LENGTH_SHORT,
@@ -99,7 +99,7 @@ class BpDetailInfoController extends GetxController {
       );
       return false ;
     }
-    if(int.parse(resultPul.text) > 200){
+    if(int.parse(resultPul.text) > 250){
       Fluttertoast.showToast(
           msg: "심박수가 비정상적 입니다.",
           toastLength: Toast.LENGTH_SHORT,

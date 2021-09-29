@@ -14,6 +14,7 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/SharedPrefUtil.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/logger_utils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/common/BaseScaffoldController.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FeedController extends GetxController {
 
@@ -24,6 +25,8 @@ class FeedController extends GetxController {
   int per_page = 50;
   bool listEnd = false;
   bool isLoading = false;
+
+  RxBool snsInstar = true.obs, snsYoutube = true.obs, snsNaver = true.obs ;
 
   ScrollController scrollController = ScrollController();
 
@@ -40,13 +43,10 @@ class FeedController extends GetxController {
   @override
   void onInit () {
     super.onInit();
-
     list.clear();
     page = 1;
     listEnd = false;
-
     scrollController.addListener(() {
-
       try {
         double _remainDistance = scrollController.position.maxScrollExtent - scrollController.offset;
         if (_remainDistance <= Get.height * 3 &&
@@ -66,17 +66,73 @@ class FeedController extends GetxController {
     });
 
     //데이타 로드
+    snsCheck();
+  }
+
+  snsCheck()async{
+    if(platform == null || platform == ''){
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      snsInstar = RxBool((_prefs.getBool('snsInstar') == null ? true  : _prefs.getBool('snsInstar'))!) ;
+      snsYoutube = RxBool((_prefs.getBool('snsYoutube') == null ? true  : _prefs.getBool('snsYoutube'))!) ;
+      snsNaver = RxBool((_prefs.getBool('snsNaver') == null ? true  : _prefs.getBool('snsNaver'))!) ;
+      StringBuffer strPlatform = StringBuffer();
+      if(snsInstar.isTrue){
+        strPlatform.write('#instagram');
+      }
+      if(snsYoutube.isTrue){
+        strPlatform.write('#youtube');
+      }
+      if(snsNaver.isTrue){
+        strPlatform.write('#naver-blog');
+      }
+      platform = strPlatform.toString();
+    }
     getFeeds ();
   }
 
+  setSnsInStar(){
+    snsInstar = RxBool(snsInstar.isTrue ? false : true) ;
+    update();
+  }
 
+  setSnsYoutube()async{
+    snsYoutube = RxBool(snsYoutube.isTrue ? false : true) ;
+    update();
+  }
+
+  setSnsNaver()async{
+    snsNaver = RxBool(snsNaver.isTrue ? false : true) ;
+    update();
+  }
+
+  snsCheckedSetting()async{
+    platform = "" ;
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setBool('snsInstar', snsInstar.isTrue ? true : false) ;
+    _prefs.setBool('snsYoutube', snsYoutube.isTrue ? true : false) ;
+    _prefs.setBool('snsNaver', snsNaver.isTrue ? true : false) ;
+    StringBuffer strPlatform = StringBuffer();
+    if(snsInstar.isTrue){
+      strPlatform.write('#instagram');
+    }
+    if(snsYoutube.isTrue){
+      strPlatform.write('#youtube');
+    }
+    if(snsNaver.isTrue){
+      strPlatform.write('#naver-blog');
+    }
+    platform = strPlatform.toString();
+    refreshFeeds(false);
+    Get.back();
+  }
 
   Future<void> getFeeds () async {
 
     isLoading = true;
     final client = FeedsClient(DioClient.dio);
+    print('>>>>>>>>>!!!!!!!!!!!${platform}');
     await client.getFeeds(
-        1 /** 1 ~ 3 */, page, per_page,SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN)
+        1 /** 1 ~ 3 */, page, per_page,SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),platform,keyword
     ).then((result) {
 
       data = result;

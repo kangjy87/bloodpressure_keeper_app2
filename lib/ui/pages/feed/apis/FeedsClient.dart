@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FeedsDetailDto.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:bloodpressure_keeper_app/ui/pages/feed/config/config.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/CommonDto.dart';
@@ -25,8 +26,12 @@ abstract class FeedsClient {
       @Query("page") int page,
       @Query ("per_page") int per_page,
       @Header('Authorization') authorization,
-      // @Query ("platform") String? platform,
-      // @Query ("search") String? search
+      @Query ("platform") String? platform,
+      @Query ("search") String? search
       );
 
+  @GET('/api/v1/articles/{articleId}')
+  Future<FeedsDetailDto> getFeedDetail (
+      @Path ('articleId') String articleId
+      );
 }

@@ -3,7 +3,11 @@
  * flutter run --no-sound-null-safety 을통해 작성해야함
  * */
 
+import 'dart:ui';
+
 import 'package:bloodpressure_keeper_app/ui/routes/app_routes.dart';
+import 'package:bloodpressure_keeper_app/ui/utils/btns/bottom_fullsize_btn.dart';
+import 'package:bloodpressure_keeper_app/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -49,19 +53,266 @@ class FeedPage extends StatelessWidget {
         elevation: 0,
         title: Center(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "피드",
-                  textAlign : TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'NanumRoundB',
-                      fontSize: 18,
-                      color: Color(0xff454f63)),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 100,
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "피드",
+                    style: TextStyle(
+                        fontFamily: 'NanumRoundB',
+                        fontSize: 18,
+                        color: Color(0xff454f63)),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              child: GestureDetector(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding:
+                      EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 10),
+                      child: Image.asset(
+                        'images/sort_icon.png',
+                        width: 20,
+                        height: 20,
+                      ),
+                    )
+                  ],
                 ),
-              ],
+                onTap: () {
+                  showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      context: context,
+                      builder: (context) {
+                        return GetBuilder<FeedController>(
+                          init: FeedController(),
+                          builder: (controller) =>
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center,
+                                    children: [
+                                      Container(
+                                        padding:
+                                        EdgeInsets.only(left: 0,
+                                            top: 10,
+                                            right: 0,
+                                            bottom: 10),
+                                        child: Image.asset(
+                                          'images/sns_popup_topbtn.png',
+                                          width: 40,
+                                          height: 10,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.fromLTRB(
+                                          0, 10, 0, 20),
+                                      child: Text('SNS 필터',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NanumRoundEB',
+                                              color: Color(0xff454f63)))),
+                                  Container(color: Color(0xff454f63),
+                                    width: double.infinity,
+                                    height: 1,),
+                                  GestureDetector(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 58,
+                                      padding: EdgeInsets.fromLTRB(
+                                          0, 10, 0, 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 20, 0),
+                                            width: 40,
+                                            height: 30,
+                                            child: Visibility(
+                                              visible: controller.snsInstar.isTrue,
+                                              child: Image.asset(
+                                                'images/sns_checked.png',
+                                                width: 30,
+                                                height: 30,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .center,
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                Text('인스타그램',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily: 'NanumRoundR',
+                                                        color: Color(0xff5a5d64))),
+                                              ],
+                                            )
+                                          ),
+                                          SizedBox(
+                                            width: 40,
+                                            height: 30,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      controller.setSnsInStar();
+                                    },
+                                  ),
+                                  Container(color: Color(0xffa0a5b1),
+                                    width: double.infinity,
+                                    height: 1,),
+                                  GestureDetector(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 58,
+                                      padding: EdgeInsets.fromLTRB(
+                                          0, 10, 0, 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 20, 0),
+                                            width: 40,
+                                            height: 30,
+                                            child: Visibility(
+                                              visible: controller.snsYoutube.isTrue,
+                                              child: Image.asset(
+                                                'images/sns_checked.png',
+                                                width: 30,
+                                                height: 30,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .center,
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                Text('유튜브',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily: 'NanumRoundR',
+                                                        color: Color(0xff5a5d64)))
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 40,
+                                            height: 30,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      controller.setSnsYoutube();
+                                    },
+                                  ),
+                                  Container(color: Color(0xffa0a5b1),
+                                    width: double.infinity,
+                                    height: 1,),
+                                  GestureDetector(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 58,
+                                      padding: EdgeInsets.fromLTRB(
+                                          0, 10, 0, 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 20, 0),
+                                            width: 40,
+                                            height: 30,
+                                            child: Visibility(
+                                              visible: controller.snsNaver.isTrue,
+                                              child: Image.asset(
+                                                'images/sns_checked.png',
+                                                width: 30,
+                                                height: 30,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 100,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .center,
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                              Text('네이버 블로그',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontFamily: 'NanumRoundR',
+                                                    color: Color(0xff5a5d64)))],),),
+                                          SizedBox(
+                                            width: 40,
+                                            height: 30,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: (){
+                                      controller.setSnsNaver();
+                                    },
+                                  ),
+                                  BottomFullSizeBtn(
+                                      text: '선택완료',
+                                      textColor: Colors.white,
+                                      backgroundColor: Color(
+                                          AppColors.colorBtnActivate),
+                                      setonclicklistener: () {
+                                        controller.snsCheckedSetting();
+                                      })
+                                ],
+                              ),
+                        );
+                      });
+                },
+              ),
             )
-        ),
+          ],
+        )),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),

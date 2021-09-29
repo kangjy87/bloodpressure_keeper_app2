@@ -1,5 +1,5 @@
 /** SNS type -- platform */
-enum SnsType {
+enum PlatformType {
   youtube,
   instagram,
   channel
@@ -9,6 +9,12 @@ enum SnsType {
 enum MediaType {
   video,
   image,
+}
+/** Feed media play type */
+enum MediaPlayType {
+  image_show,
+  video_youtube,
+  video_mp4
 }
 
 enum AccountProviderType {

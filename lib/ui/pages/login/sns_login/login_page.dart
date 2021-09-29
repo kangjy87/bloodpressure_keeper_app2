@@ -111,7 +111,7 @@ class LoginPage extends StatelessWidget{
                                         flex: 2,
                                         child: Text(''),
                                       ),
-                                      Text('Sign in with KakaoTalk',
+                                      Text('카카오로 시작하기',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',
@@ -159,7 +159,7 @@ class LoginPage extends StatelessWidget{
                                         flex: 2,
                                         child: Text(''),
                                       ),
-                                      Text('Sign in with Google',
+                                      Text('구글로 시작하기',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',
@@ -206,7 +206,7 @@ class LoginPage extends StatelessWidget{
                                         flex: 2,
                                         child: Text(''),
                                       ),
-                                      Text('Sign in with Apple',
+                                      Text('애플로 시작하기',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',

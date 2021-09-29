@@ -23,8 +23,9 @@ class FeedsItemDto {
   int? state;
   DateTime? date;
   ArticleOwnerDto? article_owner;
+  ArticleDetail? article_detail;
   List<ArticleMediaItemDto>? article_medias;
-
+  bool? is_favorite ;
 
 
   FeedsItemDto({
@@ -45,7 +46,9 @@ class FeedsItemDto {
     this.state,
     this.date,
     this.article_owner,
-    this.article_medias
+    this.article_detail,
+    this.article_medias,
+    this.is_favorite
   });
 
   factory FeedsItemDto.fromJson (Map<String, dynamic> json) => _$FeedsItemDtoFromJson (json);
@@ -111,4 +114,25 @@ class ArticleOwnerDto {
   factory ArticleOwnerDto.fromJson (Map<String, dynamic> json) => _$ArticleOwnerDtoFromJson (json);
   Map<String, dynamic> toJson () => _$ArticleOwnerDtoToJson (this);
 
+}
+
+
+@JsonSerializable ()
+class ArticleDetail {
+  int? id;
+  int? article_id;
+  int? like;
+  int? dislike;
+  int? report;
+
+  ArticleDetail ({
+    this.id,
+    this.article_id,
+    this.like,
+    this.dislike,
+    this.report
+  });
+
+  factory ArticleDetail.fromJson (Map<String, dynamic> json) => _$ArticleDetailFromJson (json);
+  Map<String, dynamic> toJson () => _$ArticleDetailToJson (this);
 }
