@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/LikesDto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/ContentsUtil.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/DioClient.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -18,6 +19,9 @@ import 'common/videos/TdiOrientationController.dart';
 import 'dtos/FeedsDetailDto.dart';
 import 'dtos/MediaInfo.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/SharedPrefUtil.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FavoritesDto.dart';
+
 
 class FeedsDetailController extends TdiOrientationController {
 
@@ -141,6 +145,62 @@ class FeedsDetailController extends TdiOrientationController {
     }
 
     return url;
+
+  }
+
+  //즐겨찾기
+  Future<void> setFavorites () async {
+    FavoritesDto favorites = FavoritesDto();
+    favorites.media_id = 1 ;
+    favorites.user_id =  '' ;
+    favorites.article_id = data.id ;
+    final client = FeedsClient(DioClient.dio);
+    await client.setFavorite(
+        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),favorites
+    ).then((result) {
+
+
+      update ();
+
+    }).catchError((Object obj) async {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case DioError:
+          final res = (obj as DioError).response;
+          update();
+          break;
+        default:
+        //nothing yet;
+      }
+    });
+
+  }
+
+  //좋아요
+  Future<void> setLikes () async {
+    LikesDto likes = LikesDto();
+    likes.media_id = 1 ;
+    likes.user_id =  '' ;
+    likes.article_id = data.id ;
+    final client = FeedsClient(DioClient.dio);
+    await client.setLike('${data.id}','like',
+        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),likes
+    ).then((result) {
+
+
+      update ();
+
+    }).catchError((Object obj) async {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case DioError:
+          final res = (obj as DioError).response;
+          update();
+          break;
+        default:
+        //nothing yet;
+      }
+    });
 
   }
 }

@@ -26,6 +26,7 @@ class FeedsItemDto {
   ArticleDetail? article_detail;
   List<ArticleMediaItemDto>? article_medias;
   bool? is_favorite ;
+  bool? is_like ;
 
 
   FeedsItemDto({
@@ -48,7 +49,8 @@ class FeedsItemDto {
     this.article_owner,
     this.article_detail,
     this.article_medias,
-    this.is_favorite
+    this.is_favorite,
+    this.is_like
   });
 
   factory FeedsItemDto.fromJson (Map<String, dynamic> json) => _$FeedsItemDtoFromJson (json);

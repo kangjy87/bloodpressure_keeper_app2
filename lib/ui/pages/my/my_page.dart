@@ -68,7 +68,7 @@ class MyPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 440,
+                      height: 384,
                       child: TabBarView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller.tabController,

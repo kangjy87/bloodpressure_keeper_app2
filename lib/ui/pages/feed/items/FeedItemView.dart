@@ -99,7 +99,8 @@ class FeedItemView extends StatelessWidget {
 
                             /** 썸네일 */
                             Container(
-                              height: _mediaInfo.height,
+                              // height: _mediaInfo.height,
+                              height:  0 ,
                               constraints: BoxConstraints (
                                   minHeight: _mediaInfo.url!.startsWith ("http") ? _mediaInfo.height! : 0,
                                   minWidth: double.maxFinite
@@ -150,7 +151,7 @@ class FeedItemView extends StatelessWidget {
                             Positioned(
                               right: getUiSize (6.3),
                               top: getUiSize (6.3),
-                              child: Image.asset(dto!.is_favorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, height: getUiSize(17.5),width: getUiSize(22.5),),
+                              child: Image.asset(dto!.is_favorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, height: getUiSize(15.5),width: getUiSize(15.5),),
                             ),
                           ],
                         ),

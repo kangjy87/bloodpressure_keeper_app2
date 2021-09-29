@@ -65,7 +65,7 @@ class FeedPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "피드",
+                    "소식",
                     style: TextStyle(
                         fontFamily: 'NanumRoundB',
                         fontSize: 18,
@@ -418,26 +418,6 @@ class FeedPage extends StatelessWidget {
     );
   }
 
-
-  /** 피드 리스트 뷰 */
-  Widget _feedListView () {
-    return Column (
-        children: [
-
-          SizedBox(
-            height: getUiSize(150),
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: Constants.feed_tab_horizontal_padding),
-              shrinkWrap: true,
-              itemCount: Images.SampleImages.length,
-              itemBuilder: (context, index) => FeedItemViewForHome (dto: Images.SampleImages[index]),
-              separatorBuilder: (context, index) => SizedBox(width: getUiSize(4.3)),
-            ),
-          )
-        ]
-    );
-  }
 
   /** 스태거드 그리드 뷰 */
   Widget _feedGridView (FeedController controller) {

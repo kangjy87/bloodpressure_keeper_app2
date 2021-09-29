@@ -97,17 +97,36 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
             width: 30,
           ),
         ),
-        title: Text (_title!,
-          textAlign : TextAlign.center,
-          style: TextStyle(
-              fontFamily: 'NanumRoundB',
-              fontSize: 16,
-              color: Color(0xff454f63)),),
+        title: Row(
+          children: [
+            Expanded(flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+              Text (_title!,
+              textAlign : TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'NanumRoundB',
+                  fontSize: 16,
+                  color: Color(0xff454f63)),)],),),
+            SizedBox(width: 20,),
+            InkWell(
+              child: Container (
+                width: getUiSize(10.5),
+                height: getUiSize(20),
+                child: SvgPicture.asset(AppIcons.ic_feed_popup_btn, width: getUiSize(10.5),),
+
+              ),
+              onTap: () {
+                _showModalBottomSheet ();
+              },
+            ),
+          ],
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       );
     }
-
     return _appBar;
   }
   //맵바 설정
@@ -139,9 +158,8 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
 
   /** 유저 프로필 이미지 */
   Widget _userThumbnailView () {
-
     String? _userThumbnailURL = controller.data.article_owner!.thumbnail_url;
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
+    print('111111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
     if (_userThumbnailURL == null || _userThumbnailURL.isEmpty) _userThumbnailURL = "";
 
 
@@ -224,24 +242,11 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
           ),
 
           Spacer (flex: 7,),
-          //좋아요
-          InkWell(
-            child: Container (
-              width: getUiSize(10),
-              height: getUiSize(22),
-              child: Image.asset(AppIcons.ic_heart2, width: getUiSize(10),),
-
-            ),
-            onTap: () {
-              _showModalBottomSheet ();
-            },
-          ),
-          Spacer (flex: 2,),
           //즐겨찾기
           InkWell(
             child: Container (
-              width: getUiSize(10),
-              height: getUiSize(22),
+              width: getUiSize(10.5),
+              height: getUiSize(20),
               child: Image.asset(controller.data.is_favorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, width: getUiSize(10),),
 
             ),
@@ -249,20 +254,8 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
               _showModalBottomSheet ();
             },
           ),
-          Spacer (flex: 2,),
-          InkWell(
-            child: Container (
-              width: getUiSize(10.5),
-              height: getUiSize(20),
-              child: SvgPicture.asset(AppIcons.ic_feed_popup_btn, width: getUiSize(10.5),),
 
-            ),
-            onTap: () {
-              _showModalBottomSheet ();
-            },
-          ),
-
-          SizedBox(width: getUiSize(10),)
+          SizedBox(width: getUiSize(12),)
 
         ],
       ),
@@ -301,8 +294,7 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
-                        Image.asset(AppIcons.ic_heart, height: getUiSize(10), color: Color (0xff2a2a2a),),
+                        Image.asset(controller.data.is_like == false ? AppIcons.ic_heart : AppIcons.ic_heart_on, height: getUiSize(10),),
                         SizedBox (width: getUiSize(3.5),),
                         Text (
                             FormatUtil.numberWithComma(controller.like),

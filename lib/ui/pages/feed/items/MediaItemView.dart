@@ -23,7 +23,7 @@ class MediaItemView extends StatelessWidget {
       child: Image.asset(Images.img_placeholder, fit: BoxFit.cover,)
   );
 
-  Widget _getMediaItemView (ArticleMediaItemDto item, PlatformType platform, String thumbnailURL) {
+  Widget _getMediaItemView (ArticleMediaItemDto item, PlatformType platform) {
 
     MediaInfo _mediaInfo = ContentsUtil.getFeedDetailMediaInfo (item, platform);
 
@@ -105,7 +105,7 @@ class MediaItemView extends StatelessWidget {
                     items: controller.data.article_medias!.map((item) => Container(
                       width: Get.width,
                       alignment: Alignment.center,
-                      child: _getMediaItemView (item, enumFromString(PlatformType.values, controller.data.platform!), controller.data.thumbnail_url!),
+                      child: _getMediaItemView (item, enumFromString(PlatformType.values, controller.data.platform!)),
                     )).toList(),
                   ),
 
@@ -141,7 +141,7 @@ class MediaItemView extends StatelessWidget {
         height: controller.orientation.value == Orientation.portrait ? Get.width : Get.height,
         color: Colors.black,
         alignment: Alignment.center,
-        child:  _getMediaItemView(controller.currentMedia, enumFromString(PlatformType.values, controller.data.platform!), controller.data.thumbnail_url!),
+        child:  _getMediaItemView(controller.currentMedia, enumFromString(PlatformType.values, controller.data.platform!)),
       )
 
       ,
