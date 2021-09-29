@@ -12,9 +12,10 @@ void setUserInfo(String? uuid, String? email, String provider, Function saved)as
 /**
  * 추가정보
  */
-void setUserAddInfo(String? nickName, String? gender, String? age, Function saved)async{
+void setUserAddInfo(String? nickName, String? gender, String? age,int id, Function saved)async{
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.setString('nickName', (nickName == null ? "" : nickName));
+  _prefs.setInt('id', id);
   _prefs.setString('gender', (gender == null ? "" : gender));
   _prefs.setString('age', (age == null ? "" : age)).then((value) => saved());
 }
@@ -30,6 +31,7 @@ Future<UsersDto> getUserInfo()async{
   data.nickname = _prefs.getString('nickName');
   data.gender = _prefs.getString('gender');
   data.age = _prefs.getString('age');
+  data.id= _prefs.getInt('id');
   return data ;
 }
 

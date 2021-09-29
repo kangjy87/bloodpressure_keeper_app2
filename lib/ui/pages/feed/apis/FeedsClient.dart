@@ -28,7 +28,8 @@ abstract class FeedsClient {
       @Query ("per_page") int per_page,
       @Header('Authorization') authorization,
       @Query ("platform") String? platform,
-      @Query ("search") String? search
+      @Query ("search") String? search,
+      @Query ("user_id") int? user_id
       );
 
   @GET('/api/v1/articles/{articleId}')

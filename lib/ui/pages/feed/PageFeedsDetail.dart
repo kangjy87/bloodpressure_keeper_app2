@@ -99,17 +99,15 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
         ),
         title: Row(
           children: [
-            Expanded(flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-              Text (_title!,
-              textAlign : TextAlign.center,
-              style: TextStyle(
-                  fontFamily: 'NanumRoundB',
-                  fontSize: 16,
-                  color: Color(0xff454f63)),)],),),
-            SizedBox(width: 20,),
+            SizedBox(width: 200,
+              child: Text (_title!,
+                overflow: TextOverflow.ellipsis,
+                textAlign : TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'NanumRoundB',
+                    fontSize: 16,
+                    color: Color(0xff454f63)),),),
+            Spacer (flex: 1,),
             InkWell(
               child: Container (
                 width: getUiSize(10.5),
@@ -247,11 +245,11 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
             child: Container (
               width: getUiSize(10.5),
               height: getUiSize(20),
-              child: Image.asset(controller.data.is_favorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, width: getUiSize(10),),
+              child: Image.asset(controller.is_favorite_check == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, width: getUiSize(10),),
 
             ),
             onTap: () {
-              _showModalBottomSheet ();
+              controller.setFavorites();
             },
           ),
 

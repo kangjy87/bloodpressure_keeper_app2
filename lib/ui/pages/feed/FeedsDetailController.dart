@@ -1,6 +1,8 @@
+import 'package:bloodpressure_keeper_app/model/users_dto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/LikesDto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/ContentsUtil.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/DioClient.dart';
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/login_info.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,7 +47,8 @@ class FeedsDetailController extends TdiOrientationController {
   StopPostingReason get stopPostingReason => _stopPostingReason.value;
 
 
-
+  UsersDto usersInfo = UsersDto();
+  bool is_favorite_check = false ;
   @override
   void onInit () async {
     super.onInit();
@@ -59,6 +62,8 @@ class FeedsDetailController extends TdiOrientationController {
     } else if (Get.arguments.runtimeType == String) {
       data = await getFeedDetail ();
     }
+    is_favorite_check = data.is_favorite! ;
+    getInfo();
   }
 
   @override
@@ -66,6 +71,9 @@ class FeedsDetailController extends TdiOrientationController {
     super.onClose();
   }
 
+  void getInfo() async {
+    usersInfo = await getUserInfo();
+  }
 
   /** for share */
   Future<void> shareMe ()async {
@@ -149,17 +157,16 @@ class FeedsDetailController extends TdiOrientationController {
   }
 
   //즐겨찾기
-  Future<void> setFavorites () async {
+  void setFavorites() async {
     FavoritesDto favorites = FavoritesDto();
     favorites.media_id = 1 ;
-    favorites.user_id =  '' ;
+    favorites.user_id =  '${usersInfo.id}' ;
     favorites.article_id = data.id ;
     final client = FeedsClient(DioClient.dio);
     await client.setFavorite(
         SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),favorites
     ).then((result) {
-
-
+      is_favorite_check = true ;
       update ();
 
     }).catchError((Object obj) async {

@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:bloodpressure_keeper_app/model/users_dto.dart';
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/login_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +42,12 @@ class FeedController extends GetxController {
 
   final refreshKey = GlobalKey<RefreshIndicatorState>();
 
+  UsersDto usersInfo = UsersDto();
   @override
   void onInit () {
     super.onInit();
     list.clear();
+    getInfo();
     page = 1;
     listEnd = false;
     scrollController.addListener(() {
@@ -68,7 +72,10 @@ class FeedController extends GetxController {
     //데이타 로드
     snsCheck();
   }
-
+  void getInfo() async {
+    usersInfo = await getUserInfo();
+    print('!!!!!!!!!!!유저아이디>>>>>>>>>>>${usersInfo.id}');
+  }
   snsCheck()async{
     if(platform == null || platform == ''){
       SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -132,7 +139,7 @@ class FeedController extends GetxController {
     final client = FeedsClient(DioClient.dio);
     print('>>>>>>>>>!!!!!!!!!!!${platform}');
     await client.getFeeds(
-        1 /** 1 ~ 3 */, page, per_page,SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),platform,keyword
+        1 /** 1 ~ 3 */, page, per_page,SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),platform,keyword,usersInfo.id
     ).then((result) {
 
       data = result;

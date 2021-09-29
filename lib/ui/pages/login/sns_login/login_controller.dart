@@ -214,10 +214,10 @@ class LoginController extends GetxController {
           task.provider = provider ;
           task.fcm_token = token ;
           final resp = await bps.UsersInfo(appKey, task);
-          print('저장된값>>>>>>>>>>>${resp.data!.age}>>>>>>>>>>>>>>${resp.data!.nickname}');
+          print('저장된값>>>>>>>>>>>${resp.data!.id}>>>>>>>>>>>>>>${resp.data!.nickname}');
           EasyLoading.dismiss();
           if(resp.data != null && resp.data!.nickname != null && resp.data!.nickname != ""){
-            setUserAddInfo(resp.data!.nickname, resp.data!.gender, resp.data!.age, (){
+            setUserAddInfo(resp.data!.nickname, resp.data!.gender, resp.data!.age,resp.data!.id!, (){
               // Get.offAll(DashboardPage(),transition: Transition.rightToLeft);
               Get.offAllNamed(AppRoutes.DASHBOARD);
             });
