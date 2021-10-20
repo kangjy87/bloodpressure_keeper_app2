@@ -46,7 +46,7 @@ class MyController extends GetxController with SingleGetTickerProviderMixin{
       case 'M' :
         sex = '남성';
         break;
-      case 'W' :
+      case 'F' :
         sex = '여성';
         break;
       case 'N' :
@@ -67,6 +67,7 @@ class MyController extends GetxController with SingleGetTickerProviderMixin{
   }
 
   newLogin(Function refresh) {
+
     setUserClaer(() {
       Get.offAllNamed(AppRoutes.LOGIN)!.then((value) {
         refresh();

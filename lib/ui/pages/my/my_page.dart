@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'my_controller.dart';
@@ -13,7 +14,7 @@ class MyPage extends StatelessWidget {
         appBar: AppBar(
           foregroundColor: Colors.white,
           shadowColor: Colors.white,
-          toolbarHeight: 230,
+          toolbarHeight: getUiSize (150),
           elevation: 0,
           automaticallyImplyLeading: false,
           // backgroundColor: Colors.red,
@@ -68,7 +69,7 @@ class MyPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 384,
+                      height: getUiSize(400),
                       child: TabBarView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller.tabController,
@@ -80,7 +81,7 @@ class MyPage extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   child: Container(
-                                    height: 100,
+                                    height: getUiSize (70),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,23 +89,23 @@ class MyPage extends StatelessWidget {
                                         Image.asset(
                                           'images/warning_circle_fill.png',
                                           fit: BoxFit.fill,
-                                          height: 40,
-                                          width: 40,
+                                          height: getUiSize (30),
+                                          width: getUiSize (30),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(width: getUiSize (8),),
                                         Text(
                                           '개인정보 처리방침',
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',
-                                              fontSize: 15.0,
+                                              fontSize: getUiSize (13),
                                               color: Color(0xff454f63)),
                                         ),
                                         Expanded(child: Text(''), flex: 9),
                                         Image.asset(
                                           'images/main_check_icon.png',
                                           fit: BoxFit.fill,
-                                          height: 20,
-                                          width: 20,
+                                          height: getUiSize (13),
+                                          width: getUiSize (13),
                                         ),
                                         Expanded(child: Text(''), flex: 1),
                                       ],
@@ -116,7 +117,7 @@ class MyPage extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   child: Container(
-                                    height: 100,
+                                    height: getUiSize (70),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,23 +125,23 @@ class MyPage extends StatelessWidget {
                                         Image.asset(
                                           'images/sign_out_fill.png',
                                           fit: BoxFit.fill,
-                                          height: 40,
-                                          width: 40,
+                                          height: getUiSize (30),
+                                          width: getUiSize (30),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(width: getUiSize (8),),
                                         (controller.nickName == ""
                                             ? Text(
                                           '로그인',
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',
-                                              fontSize: 15.0,
+                                              fontSize: getUiSize (13),
                                               color: Color(0xff454f63)),
                                         )
                                             : Text(
                                           '로그아웃',
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',
-                                              fontSize: 15.0,
+                                              fontSize: getUiSize (13),
                                               color: Color(0xff454f63)),
                                         ))
                                       ],
@@ -155,7 +156,7 @@ class MyPage extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   child: Container(
-                                    height: 100,
+                                    height: getUiSize (70),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,21 +164,21 @@ class MyPage extends StatelessWidget {
                                         Image.asset(
                                           'images/notebook_fill.png',
                                           fit: BoxFit.fill,
-                                          height: 40,
-                                          width: 40,
+                                          height: getUiSize (30),
+                                          width: getUiSize (30),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(width: getUiSize (8),),
                                         Text(
                                           '버전정보',
                                           style: TextStyle(
                                               fontFamily: 'NanumRoundB',
-                                              fontSize: 15.0,
+                                              fontSize: getUiSize (13),
                                               color: Color(0xff454f63)),
                                         ),
                                         Expanded(child: Text(''), flex: 2),
                                         Container(
-                                          width: 180.0,
-                                          height: 36,
+                                          width: getUiSize (130),
+                                          height: getUiSize (30),
                                           // padding: const EdgeInsets.all(10.0),
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 1,color: Color(0xff78849e)),
@@ -192,7 +193,7 @@ class MyPage extends StatelessWidget {
                                                 Text("v ${controller.version}",
                                                   style: TextStyle(
                                                       fontFamily: 'NanumRoundB',
-                                                      fontSize: 12.0,
+                                                      fontSize: getUiSize (10),
                                                       color: Color(0xff454f63)),
                                                   textAlign: TextAlign.center,),
                                                 Expanded(child: Text(''), flex: 1),

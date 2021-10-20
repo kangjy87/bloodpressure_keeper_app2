@@ -46,7 +46,7 @@ class BpDetailInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -58,7 +58,7 @@ class BpDetailInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -70,7 +70,7 @@ class BpDetailInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -82,7 +82,7 @@ class BpDetailInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -94,7 +94,7 @@ class BpDetailInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -106,7 +106,7 @@ class BpDetailInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;

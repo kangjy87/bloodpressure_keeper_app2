@@ -11,24 +11,37 @@ class BpPageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 164.0,
+      height: getUiSize(110.5),
       // padding: EdgeInsets.fromLTRB(25, 25, 25, 25),
       width: double.infinity,
-      color: Colors.white,//Color(0xfffafafa),
+      color: Color(0xff131522), //Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
-              Image.asset(
-                'images/bp_main_top_bg.png',
-                // fit: BoxFit.fill,
-                height: 164.0,
-                width: double.infinity,
+              Container(
+                color: Color(0xff131522),
+                width: double.minPositive,
+                height: double.minPositive,
+              ),
+              Positioned(
+                right: getUiSize (0.4),
+                top: getUiSize (0.4),
+                child: FittedBox(
+                  child: Image.asset(
+                    'images/bp_main_top_bg.png',
+                    // fit: BoxFit.fill,
+                    height: getUiSize(125.5),
+                    width: getUiSize(245.5),
+                    fit: BoxFit.cover,
+                  ),
+                  fit: BoxFit.fill,
+                )
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(30, 30, getUiSize(110), 0),
-                height: 164.0,
+                padding: EdgeInsets.fromLTRB(30, 30, getUiSize(0), 0),
+                height: getUiSize(110.5),
                 width: double.infinity,
                 color: Colors.transparent,
                 child: Column(
@@ -38,7 +51,7 @@ class BpPageHeader extends StatelessWidget {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: 'NanumRoundB',
-                            fontSize: 14,
+                            fontSize: (isSmallSize() ? getUiSize(12) : getUiSize(11)),
                             height: 1.6,
                             color: Colors.white)),
                     // Text('반가워요~🖐🖐',

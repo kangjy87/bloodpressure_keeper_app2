@@ -1,4 +1,5 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/btns/bottom_fullsize_btn.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/msg_alert_dialog/onebutton_alert.dart';
 import 'package:bloodpressure_keeper_app/utils/app_colors.dart';
@@ -55,37 +56,58 @@ class BpDetailInfoPage extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Stack(
-                          children: [
-                            Image.asset(
-                              'images/self_bp_input_title.png',
-                              // fit: BoxFit.fill,
-                              height: 164.0,
-                              width: double.infinity,
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(220, 60, 0, 0),
-                              height: 164.0,
-                              width: double.infinity,
-                              color: Colors.transparent,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('혈압을 수정해주세요 :)',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontFamily: 'NanumRoundB',
-                                          fontSize: 14,
-                                          color: Colors.white)),
-                                ],
+                        Container(
+                          child: Stack(
+                            children: [
+                              Container(
+                                color: Color(0xff131522),
+                                width: double.infinity,
+                                height: getUiSize(97),
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                  left: getUiSize (0.4),
+                                  top: getUiSize (0.1),
+                                  child: Image.asset(
+                                    'images/self_bp_input_title.png',
+                                    // fit: BoxFit.fill,
+                                    height: getUiSize(110),
+                                    width: getUiSize(280.5),
+                                    fit: BoxFit.fill,
+                                  )
+                              ),
+
+                              // Image.asset(
+                              //   'images/self_bp_input_title.png',
+                              //   // fit: BoxFit.fill,
+                              //   height: 164.0,
+                              //   width: double.infinity,
+                              //   fit: BoxFit.fill,
+                              // ),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(getUiSize(0), 30, 30, 0),
+                                height: getUiSize(110.5),
+                                width: double.infinity,
+                                color: Colors.transparent,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text('혈압을 수정해주세요 :)',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontFamily: 'NanumRoundB',
+                                            fontSize: (isSmallSize() ? getUiSize(12) : getUiSize(11)),
+                                            color: Colors.white)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(height: 10,),
                         Container(
-                          width: 290.0,
-                          height: 45,
+                          width: getUiSize(240),
+                          height: getUiSize(40),
                           // padding: const EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
@@ -101,16 +123,16 @@ class BpDetailInfoPage extends StatelessWidget {
                                     :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(controller.data.rData!))} ",
                                   style: TextStyle(
                                       fontFamily: 'NanumRoundB',
-                                      fontSize: 14.0,
+                                      fontSize: getUiSize(12),
                                       color: Color(0xff78849e)),
                                   textAlign: TextAlign.center,),
                                 Expanded(child: Text(''), flex: 1),
                                 Text("${controller.data.weatherTemp} ",style: TextStyle(
                                     fontFamily: 'NanumRoundB',
-                                    fontSize: 14.0,
+                                    fontSize: getUiSize(12),
                                     color: Color(0xff78849e)),
                                   textAlign: TextAlign.center,),
-                                Visibility(visible: controller.data.weatherImg != '',child: Image.asset(controller.data.weatherImg!, width: 30, height: 30,),),
+                                Visibility(visible: controller.data.weatherImg != '',child: Image.asset(controller.data.weatherImg!, width: getUiSize(27), height: getUiSize(27),),),
                                 Expanded(child: Text(''), flex: 1),
                               ],
                             ),
@@ -121,20 +143,20 @@ class BpDetailInfoPage extends StatelessWidget {
                          * 수축혈압
                          */
                         Container(
-                          height: 80.0,
-                          padding: EdgeInsets.fromLTRB(10, 0, 20, 00),
+                          height: getUiSize(53),
+                          padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Image.asset(
                                 'images/main_sys_icon.png',
-                                height: 55,
-                                width: 55,
+                                height: getUiSize(39),
+                                width: getUiSize(39),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: getUiSize(6)),
                               SizedBox(
-                                width: 80,
+                                width: getUiSize(60),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,14 +165,14 @@ class BpDetailInfoPage extends StatelessWidget {
                                       '수축기 혈압',
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundEB',
-                                          fontSize: 15.0,
+                                          fontSize: getUiSize(10.5),
                                           color: Colors.black),
                                     ),
                                     Text(
                                       'SYS/mmHg',
                                       style: TextStyle(
                                         fontFamily: 'NanumRoundEB',
-                                        fontSize: 12.0,
+                                        fontSize: getUiSize(8),
                                         color: Color(0xff78849e),
                                       ),
                                     )
@@ -168,23 +190,29 @@ class BpDetailInfoPage extends StatelessWidget {
                               //   ),
                               Expanded(
                                 child: SizedBox(
-                                  height: 50,
+                                  height: getUiSize(33),
                                   child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      // ignore: deprecated_member_use
-                                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
-                                      controller: controller.resultSys,
-                                      style: TextStyle(fontSize: 17,height: 1),
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(32.0)),
-                                        // labelText: '수축기혈압',
-                                      ),
-                                      textInputAction: TextInputAction.next,
-                                      onFieldSubmitted: (v){
-                                        FocusScope.of(context).requestFocus(controller.focusDia);
-                                        },),
+                                    // autovalidateMode: AutovalidateMode.always,
+                                    // validator : (String? value) {
+                                    //   return (value != null && int.parse(value) > 200)
+                                    //       ? '혈압지수가 너무 높습니다.' : null ;
+                                    // },
+                                    keyboardType: TextInputType.number,
+                                    // ignore: deprecated_member_use
+                                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                    controller: controller.resultSys,
+                                    style: TextStyle(fontSize: getUiSize(12),height: 1),
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(32.0)),
+                                      // labelText: '수축기혈압',
+                                    ),
+                                    textInputAction: TextInputAction.next,
+                                    onFieldSubmitted: (v){
+                                      FocusScope.of(context).requestFocus(controller.focusDia);
+                                    },
+                                  ),
                                 ),
                                 flex: 3,
                               ),
@@ -195,20 +223,20 @@ class BpDetailInfoPage extends StatelessWidget {
                          * 이완기 혈압
                          */
                         Container(
-                          height: 80.0,
-                          padding: EdgeInsets.fromLTRB(10, 0, 20, 00),
+                          height: getUiSize(53),
+                          padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Image.asset(
                                 'images/main_dia_icon.png',
-                                height: 55,
-                                width: 55,
+                                height: getUiSize(39),
+                                width: getUiSize(39),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: getUiSize(6)),
                               SizedBox(
-                                width: 80,
+                                width: getUiSize(60),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -217,14 +245,14 @@ class BpDetailInfoPage extends StatelessWidget {
                                       '이완기 혈압',
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundEB',
-                                          fontSize: 15.0,
+                                          fontSize: getUiSize(10.5),
                                           color: Colors.black),
                                     ),
                                     Text(
                                       'DIA/mmHg',
                                       style: TextStyle(
                                         fontFamily: 'NanumRoundEB',
-                                        fontSize: 12.0,
+                                        fontSize: getUiSize(8),
                                         color: Color(0xff78849e),
                                       ),
                                     )
@@ -234,24 +262,30 @@ class BpDetailInfoPage extends StatelessWidget {
                               Expanded(child: Text(''), flex: 1),
                               Expanded(
                                 child: SizedBox(
-                                  height: 50,
+                                  height: getUiSize(33),
                                   child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      // ignore: deprecated_member_use
-                                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
-                                      textAlign: TextAlign.center,
-                                      controller: controller.resultDia,
-                                      style: TextStyle(fontSize: 17,height: 1),
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(32.0)),
-                                        // labelText: '이완기혈압',
-                                      ),
-                                      textInputAction: TextInputAction.next,
-                                      focusNode: controller.focusDia,
-                                      onFieldSubmitted: (v){
-                                        FocusScope.of(context).requestFocus(controller.focusPul);
-                                        },),
+                                    // autovalidateMode: AutovalidateMode.always,
+                                    // validator : (String? value) {
+                                    //   return (value != null && int.parse(value) > 200)
+                                    //       ? '혈압지수가 너무 높습니다.' : null ;
+                                    // },
+                                    keyboardType: TextInputType.number,
+                                    // ignore: deprecated_member_use
+                                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                    textAlign: TextAlign.center,
+                                    controller: controller.resultDia,
+                                    style: TextStyle(fontSize: getUiSize(12),height: 1),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(32.0)),
+                                      // labelText: '이완기혈압',
+                                    ),
+                                    textInputAction: TextInputAction.next,
+                                    focusNode: controller.focusDia,
+                                    onFieldSubmitted: (v){
+                                      FocusScope.of(context).requestFocus(controller.focusPul);
+                                    },
+                                  ),
                                 ),
                                 flex: 3,
                               ),
@@ -262,20 +296,20 @@ class BpDetailInfoPage extends StatelessWidget {
                          * 심박수
                          */
                         Container(
-                          height: 80.0,
-                          padding: EdgeInsets.fromLTRB(10, 0, 20, 00),
+                          height: getUiSize(53),
+                          padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Image.asset(
                                 'images/main_pul_icon.png',
-                                height: 55,
-                                width: 55,
+                                height: getUiSize(39),
+                                width: getUiSize(39),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: getUiSize(6)),
                               SizedBox(
-                                width: 80,
+                                width: getUiSize(60),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -284,14 +318,14 @@ class BpDetailInfoPage extends StatelessWidget {
                                       '심박수',
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundEB',
-                                          fontSize: 15.0,
+                                          fontSize: getUiSize(10.5),
                                           color: Colors.black),
                                     ),
                                     Text(
                                       'PUL/min',
                                       style: TextStyle(
                                         fontFamily: 'NanumRoundEB',
-                                        fontSize: 12.0,
+                                        fontSize: getUiSize(8),
                                         color: Color(0xff78849e),
                                       ),
                                     )
@@ -301,24 +335,30 @@ class BpDetailInfoPage extends StatelessWidget {
                               Expanded(child: Text(''), flex: 1),
                               Expanded(
                                 child: SizedBox(
-                                  height: 50,
+                                  height: getUiSize(33),
                                   child: TextFormField(
-                                      controller: controller.resultPul,
-                                      style: TextStyle(fontSize: 17,height: 1),
-                                      keyboardType: TextInputType.number,
-                                      // ignore: deprecated_member_use
-                                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(32.0)),
-                                        // labelText: '심박수혈압',
-                                      ),
-                                      textInputAction: TextInputAction.next,
-                                      focusNode: controller.focusPul,
-                                      onFieldSubmitted: (v){
-                                        FocusScope.of(context).requestFocus(controller.focusMemo);
-                                        },),
+                                    // autovalidateMode: AutovalidateMode.always,
+                                    // validator : (String? value) {
+                                    //   return (value != null && int.parse(value) > 200)
+                                    //       ? '혈압지수가 너무 높습니다.' : null ;
+                                    // },
+                                    controller: controller.resultPul,
+                                    style: TextStyle(fontSize: getUiSize(12),height: 1),
+                                    keyboardType: TextInputType.number,
+                                    // ignore: deprecated_member_use
+                                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(32.0)),
+                                      // labelText: '심박수혈압',
+                                    ),
+                                    textInputAction: TextInputAction.next,
+                                    focusNode: controller.focusPul,
+                                    onFieldSubmitted: (v){
+                                      FocusScope.of(context).requestFocus(controller.focusMemo);
+                                    },
+                                  ),
                                 ),
                                 flex: 3,
                               ),
@@ -330,7 +370,7 @@ class BpDetailInfoPage extends StatelessWidget {
                          */
                         Container(
                           // height: 80.0,
-                            padding: EdgeInsets.fromLTRB(10, 0, 20, 20),
+                            padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -339,12 +379,12 @@ class BpDetailInfoPage extends StatelessWidget {
                                   children: [
                                     Image.asset(
                                       'images/memo_icon.png',
-                                      height: 55,
-                                      width: 55,
+                                      height: getUiSize(39),
+                                      width: getUiSize(39),
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: getUiSize(6)),
                                     SizedBox(
-                                        width: 80,
+                                        width: getUiSize(90),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -353,14 +393,14 @@ class BpDetailInfoPage extends StatelessWidget {
                                               '메모',
                                               style: TextStyle(
                                                   fontFamily: 'NanumRoundEB',
-                                                  fontSize: 15.0,
+                                                  fontSize: getUiSize(10.5),
                                                   color: Colors.black),
                                             ),
                                             Text(
                                               '선택사항',
                                               style: TextStyle(
                                                 fontFamily: 'NanumRoundEB',
-                                                fontSize: 12.0,
+                                                fontSize: getUiSize(8),
                                                 color: Color(0xff78849e),
                                               ),
                                             )
@@ -378,17 +418,17 @@ class BpDetailInfoPage extends StatelessWidget {
                                       //   return (value != null && value ==  '')
                                       //       ? '메모을 입력해주세요.' : null ;
                                       // },
-                                        controller: controller.resultMemo,
-                                        minLines: 4,
-                                        maxLines: 40,
-                                        textAlign: TextAlign.left,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(32.0)),
-                                            labelText: '예) 컨디션 좋음',
-                                            labelStyle: TextStyle(fontSize: 13)),
-                                        textInputAction: TextInputAction.done,
-                                        focusNode: controller.focusMemo,
+                                      controller: controller.resultMemo,
+                                      minLines: 4,
+                                      maxLines: 40,
+                                      textAlign: TextAlign.left,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(32.0)),
+                                          labelText: '예) 컨디션 좋음',
+                                          labelStyle: TextStyle(fontSize: getUiSize(12))),
+                                      textInputAction: TextInputAction.done,
+                                      focusNode: controller.focusMemo,
                                     )
                                 ),
                               ],
@@ -401,7 +441,7 @@ class BpDetailInfoPage extends StatelessWidget {
                * 등록버튼
                */
               BottomFullSizeBtn(
-                  text: '햘압수정',
+                  text: '혈압수정',
                   textColor: Colors.white,
                   backgroundColor: Color(AppColors.colorBtnActivate),
                   setonclicklistener: () {

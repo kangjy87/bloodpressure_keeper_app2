@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefKey {
   static const CURATOR9_TOKEN = "qurator9_token";
   static const AUTH_TOKEN = "auth_token";
+  static const C9_KEY = 'bloodpressure' ;
 }
 
 class SharedPrefUtil {

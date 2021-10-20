@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 class MyPageTitle extends StatelessWidget {
   final String email ;
@@ -17,7 +18,7 @@ class MyPageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230.0,
+      height:getUiSize (150),
       width: double.infinity,
       color: Color(0xff131523),
       child: Column(
@@ -30,17 +31,17 @@ class MyPageTitle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: getUiSize(4),
                   ),
                   Text(
                     '마이',
                     style: TextStyle(
                         fontFamily: 'NanumRoundB',
-                        fontSize: 18,
+                        fontSize: (isSmallSize() ? getUiSize(15) : getUiSize(12)),
                         color: Colors.white),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: getUiSize(14),
                   ),
                   // Container(
                   //   width: double.infinity,
@@ -57,11 +58,11 @@ class MyPageTitle extends StatelessWidget {
               //   height: 40,
               //   width: 40,
               // ),
-              SizedBox(width: 25,),
+              SizedBox(width: getUiSize (11),),
               Text(
                 "${email}",
                 style: TextStyle(
-                    fontFamily: 'NanumRoundL', fontSize: 15, color: Colors.white),
+                    fontFamily: 'NanumRoundL', fontSize: getUiSize (12), color: Colors.white),
               ),
             ],
           ),
@@ -76,7 +77,7 @@ class MyPageTitle extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Container(
                   width: double.infinity,
-                  height: 107,
+                  height: getUiSize(80),
                   // padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -84,15 +85,26 @@ class MyPageTitle extends StatelessWidget {
                     borderRadius: BorderRadius.circular(9.0),
                   ),
                   child: Center(
-                    child: Row(
+                    child: Stack(
                       children: [
+                        Positioned(
+                            right: getUiSize (0.4),
+                            top: getUiSize (15.4),
+                            child: Image.asset(
+                              'images/my_menu_title.png',
+                              // fit: BoxFit.fill,
+                              height: getUiSize(65),
+                              width: getUiSize(100.5),
+                              fit: BoxFit.fill,
+                            )
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 25,),
+                            SizedBox(height: getUiSize (14),),
                             Row(
                               children: [
-                                SizedBox(width: 20,),
+                                SizedBox(width: getUiSize (10),),
                                 Container(
                                   // padding: EdgeInsets.fromLTRB(9, 10, 10, 0),
                                   child:  Text(
@@ -100,7 +112,7 @@ class MyPageTitle extends StatelessWidget {
                                     style: TextStyle(
                                       // decoration: TextDecoration.underline,
                                         fontFamily: 'NanumRoundEB',
-                                        fontSize: 14.0,
+                                        fontSize: getUiSize (10.4),
                                         color: Color(0xff0057fb)),
                                   ),
                                 ),
@@ -108,14 +120,14 @@ class MyPageTitle extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                SizedBox(width: 20,),
+                                SizedBox(width: getUiSize (10),),
                                 Container(
-                                    // padding: EdgeInsets.fromLTRB(14, 0, 0, 0),
+                                  // padding: EdgeInsets.fromLTRB(14, 0, 0, 0),
                                     child:  Text(
-                                      '지키미가 항상 당신을 응원해요!',
+                                      '혈압 매니저가 항상 당신을 응원해요!',
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundEB',
-                                          fontSize: 14.0,
+                                          fontSize: getUiSize (10.4),
                                           color: Color(0xff131523)),
                                     )
                                 ),
@@ -123,14 +135,6 @@ class MyPageTitle extends StatelessWidget {
                             )
                           ],
                         ),
-                        Expanded(
-                            child: Image.asset(
-                              'images/my_menu_title.png',
-                              height: double.infinity,
-                              width: double.infinity,
-                              fit: BoxFit.fill
-                            ),
-                            flex: 1),
                       ],
                     ),
                   ),

@@ -9,7 +9,7 @@ Future<String> getHeaderText(BloodPressureItem? toDayBPData,bool? latelyDatachec
   if(toDayBPData == null){
     if(latelyDatacheck == true){
       selectList = <String>[
-        '반가워요~🖐\n저는 당신만의 혈압지키미예요!\n오늘의 혈압을 기록해주세요. ',
+        '반가워요~🖐\n저는 당신만의 혈압매니저예요!\n오늘의 혈압을 기록해주세요. ',
         '오늘 혈압 아직 기록하지 않았네요.\n혈압 관리는 꾸준함이 중요해요!👀'
       ];
     }else{
@@ -31,7 +31,7 @@ Future<String> getHeaderText(BloodPressureItem? toDayBPData,bool? latelyDatachec
       case 0 :
         if(latelyDatacheck == false){
           selectList = <String>[
-            '반가워요~🖐\n저는 당신만의 혈압지키미예요!\n오늘의 혈압을 기록해주세요. ',
+            '반가워요~🖐\n저는 당신만의 혈압매니저예요!\n오늘의 혈압을 기록해주세요. ',
             '오늘 혈압 아직 기록하지 않았네요.\n혈압 관리는 꾸준함이 중요해요!👀'
           ];
         }else{

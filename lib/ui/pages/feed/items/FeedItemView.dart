@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/MediaInfo.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/ContentsUtil.dart';
@@ -78,11 +79,25 @@ class FeedItemView extends StatelessWidget {
     List<double> _stops = [0.6, 0.9];
 
     String? _userThumbnailURL = dto!.article_owner!.thumbnail_url;
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
+    print('1>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
     if (_userThumbnailURL == null || _userThumbnailURL.isEmpty) _userThumbnailURL = "";
 
     String strContents = '${(dto!.hashtag == null || dto!.hashtag == '')? dto!.contents! : dto!.hashtag!}';
-
+    String strSnsImg = 'images/sns_youtube_icon.png' ;
+    String? strPlatform = dto!.article_owner!.platform ;
+    if(strPlatform != null){
+      switch(strPlatform){
+        case 'youtube' :
+          strSnsImg = 'images/sns_youtube_icon.png' ;
+          break ;
+        case 'instagram' :
+          strSnsImg = 'images/sns_instar_icon.png' ;
+          break ;
+        case 'naver-blog' :
+          strSnsImg = 'images/sns_blog_icon.png' ;
+          break ;
+      }
+    }
     return Container (
         child : InkWell (
           onTap: onTap,
@@ -90,13 +105,11 @@ class FeedItemView extends StatelessWidget {
             children: [
               Stack (
                 children: [
-
                   ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Container (
                         child: Stack (
                           children: [
-
                             /** 썸네일 */
                             Container(
                               // height: _mediaInfo.height,
@@ -153,16 +166,22 @@ class FeedItemView extends StatelessWidget {
                               top: getUiSize (6.3),
                               child: Image.asset(dto!.is_favorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, height: getUiSize(15.5),width: getUiSize(15.5),),
                             ),
+                            /** 플랫폼 아이콘**/
+                            Positioned(
+                              left: getUiSize (6.3),
+                              bottom: getUiSize (6.3),
+                              child: Image.asset(strSnsImg, height: getUiSize(15.5),width: getUiSize(15.5),),
+                            ),
                           ],
                         ),
                       )
                   ),
                 ],
               ),
-              SizedBox(height: 5,),
+              SizedBox(height: getUiSize (3),),
               Row(
                 children: [
-                  SizedBox (width: 3,),
+                  SizedBox (width: getUiSize (2.5),),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: CachedNetworkImage (
@@ -170,57 +189,55 @@ class FeedItemView extends StatelessWidget {
                       height: getUiSize(25),
                       imageUrl: _userThumbnailURL,
                       placeholder: (context, url) => Container(
-                        width: 20,
-                        height: 20,
+                        width: getUiSize (25),
+                        height: getUiSize (25),
                         color: Colors.transparent,
-                        child: Image.asset(Images.img_no_profile),
+                        child: Image.asset(Images.img_no_profile,width: getUiSize (25), height: getUiSize (25),),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        width: 20,
-                        height: 20,
+                        width: getUiSize (25),
+                        height: getUiSize (25),
                         color: Colors.transparent,
-                        child: Image.asset(Images.img_no_profile),
+                        child: Image.asset(Images.img_no_profile,width: getUiSize (25), height: getUiSize (25),),
                       ),
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox (width: 11,),
+                  SizedBox (width: getUiSize (6),),
                   Container (
-                    width: Get.width / 3,
+                    width: Get.width / getUiSize(isSmallSize()? 3 : 2.2),
+                    // color: Colors.red,
                     // padding: const EdgeInsets.all(1),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        Text (
-                          dto!.article_owner!.name!,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle (
-                            color: Color (0xFF2a2a2a),
-                            fontFamily: Font.NotoSansCJKkrRegular,
-                            fontSize: getUiSize(11),
-                          ),
-                        )
-
-                      ],
+                    padding: EdgeInsets.only(left: getUiSize(0), right: getUiSize(3), top: getUiSize(1),bottom: getUiSize(1)),
+                    child: Text (
+                      // dto!.article_owner!.name!.length > 9 ? ('${dto!.article_owner!.name!.substring(0,8)}...') : dto!.article_owner!.name!,
+                      dto!.article_owner!.name!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle (
+                        color: Color (0xFF2a2a2a),
+                        fontFamily: Font.NotoSansCJKkrRegular,
+                        fontSize: getUiSize(11),
+                      ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 5,),
+              SizedBox(height: getUiSize (1),),
+              if(strContents.length > 0)
               Container(
-                padding: const EdgeInsets.all(8),
-                child: Text('${strContents}',maxLines: 2,overflow: TextOverflow.ellipsis),
+                // padding: EdgeInsets.all(getUiSize(8)),
+                padding: EdgeInsets.only(left: getUiSize(8), right: getUiSize(8), top: getUiSize(2),bottom: getUiSize(2)),
+                child: Text('${strContents}',maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: getUiSize(10)),),
               ),
-              SizedBox(height: 7,),
+              SizedBox(height: getUiSize (2),),
               /** 별점 */
               Row (
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(width: 10,),
-                  Image.asset(AppIcons.ic_heart2, height: getUiSize(13.2),width: getUiSize(14.5),),
+                  SizedBox(width: getUiSize (5),),
+                  Image.asset(AppIcons.ic_heart2, height: getUiSize(10.2),width: getUiSize(11.5),),
                   SizedBox (width: getUiSize(2.5),),
                   Text (
                       FormatUtil.numberWithComma(dto!.article_detail  == null ? 0 : dto!.article_detail!.like!),
@@ -229,11 +246,14 @@ class FeedItemView extends StatelessWidget {
                           //fontFamily: Font.NotoSansCJKkrRegular,
                           fontSize: getUiSize(9)
                       )
+                  ),
+                  SizedBox(
+                    width: 5,
                   )
 
                 ],
               ),
-              SizedBox(height: 14,),
+              SizedBox(height: getUiSize (6),),
             ],
           )
         ),

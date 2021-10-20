@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 
 class RadioImgBtn extends StatelessWidget {
@@ -29,15 +30,15 @@ class RadioImgBtn extends StatelessWidget {
           children: [
             Image.asset(
               nowIndex == index ? selectImgRoute : unselectedImgRoute,
-              height: 155,
-              width: 155,
+              height: getUiSize(110),
+              width: getUiSize(110),
             ),
-            SizedBox(height : 20),
+            SizedBox(height : getUiSize(16)),
             Text(
               title,
               style: TextStyle(
                   fontFamily: 'NanumRoundB',
-                  fontSize: 13.8,
+                  fontSize: getUiSize(11),
                   color: Color(0xff454f63)),
             )
           ],

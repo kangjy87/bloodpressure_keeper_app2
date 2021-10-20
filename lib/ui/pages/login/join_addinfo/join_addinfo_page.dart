@@ -1,4 +1,5 @@
 import 'package:bloodpressure_keeper_app/ui/pages/dashboard/dashboard_page.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/msg_alert_dialog/onebutton_alert.dart';
 import 'package:bloodpressure_keeper_app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class JoinAddInfoPage extends StatelessWidget {
           //   },
           //   // icon: Icon(Icons.arrow_back, color: Colors.black),
           // ),
-          toolbarHeight: 228,
+          toolbarHeight: getUiSize(170),
           title: JoinAddInfoTitle(
             firstTitle: controller.firstTitle,
             secondTitle: controller.secondTitle,

@@ -5,6 +5,7 @@
 
 import 'dart:ui';
 
+import 'package:bloodpressure_keeper_app/ui/pages/dashboard/dashboard_controller.dart';
 import 'package:bloodpressure_keeper_app/ui/routes/app_routes.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/btns/bottom_fullsize_btn.dart';
 import 'package:bloodpressure_keeper_app/utils/app_colors.dart';
@@ -25,6 +26,8 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/items/FeedItemView.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/components/TitleView.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/items/FeedItemViewForHome.dart';
+
+import 'common/common_ui.dart';
 // import 'package:flutter_statusbar_manager/flutter_statusbar_manager.dart';
 // // @dart=2.8
 // import 'package:flutter_tags/flutter_tags.dart';
@@ -45,6 +48,7 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DashboardController());
     // Future.delayed(Duration.zero, ()=> Get.find<HomeController>().setTitle(AppTranslation.tab_title_3.tr));
     // GeneralUtils.setStatusBar(StatusBarStyle.DARK_CONTENT, true);
     return BaseScaffold (
@@ -68,7 +72,7 @@ class FeedPage extends StatelessWidget {
                     "소식",
                     style: TextStyle(
                         fontFamily: 'NanumRoundB',
-                        fontSize: 18,
+                        fontSize: (isSmallSize() ? getUiSize(15) : getUiSize(12)),
                         color: Color(0xff454f63)),
                   )
                 ],
@@ -93,221 +97,222 @@ class FeedPage extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
-                  showModalBottomSheet(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      context: context,
-                      builder: (context) {
-                        return GetBuilder<FeedController>(
-                          init: FeedController(),
-                          builder: (controller) =>
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center,
-                                    children: [
-                                      Container(
-                                        padding:
-                                        EdgeInsets.only(left: 0,
-                                            top: 10,
-                                            right: 0,
-                                            bottom: 10),
-                                        child: Image.asset(
-                                          'images/sns_popup_topbtn.png',
-                                          width: 40,
-                                          height: 10,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.fromLTRB(
-                                          0, 10, 0, 20),
-                                      child: Text('SNS 필터',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'NanumRoundEB',
-                                              color: Color(0xff454f63)))),
-                                  Container(color: Color(0xff454f63),
-                                    width: double.infinity,
-                                    height: 1,),
-                                  GestureDetector(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 58,
-                                      padding: EdgeInsets.fromLTRB(
-                                          0, 10, 0, 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .center,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 0, 20, 0),
-                                            width: 40,
-                                            height: 30,
-                                            child: Visibility(
-                                              visible: controller.snsInstar.isTrue,
-                                              child: Image.asset(
-                                                'images/sns_checked.png',
-                                                width: 30,
-                                                height: 30,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 100,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .center,
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                Text('인스타그램',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontFamily: 'NanumRoundR',
-                                                        color: Color(0xff5a5d64))),
-                                              ],
-                                            )
-                                          ),
-                                          SizedBox(
-                                            width: 40,
-                                            height: 30,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      controller.setSnsInStar();
-                                    },
-                                  ),
-                                  Container(color: Color(0xffa0a5b1),
-                                    width: double.infinity,
-                                    height: 1,),
-                                  GestureDetector(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 58,
-                                      padding: EdgeInsets.fromLTRB(
-                                          0, 10, 0, 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .center,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 0, 20, 0),
-                                            width: 40,
-                                            height: 30,
-                                            child: Visibility(
-                                              visible: controller.snsYoutube.isTrue,
-                                              child: Image.asset(
-                                                'images/sns_checked.png',
-                                                width: 30,
-                                                height: 30,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 100,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .center,
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                Text('유튜브',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontFamily: 'NanumRoundR',
-                                                        color: Color(0xff5a5d64)))
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 40,
-                                            height: 30,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      controller.setSnsYoutube();
-                                    },
-                                  ),
-                                  Container(color: Color(0xffa0a5b1),
-                                    width: double.infinity,
-                                    height: 1,),
-                                  GestureDetector(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 58,
-                                      padding: EdgeInsets.fromLTRB(
-                                          0, 10, 0, 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .center,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 0, 20, 0),
-                                            width: 40,
-                                            height: 30,
-                                            child: Visibility(
-                                              visible: controller.snsNaver.isTrue,
-                                              child: Image.asset(
-                                                'images/sns_checked.png',
-                                                width: 30,
-                                                height: 30,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(width: 100,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .center,
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                              Text('네이버 블로그',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'NanumRoundR',
-                                                    color: Color(0xff5a5d64)))],),),
-                                          SizedBox(
-                                            width: 40,
-                                            height: 30,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      controller.setSnsNaver();
-                                    },
-                                  ),
-                                  BottomFullSizeBtn(
-                                      text: '선택완료',
-                                      textColor: Colors.white,
-                                      backgroundColor: Color(
-                                          AppColors.colorBtnActivate),
-                                      setonclicklistener: () {
-                                        controller.snsCheckedSetting();
-                                      })
-                                ],
-                              ),
-                        );
-                      });
+                  _filterShowModalBottomSheetStep();
+                  // showModalBottomSheet(
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return GetBuilder<FeedController>(
+                  //         init: FeedController(),
+                  //         builder: (controller) =>
+                  //             Column(
+                  //               mainAxisSize: MainAxisSize.min,
+                  //               children: <Widget>[
+                  //                 Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.center,
+                  //                   crossAxisAlignment: CrossAxisAlignment
+                  //                       .center,
+                  //                   children: [
+                  //                     Container(
+                  //                       padding:
+                  //                       EdgeInsets.only(left: 0,
+                  //                           top: 10,
+                  //                           right: 0,
+                  //                           bottom: 10),
+                  //                       child: Image.asset(
+                  //                         'images/sns_popup_topbtn.png',
+                  //                         width: 40,
+                  //                         height: 10,
+                  //                       ),
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //                 Container(
+                  //                     padding: EdgeInsets.fromLTRB(
+                  //                         0, 10, 0, 20),
+                  //                     child: Text('SNS 필터',
+                  //                         style: TextStyle(
+                  //                             fontSize: 14,
+                  //                             fontFamily: 'NanumRoundEB',
+                  //                             color: Color(0xff454f63)))),
+                  //                 Container(color: Color(0xff454f63),
+                  //                   width: double.infinity,
+                  //                   height: 1,),
+                  //                 GestureDetector(
+                  //                   child: Container(
+                  //                     width: double.infinity,
+                  //                     height: 58,
+                  //                     padding: EdgeInsets.fromLTRB(
+                  //                         0, 10, 0, 10),
+                  //                     child: Row(
+                  //                       mainAxisAlignment: MainAxisAlignment
+                  //                           .center,
+                  //                       crossAxisAlignment: CrossAxisAlignment
+                  //                           .center,
+                  //                       children: [
+                  //                         Container(
+                  //                           padding: EdgeInsets.fromLTRB(
+                  //                               0, 0, 20, 0),
+                  //                           width: 40,
+                  //                           height: 30,
+                  //                           child: Visibility(
+                  //                             visible: controller.snsInstar.isTrue,
+                  //                             child: Image.asset(
+                  //                               'images/sns_checked.png',
+                  //                               width: 30,
+                  //                               height: 30,
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                         SizedBox(
+                  //                           width: 100,
+                  //                           child: Row(
+                  //                             mainAxisAlignment: MainAxisAlignment
+                  //                                 .center,
+                  //                             crossAxisAlignment: CrossAxisAlignment
+                  //                                 .center,
+                  //                             children: [
+                  //                               Text('인스타그램',
+                  //                                   style: TextStyle(
+                  //                                       fontSize: 14,
+                  //                                       fontFamily: 'NanumRoundR',
+                  //                                       color: Color(0xff5a5d64))),
+                  //                             ],
+                  //                           )
+                  //                         ),
+                  //                         SizedBox(
+                  //                           width: 40,
+                  //                           height: 30,
+                  //                         )
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   onTap: (){
+                  //                     controller.setSnsInStar();
+                  //                   },
+                  //                 ),
+                  //                 Container(color: Color(0xffa0a5b1),
+                  //                   width: double.infinity,
+                  //                   height: 1,),
+                  //                 GestureDetector(
+                  //                   child: Container(
+                  //                     width: double.infinity,
+                  //                     height: 58,
+                  //                     padding: EdgeInsets.fromLTRB(
+                  //                         0, 10, 0, 10),
+                  //                     child: Row(
+                  //                       mainAxisAlignment: MainAxisAlignment
+                  //                           .center,
+                  //                       crossAxisAlignment: CrossAxisAlignment
+                  //                           .center,
+                  //                       children: [
+                  //                         Container(
+                  //                           padding: EdgeInsets.fromLTRB(
+                  //                               0, 0, 20, 0),
+                  //                           width: 40,
+                  //                           height: 30,
+                  //                           child: Visibility(
+                  //                             visible: controller.snsYoutube.isTrue,
+                  //                             child: Image.asset(
+                  //                               'images/sns_checked.png',
+                  //                               width: 30,
+                  //                               height: 30,
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                         SizedBox(
+                  //                           width: 100,
+                  //                           child: Row(
+                  //                             mainAxisAlignment: MainAxisAlignment
+                  //                                 .center,
+                  //                             crossAxisAlignment: CrossAxisAlignment
+                  //                                 .center,
+                  //                             children: [
+                  //                               Text('유튜브',
+                  //                                   style: TextStyle(
+                  //                                       fontSize: 14,
+                  //                                       fontFamily: 'NanumRoundR',
+                  //                                       color: Color(0xff5a5d64)))
+                  //                             ],
+                  //                           ),
+                  //                         ),
+                  //                         SizedBox(
+                  //                           width: 40,
+                  //                           height: 30,
+                  //                         )
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   onTap: (){
+                  //                     controller.setSnsYoutube();
+                  //                   },
+                  //                 ),
+                  //                 Container(color: Color(0xffa0a5b1),
+                  //                   width: double.infinity,
+                  //                   height: 1,),
+                  //                 GestureDetector(
+                  //                   child: Container(
+                  //                     width: double.infinity,
+                  //                     height: 58,
+                  //                     padding: EdgeInsets.fromLTRB(
+                  //                         0, 10, 0, 10),
+                  //                     child: Row(
+                  //                       mainAxisAlignment: MainAxisAlignment
+                  //                           .center,
+                  //                       crossAxisAlignment: CrossAxisAlignment
+                  //                           .center,
+                  //                       children: [
+                  //                         Container(
+                  //                           padding: EdgeInsets.fromLTRB(
+                  //                               0, 0, 20, 0),
+                  //                           width: 40,
+                  //                           height: 30,
+                  //                           child: Visibility(
+                  //                             visible: controller.snsNaver.isTrue,
+                  //                             child: Image.asset(
+                  //                               'images/sns_checked.png',
+                  //                               width: 30,
+                  //                               height: 30,
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                         SizedBox(width: 100,
+                  //                           child: Row(
+                  //                             mainAxisAlignment: MainAxisAlignment
+                  //                                 .center,
+                  //                             crossAxisAlignment: CrossAxisAlignment
+                  //                                 .center,
+                  //                             children: [
+                  //                             Text('네이버 블로그',
+                  //                               style: TextStyle(
+                  //                                   fontSize: 14,
+                  //                                   fontFamily: 'NanumRoundR',
+                  //                                   color: Color(0xff5a5d64)))],),),
+                  //                         SizedBox(
+                  //                           width: 40,
+                  //                           height: 30,
+                  //                         )
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   onTap: (){
+                  //                     controller.setSnsNaver();
+                  //                   },
+                  //                 ),
+                  //                 BottomFullSizeBtn(
+                  //                     text: '선택완료',
+                  //                     textColor: Colors.white,
+                  //                     backgroundColor: Color(
+                  //                         AppColors.colorBtnActivate),
+                  //                     setonclicklistener: () {
+                  //                       controller.snsCheckedSetting();
+                  //                     })
+                  //               ],
+                  //             ),
+                  //       );
+                  //     });
                 },
               ),
             )
@@ -369,7 +374,6 @@ class FeedPage extends StatelessWidget {
                   ),
 
                   SizedBox(height: getUiSize(5.8),),
-
                   Expanded(
                       child: SingleChildScrollView (
                         controller: controller.scrollController,
@@ -386,8 +390,7 @@ class FeedPage extends StatelessWidget {
                           ),
                         ),
                       )
-                  )
-
+                  ),
                 ],
               ),
               onRefresh: () => controller.refreshFeeds (true)
@@ -429,31 +432,34 @@ class FeedPage extends StatelessWidget {
         height: 600,
       );
     }
-
-    return StaggeredGridView.countBuilder(
-      shrinkWrap: true,
-      // controller: controller.scrollController,
-      physics: NeverScrollableScrollPhysics (),
-      primary: false,
-      key: PageStorageKey ("fuckedOne"),
-      padding: EdgeInsets.symmetric(horizontal: Constants.feed_tab_horizontal_padding),
-      crossAxisCount: 4,
-      itemCount: controller.list.length,
-      itemBuilder: (BuildContext context, int index) => FeedItemView (
-        dto: controller.list[index], index: index,
-        onTap: () {
-          // if (controller.searchFocusNode.hasFocus) {
-          //   _unFocus (context);
-          // } else {
-          print('>>>>>>>>>${controller.list[index].title}');
-            Get.toNamed(AppRoutes.FeedDetailPage, arguments: controller.list[index]); /** 상세페이지로!! */
-          // }
-        },
-      ),
-      staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
-      mainAxisSpacing: getUiSize(2.2),
-      crossAxisSpacing: getUiSize(2.2),
-    );
+    return Obx((){
+      return StaggeredGridView.countBuilder(
+        shrinkWrap: true,
+        // controller: controller.scrollController,
+        physics: NeverScrollableScrollPhysics (),
+        primary: false,
+        key: PageStorageKey ("fuckedOne${Get.find<DashboardController>().crossCount.value}"),
+        padding: EdgeInsets.symmetric(horizontal: Constants.feed_tab_horizontal_padding),
+        crossAxisCount: Get.find<DashboardController>().crossCount.value, //isTabletSize() ?  6 : 4 ,
+        itemCount: controller.list.length,
+        itemBuilder: (BuildContext context, int index) => FeedItemView (
+          dto: controller.list[index], index: index,
+          onTap: () {
+            controller.detailPageGo(index);
+            // print('>>>>>>>>>${controller.list[index].title}');
+            //   var returndata = Get.toNamed(AppRoutes.FeedDetailPage, arguments: controller.list[index])!.then((value){
+            //     print('다시와!!!');
+            //     print('다시와!!!${value}');
+            //   }); /** 상세페이지로!! */
+            // print('다시와!!!${returndata}');
+            // }
+          },
+        ),
+        staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
+        mainAxisSpacing: getUiSize(2.2),
+        crossAxisSpacing: getUiSize(2.2),
+      );
+    });
   }
 
 
@@ -465,4 +471,188 @@ class FeedPage extends StatelessWidget {
     FocusScope.of(context).requestFocus(FocusNode ());
   }
 
+  _filterShowModalBottomSheetStep(){
+    Get.bottomSheet(
+        GetBuilder<FeedController>(
+            builder: (controller) {
+              controller.snsCheckSync();
+              return Container (
+                padding: EdgeInsets.symmetric(horizontal: getUiSize(11.2)),
+                alignment: Alignment.bottomCenter,
+                child: Column (
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container (
+                      width: double.maxFinite,
+                      constraints: BoxConstraints (
+                          minHeight: getUiSize(20)
+                      ),
+                      child: SafeArea (
+                        child: Column (
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+
+                            //회색 드래그 영역
+                            Container(
+                              width: getUiSize(27),
+                              height: getUiSize (3),
+                              margin: EdgeInsets.only(top: getUiSize(9)),
+                              decoration: BoxDecoration (
+                                  color: Color (0xffdbdbdb),
+                                  borderRadius: BorderRadius.all(Radius.circular (100))
+                              ),
+                            ),
+
+                            SizedBox (height: getUiSize(23.5)),
+
+                            //게시중단 요청 제목
+                            Text ('SNS 필터',style: TextStyle(fontSize: getUiSize(12)),),
+
+                            SizedBox (height: getUiSize(6)),
+
+                            // Padding (
+                            //   padding: EdgeInsets.symmetric(horizontal: getUiSize(20)),
+                            //   child: Text (AppTranslation.description_request_stop_posting.tr,),
+                            // ),
+                            //
+                            // SizedBox(height: getUiSize(18.5),),
+
+                            Partition(weight: getUiSize(0.5)),
+
+                            //인스타그램
+                            InkWell(
+                              child: Container (
+                                width: double.maxFinite,
+                                height: getUiSize(40.5),
+                                child: Stack (
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Text ('인스타그램'),
+                                    Obx (() {
+                                      if (controller.snsInstarCheck)
+                                        return Positioned (
+                                            left: getUiSize(45),
+                                            child: Image.asset(
+                                              'images/sns_checked.png',
+                                              width: getUiSize(22),
+                                              height: getUiSize(22),
+                                            )
+                                        );
+                                      else {
+                                        return Container ();
+                                      }
+                                    })
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                controller.snsInstarCheck = !controller.snsInstarCheck ;
+                              },
+                            ),
+
+                            Partition(weight: getUiSize(0.5), color: Color (0xffd2d2d2)),
+
+                            //유튜브
+                            InkWell(
+                              child: Container (
+                                width: double.maxFinite,
+                                height: getUiSize(40.5),
+                                child: Stack (
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Text ('유튜브'),
+                                    Obx (() {
+                                      if (controller.snsYoutubeCheck)
+                                        return Positioned (
+                                            left: getUiSize(45),
+                                            child: Image.asset(
+                                              'images/sns_checked.png',
+                                              width: getUiSize(22),
+                                              height: getUiSize(22),
+                                            )
+                                        );
+                                      else {
+                                        return Container ();
+                                      }
+                                    })
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                controller.snsYoutubeCheck = !controller.snsYoutubeCheck ;
+                              },
+                            ),
+
+                            Partition(weight: getUiSize(0.5), color: Color (0xffd2d2d2)),
+
+                            //네이버 블로그
+                            InkWell(
+                              child: Container (
+                                width: double.maxFinite,
+                                height: getUiSize(40.5),
+                                child: Stack (
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Text ('네이버 블로그'),
+                                    Obx (() {
+                                      if (controller.snsNaverCheck)
+                                        return Positioned (
+                                            left: getUiSize(45),
+                                            child: Image.asset(
+                                              'images/sns_checked.png',
+                                              width: getUiSize(22),
+                                              height: getUiSize(22),
+                                            )
+                                        );
+                                      else {
+                                        return Container ();
+                                      }
+                                    })
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                controller.snsNaverCheck = !controller.snsNaverCheck ;
+                              },
+                            ),
+
+                            Partition(weight: getUiSize(0.5), color: Color (0xffd2d2d2)),
+
+                            SizedBox (height: getUiSize (6.2),),
+
+                            //확인 버튼
+                            Padding (
+                              // padding: EdgeInsets.symmetric(horizontal: getUiSize(20)),
+                              padding: EdgeInsets.only(left: getUiSize(15), top: getUiSize(15), right: getUiSize(15),bottom: getUiSize(20)),
+                              child: AppMaterialButton(
+                                  label: Text (
+                                    AppTranslation.btn_label_confirm.tr,
+                                    style: TextStyle (fontFamily: Font.NotoSansCJKkrBold, color: Color (0xffeeeeee), fontSize: getUiSize(12)),
+                                  ),
+                                  color: Color (0xff434343),
+                                  height: getUiSize(30.5),
+                                  elevation: 0.0,
+                                  onPressed:(){
+                                    controller.snsCheckedSetting();
+                                  }
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration (
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(getUiSize(10)), topRight: Radius.circular(getUiSize(10))),
+                      ),
+
+                    ),
+
+                  ],
+                ),
+              );
+            }
+        )
+    );
+  }
 }

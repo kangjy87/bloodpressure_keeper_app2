@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/btns/bottom_fullsize_btn.dart';
 import 'package:bloodpressure_keeper_app/utils/app_colors.dart';
@@ -28,7 +29,7 @@ class BasicInfoForm extends StatelessWidget {
             flex: 1,
             child: SingleChildScrollView(
                 child: Container(
-              height: 520,
+              height: getUiSize(340),
               child: Column(
                 children: [
 
@@ -74,13 +75,13 @@ class BasicInfoForm extends StatelessWidget {
                         '나는',
                         style: TextStyle(
                             fontFamily: 'NanumRoundB',
-                            fontSize: 20.0,
+                            fontSize: getUiSize(17),
                             color: Color(AppColors.colorBlackInfoText)),
                       ),
                       Expanded(child: Text(''), flex: 3),
                       Container(
-                        width: 80,
-                        height: 40,
+                        width: getUiSize(70),
+                        height: getUiSize(30),
                         child: TextField(
                           style: TextStyle(
                               fontFamily: 'NanumRoundB',
@@ -99,7 +100,7 @@ class BasicInfoForm extends StatelessWidget {
                         '년생 입니다.',
                         style: TextStyle(
                             fontFamily: 'NanumRoundB',
-                            fontSize: 20.0,
+                            fontSize: getUiSize(17),
                             color: Color(AppColors.colorBlackInfoText)),
                       ),
                       Expanded(child: Text(''), flex: 6),
@@ -122,7 +123,7 @@ class BasicInfoForm extends StatelessWidget {
                             '성별과 나이를 입력해주신 경우',
                             style: TextStyle(
                                 fontFamily: 'NanumRoundB',
-                                fontSize: 14.0,
+                                fontSize: getUiSize(12),
                                 color: Color(AppColors.colorBlackInfoText)),
                           ),
                           Row(
@@ -132,7 +133,7 @@ class BasicInfoForm extends StatelessWidget {
                                   '개인정보 취급 방침',
                                   style: TextStyle(
                                       fontFamily: 'NanumRoundB',
-                                      fontSize: 14.0,
+                                      fontSize: getUiSize(12),
                                       color: Color(
                                           AppColors.colorBlueInfoPointText),
                                       decoration: TextDecoration.underline),
@@ -143,7 +144,7 @@ class BasicInfoForm extends StatelessWidget {
                                 '에 동의한 것으로 간주합니다.',
                                 style: TextStyle(
                                     fontFamily: 'NanumRoundB',
-                                    fontSize: 14.0,
+                                    fontSize: getUiSize(12),
                                     color: Color(AppColors.colorBlackInfoText)),
                               ),
                             ],
@@ -168,7 +169,7 @@ class BasicInfoForm extends StatelessWidget {
                 String sex = 'N';
                 switch (sexIndex) {
                   case 0:
-                    sex = 'W';
+                    sex = 'F';
                     break;
                   case 1:
                     sex = 'M';

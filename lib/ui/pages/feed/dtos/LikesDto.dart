@@ -8,7 +8,7 @@ class LikesResultDto {
   bool? result;
   int? statusCode;
   String? message;
-  LikesDto? data;
+  LikesReturnDto? data;
 
   LikesResultDto({
     this.result,
@@ -30,8 +30,8 @@ class LikesDto {
   String? user_id;
   int? id ;
   int? like ;
-  int? dislike ;
-  int? report ;
+  // int? dislike ;
+  // int? report ;
 
   LikesDto({
     this.media_id,
@@ -40,11 +40,38 @@ class LikesDto {
     this.user_id,
     this.id,
     this.like,
-    this.dislike,
-    this.report
+    // this.dislike,
+    // this.report
   });
 
   factory LikesDto.fromJson (Map<String, dynamic> json) => _$LikesDtoFromJson (json);
   Map<String, dynamic> toJson () => _$LikesDtoToJson (this);
+
+}
+
+@JsonSerializable ()
+class LikesReturnDto {
+  int? media_id;
+  // int? article_id;
+  String? behavior_type;
+  String? user_id;
+  int? id ;
+  int? like ;
+  // int? dislike ;
+  // int? report ;
+
+  LikesReturnDto({
+    this.media_id,
+    // this.article_id,
+    this.behavior_type,
+    this.user_id,
+    this.id,
+    this.like,
+    // this.dislike,
+    // this.report
+  });
+
+  factory LikesReturnDto.fromJson (Map<String, dynamic> json) => _$LikesReturnDtoFromJson (json);
+  Map<String, dynamic> toJson () => _$LikesReturnDtoToJson (this);
 
 }

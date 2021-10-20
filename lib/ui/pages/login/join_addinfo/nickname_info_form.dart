@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/btns/bottom_fullsize_btn.dart';
 import 'package:bloodpressure_keeper_app/utils/app_colors.dart';
@@ -19,7 +20,7 @@ class NickNameInfoForm extends StatelessWidget {
         children: [
           Expanded(child: Text(''), flex: 1),
           Container(
-            height: 80.0,
+            height: getUiSize(100),
             padding: EdgeInsets.fromLTRB(20, 0, 20, 00),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,12 +28,12 @@ class NickNameInfoForm extends StatelessWidget {
               children: [
                 Image.asset(
                   'images/join_nickname.png',
-                  height: 55,
-                  width: 55,
+                  height: getUiSize(35),
+                  width: getUiSize(35),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: getUiSize(8)),
                 SizedBox(
-                  width: 80,
+                  width: getUiSize(45),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -41,14 +42,14 @@ class NickNameInfoForm extends StatelessWidget {
                         '닉네임',
                         style: TextStyle(
                             fontFamily: 'NanumRoundEB',
-                            fontSize: 15.0,
+                            fontSize: getUiSize(11),
                             color: Colors.black),
                       ),
                       Text(
                         'Nickname',
                         style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 12.0,
+                          fontSize: getUiSize(9),
                           color: Color(0xff78849e),
                         ),
                       )
@@ -58,11 +59,12 @@ class NickNameInfoForm extends StatelessWidget {
                 Expanded(child: Text(''), flex: 1),
                 Expanded(
                   child: TextFormField(
-                      autovalidateMode: AutovalidateMode.always,
-                      validator : (String? value) {
-                        return (value != null && value ==  '')
-                            ? '닉네임을 입력해주세요.' : null ;
-                      },
+                      // style: TextStyle(fontSize: 10,height: 1),
+                      // autovalidateMode: AutovalidateMode.always,
+                      // validator : (String? value) {
+                      //   return (value != null && value ==  '')
+                      //       ? ((isSmallSize() ? '닉네임을 입력해주세요.' : '닉네임을 입력해주세요.')) : null ;
+                      // },
                       controller: nickname,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
@@ -70,7 +72,7 @@ class NickNameInfoForm extends StatelessWidget {
                             borderRadius: BorderRadius.circular(32.0)),
                         labelText: '직접입력',
                       )),
-                  flex: 3,
+                  flex: 5,
                 ),
               ],
             ),

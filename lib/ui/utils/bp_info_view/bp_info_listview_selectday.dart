@@ -1,5 +1,6 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
 import 'package:bloodpressure_keeper_app/model/bp_standard_model.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'bp_info_view_selectday.dart';
 
@@ -39,7 +40,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
          * 선택일 혈압지수
          */
         Container(
-          height: 50,
+          height: getUiSize(30),
           width: double.infinity,
           color: bpRiskLevel.colorCode,
           child: Center(
@@ -48,8 +49,8 @@ class BpInfoListviewSelectDay extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 130,
-                  height: 30,
+                  width: getUiSize(100),
+                  height: getUiSize(21),
                   // padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -65,7 +66,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'NanumRoundEB',
-                            fontSize: 14,
+                            fontSize: getUiSize(10),
                             color: bpRiskLevel.colorCode),
                       )
                     ],
@@ -77,7 +78,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'NanumRoundEB',
-                      fontSize: 12,
+                      fontSize: getUiSize(8),
                       color: Colors.white),
                 )
               ],
@@ -95,7 +96,7 @@ class BpInfoListviewSelectDay extends StatelessWidget {
         Container(
           // padding: EdgeInsets.fromLTRB(25, 0, 25, 25),
           width: double.infinity,
-          height: 340.0,
+          height: getUiSize(230),
           child: Row(
             children: [
               SizedBox(width: 10,),

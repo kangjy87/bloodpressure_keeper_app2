@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:bloodpressure_keeper_app/model/blood_pressure_chart_dto.dart';
@@ -27,6 +28,9 @@ class ComboBarLineChart extends StatelessWidget {
         width: width,
         height: height,
         child: charts.OrdinalComboChart(_createSampleData(),
+            domainAxis: charts.OrdinalAxisSpec(
+              renderSpec: charts.SmallTickRendererSpec(labelRotation: isSmallSize() ? 30 : 0),
+            ),
             animate: true,
             // Configure the default renderer as a bar renderer.
             defaultRenderer: new charts.LineRendererConfig(),

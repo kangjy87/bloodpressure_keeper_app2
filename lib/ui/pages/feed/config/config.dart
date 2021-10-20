@@ -42,6 +42,7 @@ class AppIcons {
   static const ic_heart2 = ICON_PATH + "ic_heart2.png";
   static const book_makr_off = ICON_PATH + "book_makr_off.png";
   static const book_makr_on = ICON_PATH + "book_makr_on.png";
+  static const share_icon = ICON_PATH + "share_icon.png";
 
   /** for tabs **/
   static const ic_tab_home = ICON_PATH + "home_icon.svg";
@@ -85,6 +86,31 @@ class ImageDto {
 }
 
 //테스트용 가라데이타 ----------------------------------------------------------
+FeedsItemDto skeletonData = FeedsItemDto(
+  id: 333,
+  media_id: 999,
+  platform: " ",
+  type: " ",
+  keyword: " ",
+  channel: null,
+  article_owner_id: " ",
+  url : " ",
+  title : " ",
+  contents : " ",
+  storage_thumbnail_url : Images.SampleImages[0].url,
+  thumbnail_url : Images.SampleImages[0].url,
+  thumbnail_width : Images.SampleImages[0].width,
+  thumbnail_height : Images.SampleImages[0].height,
+  hashtag : "",
+  state : 1,
+  date : DateTime.now(),
+  article_owner: ArticleOwnerDto (
+      name: " ",
+      storage_thumbnail_url : null,
+      thumbnail_url: null
+
+  ),
+);
 FeedsItemDto fakeMe = FeedsItemDto(
     id: 333,
     media_id: 999,
@@ -280,12 +306,14 @@ class Images {
 
 class Constants {
 
-  static const String androidApplicationId = "com.tdi.musical.flt";
-  static const String appleBundleId = "com.tdi.musical.flt";
-  static const String deeplink_prefix_domain = "https://ticketbooth2.page.link";
-  static const String Q_API_BASE_URL = "https://dev.api.curator9.com";
+  static const String androidApplicationId = "com.appkeeper.bloodpressure_keeper_app";
+  static const String appleBundleId = "com.appkeeper.bloodpressure_keeper_app";
+  static const String deeplink_prefix_domain = "https://bloodpressurekeeperapp.page.link";
+  // static const String Q_API_BASE_URL = "https://dev.api.curator9.com";
+  static const String Q_API_BASE_URL = "https://api.curator9.com";
   static const String API_BASE_URL = 'https://dev.tt.tdi9.com';
-  static const String CDN_URL = "https://chuncheon.blob.core.windows.net/chuncheon/";
+  // static const String CDN_URL = "https://chuncheon.blob.core.windows.net/chuncheon/";
+  static const String CDN_URL = "https://c9bloodpressure.azureedge.net/";
 
   static final general_horizontal_padding = getUiSize(15);
   static final narrow_horizontal_padding = getUiSize(20);

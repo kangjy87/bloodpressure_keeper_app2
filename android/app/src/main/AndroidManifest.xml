@@ -5,13 +5,14 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 -->
    <application
-        android:label="혈압지키미"
+        android:label="혈압매니저"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
+            android:resizeableActivity="false"
+            android:maxAspectRatio="2.4"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

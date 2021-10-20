@@ -44,7 +44,7 @@ class JoinAddInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       update();
@@ -84,7 +84,7 @@ class JoinAddInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       update();
@@ -96,7 +96,7 @@ class JoinAddInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       update();
@@ -108,7 +108,7 @@ class JoinAddInfoController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       update();
@@ -132,6 +132,7 @@ class JoinAddInfoController extends GetxController {
           print('키>>>>>>>>>>>>>>>>>>>>${usersDto.uuid}');
           print('구분>>>>>>>>>>>>>>>>>>>>${usersDto.provider}');
           print('멜>>>>>>>>>>>>>>>>>>>>${usersDto.email}');
+          print('티디키>>>>>>>>>>>>>>>>>>>>${appKey}');
           UsersDto task = UsersDto();
           task.uuid = usersDto.uuid ;
           task.provider =  usersDto.provider ;

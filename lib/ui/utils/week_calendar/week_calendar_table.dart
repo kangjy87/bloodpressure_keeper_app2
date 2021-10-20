@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +56,7 @@ class WeekCalendarTable extends StatelessWidget {
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
                   backgroundColor: Color(0xff454f63),
-                  textColor: Colors.red,
+                  textColor: Colors.white,
                   fontSize: 16.0
               );
             }
@@ -101,35 +102,35 @@ class WeekCalendarTable extends StatelessWidget {
   CalendarBuilders calendarBuilder() {
     return CalendarBuilders(dowBuilder: (context, day) {
       String text = '일';
-      TextStyle textStyle = TextStyle(color: Colors.black);
+      TextStyle textStyle = TextStyle(color: Colors.black,fontSize: getUiSize(11),);
       switch (day.weekday) {
         case DateTime.sunday:
           text = '일';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
         case DateTime.monday:
           text = '월';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
         case DateTime.tuesday:
           text = '화';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
         case DateTime.wednesday:
           text = '수';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
         case DateTime.thursday:
           text = '목';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
         case DateTime.friday:
           text = '금';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
         case DateTime.saturday:
           text = '토';
-          textStyle = TextStyle(color: Color(0xffa0a5b1));
+          textStyle = TextStyle(color: Color(0xffa0a5b1),fontSize: getUiSize(10.5),);
           break;
       }
       return Center(
@@ -183,7 +184,7 @@ class _CalendarHeader extends StatelessWidget {
               child: Text(
                 dayText,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0,),
+                style: TextStyle(fontSize: getUiSize(12)),
                 // fontFamily: 'NanumRoundB',),
               ),
             ),

@@ -1,5 +1,11 @@
+import 'package:bloodpressure_keeper_app/model/bloodpressure_dto.dart';
+import 'package:bloodpressure_keeper_app/model/client_credentials_grant_dto.dart';
+import 'package:bloodpressure_keeper_app/retrofit/blood_pressure_server.dart';
+import 'package:bloodpressure_keeper_app/retrofit/tdi_servers.dart';
 import 'package:bloodpressure_keeper_app/utils/day_util.dart';
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/get_client_credentials_grant.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/last_weather_info.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +13,11 @@ import 'package:bloodpressure_keeper_app/utils/blood_pressure_local_db.dart';
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class SelfBpInputController extends GetxController {
   final String title = '혈압입력';
+  late String appKey = '';
   void loginPage(){
     Get.toNamed(AppRoutes.LOGIN);
   }
@@ -51,15 +59,18 @@ class SelfBpInputController extends GetxController {
   }
 
   void beforeBloodPressure()async{
+    GetClientCredentialsGrantDto gcDto = await getClientCredentiaksGrant();
+    appKey = "Bearer ${gcDto.access_token}" ;
     //혈압관리에서선택한 날짜 화면 표시
     selectedDay = Get.arguments['date'];
     int todayIndex = Get.arguments['todayIndex'];
     focusedDay = getFocusedDay(todayIndex,selectedDay);
+
     // focusedDay = Get.arguments['date'];
     // BloodPressureLocalDB db = BloodPressureLocalDB();
     // db.database ;
     // BloodPressureItem? data = await db.getLastBPData();
-    // resultSys.text = data!.systolic == null ? '' : data!.systolic.toString() ;
+    // resultSys.text = data!.systolic == null ? '' : dacvta!.systolic.toString() ;
     // resultDia.text = data!.diastole == null ? '' : data!.diastole.toString() ;
     // resultPul.text = data!.pulse == null ? '' : data!.pulse.toString() ;
     update();
@@ -73,7 +84,7 @@ class SelfBpInputController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -85,7 +96,7 @@ class SelfBpInputController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -97,7 +108,7 @@ class SelfBpInputController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -109,7 +120,7 @@ class SelfBpInputController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -121,7 +132,7 @@ class SelfBpInputController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -133,7 +144,7 @@ class SelfBpInputController extends GetxController {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xff454f63),
-          textColor: Colors.red,
+          textColor: Colors.white,
           fontSize: 16.0
       );
       return false ;
@@ -169,14 +180,38 @@ class SelfBpInputController extends GetxController {
           memo: resultMemo.text,
           weatherImg: weatherImg,
           weatherTemp: weatherTemp,
-          weatherInfo: weatherInfo
+          weatherInfo: weatherInfo,
+          sendServerYM: 0 // 0 서버 비전송상태, 1 서버 전송상태
       );
       await db.insertAssetPortfolio(data).then((value){
         saved.call();
       });
     }
   }
-
+  //서버에 데이터 저장시키기
+  Future<void> serverDBInsert(Function saved)async{
+    EasyLoading.show();
+    TdiServers(bloodPressureServer: (BloodPressureServer bps) async {
+      BloodPressureDto task = BloodPressureDto();
+      await bps.BloodPressureInsert(appKey, task).then((value){
+        // print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${value.user_id}');
+        // if(resp.user_id != null){
+          saved.call();
+        // }
+      }).catchError((Object obj) async {
+        // non-200 error goes here.
+        EasyLoading.dismiss();
+        switch (obj.runtimeType) {
+          case DioError:
+            final res = (obj as DioError).response;
+            update();
+            break;
+          default:
+          //nothing yet;
+        }
+      });
+    });
+  }
   selectDataPicker(BuildContext context)async{
     Future<DateTime?> future =  showDatePicker(
         locale: const Locale('ko', 'KO'),

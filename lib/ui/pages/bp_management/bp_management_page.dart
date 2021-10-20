@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/bp_info_view/bp_info_listview_selectday.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,7 @@ class BpManagementPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: 100,),
+                    SizedBox(width: getUiSize(95),),
                     // Expanded(child: Text(''), flex: 7),
                     Expanded(
                       child: Row(
@@ -37,13 +38,13 @@ class BpManagementPage extends StatelessWidget {
                             "혈압관리",
                             style: TextStyle(
                                 fontFamily: 'NanumRoundB',
-                                fontSize: 18,
+                                fontSize: (isSmallSize() ? getUiSize(15) : getUiSize(12)),
                                 color: Color(0xff454f63)),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(width: 100,
+                    SizedBox(width: getUiSize(95),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,14 +60,14 @@ class BpManagementPage extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: 'NanumRoundB',
-                                      fontSize: 12.5,
+                                      fontSize: getUiSize(10),
                                       color: Colors.black),
                                 ))
                           ],
                         ),
                         Container(
-                          width: 30,
-                          height: 30,
+                          width: getUiSize(26),
+                          height: getUiSize(26),
                           child: Row(
                             children: [
                               Visibility(
@@ -76,8 +77,8 @@ class BpManagementPage extends StatelessWidget {
                                       padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                                       child: Image.asset(
                                         'images/weather_setting.png',
-                                        width: 30,
-                                        height: 30,
+                                        width: getUiSize(26),
+                                        height: getUiSize(26),
                                       ),
                                     ),
                                     onTap: (){
@@ -88,8 +89,8 @@ class BpManagementPage extends StatelessWidget {
                                   visible: controller.weatherImgCheck,
                                   child: Image.asset(
                                     controller.weatherImg,
-                                    width: 30,
-                                    height: 30,
+                                    width: getUiSize(26),
+                                    height: getUiSize(26),
                                   ))
                             ],
                           ),
@@ -169,10 +170,10 @@ class BpManagementPage extends StatelessWidget {
                           strTitle: controller.strTitleMsg,
                         ),
                         /**
-                             * 날짜 선택 달력
-                             */
+                         * 날짜 선택 달력
+                         */
                         Container(
-                          padding: EdgeInsets.fromLTRB(0, 160, 0, 10),
+                          padding: EdgeInsets.fromLTRB(0, getUiSize(115), 0, getUiSize(8)),
                           child: WeekCalendarTable(
                             datePicker: (){
                               controller.selectDataPicker(context);
@@ -230,13 +231,13 @@ class BpManagementPage extends StatelessWidget {
                         GestureDetector(
                           child: Container(
                             width: double.infinity,
-                            height: 390,
+                            height: getUiSize(250),
                             child: Visibility(
                               visible: controller.bpDataCheck,
                               child: Container(
                                 padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                                 width: double.infinity,
-                                height: 390,
+                                height: getUiSize(250),
                                 decoration: BoxDecoration(
                                   color: Colors.white70,
                                   // color: Colors.black87,
@@ -340,7 +341,7 @@ class BpManagementPage extends StatelessWidget {
                           )
                       ),
                     ),
-                    SizedBox(height: 70,)
+                    SizedBox(height: getUiSize(55),)
                   ],
                 ),
               ),

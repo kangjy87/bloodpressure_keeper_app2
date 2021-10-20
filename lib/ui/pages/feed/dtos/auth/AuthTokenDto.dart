@@ -21,7 +21,10 @@ class AuthTokenDto {
 
 
   //토큰 내놓으슈.
+  // String getToken () {
+  //   return (token_type != null && access_token != null) ? "$token_type $access_token" : "None";
+  // }
   String getToken () {
-    return (token_type != null && access_token != null) ? "$token_type $access_token" : "None";
+    return (token_type != null && access_token != null) ? "$access_token" : "None";
   }
 }

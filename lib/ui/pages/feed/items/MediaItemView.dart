@@ -85,7 +85,7 @@ class MediaItemView extends StatelessWidget {
     return GetBuilder<FeedsDetailController> (
       init: FeedsDetailController (),
       builder:(controller) =>
-      controller.data.article_medias!.length > 1 ?
+      (controller.data.article_medias != null && controller.data.article_medias!.length > 1) ?
       Obx (() {
         return Container (
             color: Colors.black,
@@ -131,14 +131,14 @@ class MediaItemView extends StatelessWidget {
                 ])
         );
       })
-          : controller.data.article_medias!.length == 0 ?
+          : (controller.data.article_medias == null || controller.data.article_medias!.length == 0) ?
       Container (
 
       )
           :
       Container (
         width: Get.width,
-        height: controller.orientation.value == Orientation.portrait ? Get.width : Get.height,
+        height: controller.orientation.value == Orientation.portrait ? isTabletSize() ? Get.width * 0.6 : Get.width : Get.height,
         color: Colors.black,
         alignment: Alignment.center,
         child:  _getMediaItemView(controller.currentMedia, enumFromString(PlatformType.values, controller.data.platform!)),

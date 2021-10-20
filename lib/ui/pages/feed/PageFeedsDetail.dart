@@ -1,5 +1,6 @@
 
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,70 +56,93 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
     customLogger.d(_fucked);*/
 
 
-    return BaseScaffold (
-        appBar: _appBarView(context),
-        backgroundColor: _bgColor,
-        body: OrientationBuilder (
-          builder: (context, orientation) {
+    return WillPopScope (
+        onWillPop:() {
+          Get.back(result: controller.reSearch);
+          return Future(() => false);
+        },
+        child: BaseScaffold (
+          appBar: _appBarView(context),
+          backgroundColor: _bgColor,
+          body: OrientationBuilder (
+            builder: (context, orientation) {
 
-            customLogger.d("orientation --> $orientation");
-            controller.orientation.value = orientation; //--> go update go~
+              customLogger.d("orientation --> $orientation");
+              controller.orientation.value = orientation; //--> go update go~
 
-            return SafeArea (
-              top: _top,
-              left: _left,
-              right: _right,
-              bottom: _bottom,
-              child: _detailContentView (orientation),
-            );
+              return SafeArea (
+                top: _top,
+                left: _left,
+                right: _right,
+                bottom: _bottom,
+                child: _detailContentView (orientation),
+              );
 
-          },
-        )
+            },
+          ),
+        ),
     );
   }
 
   //맵바 설정
   AppBar? _appBarView (BuildContext context) {
-
-    String? _title = controller.data.title!.isEmpty ? '소식' : controller.data.title;
-
     AppBar? _appBar;
 
     if (Get.mediaQuery.orientation == Orientation.portrait) {
       _appBar = AppBar (
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back(result: controller.reSearch);
+            // Navigator.of(context).pop();
           },
           icon: Image.asset(
             'images/appbar_back.png',
             // fit: BoxFit.fill,
-            height: 30,
-            width: 30,
+            height: getUiSize (20),
+            width: getUiSize (20),
           ),
         ),
         title: Row(
           children: [
-            SizedBox(width: 200,
-              child: Text (_title!,
-                overflow: TextOverflow.ellipsis,
-                textAlign : TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'NanumRoundB',
-                    fontSize: 16,
-                    color: Color(0xff454f63)),),),
-            Spacer (flex: 1,),
-            InkWell(
-              child: Container (
-                width: getUiSize(10.5),
-                height: getUiSize(20),
-                child: SvgPicture.asset(AppIcons.ic_feed_popup_btn, width: getUiSize(10.5),),
-
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx((){
+                    if(controller.data == null || controller.data.title == null){
+                      return Text ('소식',
+                        overflow: TextOverflow.ellipsis,
+                        textAlign : TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'NanumRoundB',
+                            fontSize: (isSmallSize() ? getUiSize(15) : getUiSize(12)),
+                            color: Color(0xff454f63)),);
+                    }else{
+                      return Text ((controller.data.title!.isEmpty ? '소식' : ( controller.data.title!.length >20 ?  '${controller.data.title!.substring(0,19)}...' :  controller.data.title))!,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign : TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'NanumRoundB',
+                            fontSize: ((isSmallSize() && controller.data.title!.length < 15) ? getUiSize(15) : getUiSize(12)),
+                            color: Color(0xff454f63)),);
+                    }
+                  }),
+                ],
               ),
-              onTap: () {
-                _showModalBottomSheet ();
-              },
             ),
+            SizedBox(width: getUiSize (42),),
+            // InkWell(
+            //   child: Container (
+            //     width: getUiSize(10.5),
+            //     height: getUiSize(20),
+            //     child: SvgPicture.asset(AppIcons.ic_feed_popup_btn, width: getUiSize(10.5),),
+            //
+            //   ),
+            //   onTap: () {
+            //     _showModalBottomSheet ();
+            //   },
+            // ),
           ],
         ),
         backgroundColor: Colors.white,
@@ -156,108 +180,129 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
 
   /** 유저 프로필 이미지 */
   Widget _userThumbnailView () {
-    String? _userThumbnailURL = controller.data.article_owner!.thumbnail_url;
-    print('111111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
-    if (_userThumbnailURL == null || _userThumbnailURL.isEmpty) _userThumbnailURL = "";
+    String? userThumbnailURL ;
+    if(controller.data != null && controller.data.article_owner != null){
+      userThumbnailURL = controller.data.article_owner!.thumbnail_url;
+    }
+    print('111111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${userThumbnailURL}');
+    if (userThumbnailURL == null || userThumbnailURL.isEmpty) userThumbnailURL = "";
 
 
-    return Container (
-      width: Get.width - getUiSize (2.2),
-      child: Row (
-        children: [
-          Stack (
-            alignment: Alignment.center,
-            children: [
-              Container (
-                width: getUiSize(37),
-                height: getUiSize(37),
-                decoration: BoxDecoration (
-                    shape: BoxShape.circle,
-                    color: Colors.white
-                ),
-
-              ),
-
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: CachedNetworkImage (
-                  width: getUiSize(32.5),
-                  height: getUiSize(32.5),
-                  imageUrl: _userThumbnailURL,
-                  placeholder: (context, url) => Container(
-                    width: 20,
-                    height: 20,
-                    color: Colors.transparent,
-                    child: Image.asset(Images.img_no_profile),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    width: 20,
-                    height: 20,
-                    color: Colors.transparent,
-                    child: Image.asset(Images.img_no_profile),
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
-          ),
-          SizedBox (width: 11,),
-          Container (
-            width: Get.width / 3,
-            padding: EdgeInsets.only(top:getUiSize(7)),
-            child: Row(
+    return Obx((){
+      return Container (
+        width: Get.width - getUiSize (2.2),
+        child: Row (
+          children: [
+            Stack (
+              alignment: Alignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                Container (
+                  width: getUiSize(37),
+                  height: getUiSize(37),
+                  decoration: BoxDecoration (
+                      shape: BoxShape.circle,
+                      color: Colors.white
+                  ),
 
-                    Text (
-                      controller.data.article_owner!.name!.length > 10 ?
-                      '${controller.data.article_owner!.name!.substring(0,7)}...'
-                      :controller.data.article_owner!.name!,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle (
-                        color: Color (0xFF2a2a2a),
-                        fontFamily: Font.NotoSansCJKkrRegular,
-                        fontSize: getUiSize(11),
-                      ),
+                ),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage (
+                    width: getUiSize(32.5),
+                    height: getUiSize(32.5),
+                    imageUrl: userThumbnailURL!,
+                    placeholder: (context, url) => Container(
+                      width: 20,
+                      height: 20,
+                      color: Colors.transparent,
+                      child: Image.asset(Images.img_no_profile),
                     ),
-
-                    Text (
-                      FormatUtil.printDateTime(controller.data.date!, format: "yyyy.MM.dd"),
-                      style: TextStyle (
-                          color: Color (0xFF2a2a2a),
-                          fontFamily: Font.NotoSansCJKkrRegular,
-                          fontSize: getUiSize(7.5)
-                      ),
-                    )
-
-                  ],
+                    errorWidget: (context, url, error) => Container(
+                      width: 20,
+                      height: 20,
+                      color: Colors.transparent,
+                      child: Image.asset(Images.img_no_profile),
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ],
             ),
-          ),
+            SizedBox (width: 11,),
+            Container (
+              width: Get.width / 3,
+              padding: EdgeInsets.only(top:getUiSize(7)),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if(controller.data.article_owner != null)
+                        Text (
+                          controller.data.article_owner!.name!.length > 10 ?
+                          '${controller.data.article_owner!.name!.substring(0,7)}...'
+                              :controller.data.article_owner!.name!,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle (
+                            color: Color (0xFF2a2a2a),
+                            fontFamily: Font.NotoSansCJKkrRegular,
+                            fontSize: getUiSize(11),
+                          ),
+                        ),
+                      if(controller.data.date != null)
+                        Text (
+                          FormatUtil.printDateTime(controller.data.date!, format: "yyyy.MM.dd"),
+                          style: TextStyle (
+                              color: Color (0xFF2a2a2a),
+                              fontFamily: Font.NotoSansCJKkrRegular,
+                              fontSize: getUiSize(7.5)
+                          ),
+                        )
 
-          Spacer (flex: 7,),
-          //즐겨찾기
-          InkWell(
-            child: Container (
-              width: getUiSize(10.5),
-              height: getUiSize(20),
-              child: Image.asset(controller.is_favorite_check == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, width: getUiSize(10),),
-
+                    ],
+                  ),
+                ],
+              ),
             ),
-            onTap: () {
-              controller.setFavorites();
-            },
-          ),
+            Spacer (flex: 7,),
+            //공유하기
+            InkWell(
+              child: Container (
+                  padding: EdgeInsets.all(getUiSize(3)),
+                  width: getUiSize(16.5),
+                  height: getUiSize(26),
+                  child: Image.asset(AppIcons.share_icon, width: getUiSize(10),)
 
-          SizedBox(width: getUiSize(12),)
+              ),
+              onTap: () {
+                controller.shareMe();
+              },
+            ),
+            Spacer (flex: 1,),
+            //즐겨찾기
+            InkWell(
+              child: Container (
+                padding: EdgeInsets.all(getUiSize(3)),
+                width: getUiSize(16.5),
+                height: getUiSize(26),
+                child: Obx((){
+                  return Image.asset(Get.find<FeedsDetailController>().isFavorite == false ? AppIcons.book_makr_off : AppIcons.book_makr_on, width: getUiSize(10),);
+                }),
 
-        ],
-      ),
-    );
+              ),
+              onTap: () {
+                controller.setFavorites();
+              },
+            ),
+
+            SizedBox(width: getUiSize(18),)
+
+          ],
+        ),
+      );
+    });
 
   }
 
@@ -270,10 +315,11 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
               Column(
                 children: [
                   MediaItemView(),
-                  if (orientation == Orientation.portrait) Container (height: 42,)
+                  // if (orientation == Orientation.portrait)
+                    Container (height: getUiSize(32),)
                 ],
               ),
-              if (orientation == Orientation.portrait)
+              // if (orientation == Orientation.portrait)
                 Positioned(
                     left: getUiSize(6),
                     bottom: 0,
@@ -282,9 +328,9 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
             ],
           ),
 
-          if (orientation == Orientation.portrait)
+          // if (orientation == Orientation.portrait)
             Container(
-                padding: EdgeInsets.all(getUiSize(21.8)),
+                padding: EdgeInsets.fromLTRB(getUiSize(21.8), getUiSize(5), getUiSize(21.8), getUiSize(21.8)),
                 child: Column (
                   children: [
                     /** 별점 */
@@ -292,32 +338,64 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(controller.data.is_like == false ? AppIcons.ic_heart : AppIcons.ic_heart_on, height: getUiSize(10),),
+                        InkWell(
+                          child : Container (
+                              padding: EdgeInsets.all(getUiSize(3)),
+                              width: getUiSize(16.5),
+                              height: getUiSize(26),
+                              child: Obx((){
+                                return Image.asset(Get.find<FeedsDetailController>().isLike == false ? AppIcons.ic_heart2 : AppIcons.ic_heart_on, height: getUiSize(10),);
+                              }),
+                            ),
+                          onTap: () {
+                            controller.setLikes();
+                          },
+                        ),
                         SizedBox (width: getUiSize(3.5),),
-                        Text (
-                            FormatUtil.numberWithComma(controller.like),
-                            style: TextStyle (
-                                color: Color (0xff2a2a2a),
-                                //fontFamily: Font.NotoSansCJKkrRegular,
-                                fontSize: getUiSize(9)
-                            )
-                        )
-
+                        Obx((){
+                          return Text (
+                              FormatUtil.numberWithComma(Get.find<FeedsDetailController>().likeCount.value),
+                              style: TextStyle (
+                                  color: Color (0xff2a2a2a),
+                                  //fontFamily: Font.NotoSansCJKkrRegular,
+                                  fontSize: getUiSize(9)
+                              )
+                          );
+                        }),
                       ],
                     ),
+                    SizedBox (height: getUiSize(1),),
+                    Obx((){
+                      if(controller.data.title != null && controller.data.title!.length > 0){
+                        return Text (
+                          controller.data.title!,
+                          style: TextStyle (
+                              color: Color (0xff2a2a2a),
+                              fontFamily: 'NanumRoundB',
+                              fontSize: getUiSize(12)
+                          ),
+                        );
+                      }else{
+                        return Text('');
+                      }
+                    }),
+                    Obx((){
+                      return SizedBox (height: getUiSize(controller.data.title != null && controller.data.title!.length > 0 ?15 : 0),);
+                    }),
+                    // if(controller.data.title != null && controller.data.title!.length > 0)
+                    Obx((){
+                      return Text (
+                          (controller.data.contents != null) ? controller.data.contents! : "",
+                          style: TextStyle (
+                              color: Color (0xff2a2a2a),
+                              fontFamily: Font.NotoSansCJKkrRegular,
+                              fontSize: getUiSize(9)
+                          ),
+                          textAlign : TextAlign.left
+                      );
+                    }),
 
-                    SizedBox (height: getUiSize(8),),
-
-                    Text (
-                      controller.data.contents!,
-                      style: TextStyle (
-                          color: Color (0xff2a2a2a),
-                          fontFamily: Font.NotoSansCJKkrRegular,
-                          fontSize: getUiSize(9)
-                      ),
-                    ),
-
-                    SizedBox (height: getUiSize(30),),
+                    SizedBox (height: getUiSize(20),),
 
                     // 방문하가 버튼
                     AppMaterialButton(
@@ -440,7 +518,6 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
     );
 
   }
-
   /** 게시 중단 요청 */
   void _showModalBottomSheetStep2 () {
 

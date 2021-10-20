@@ -6,20 +6,34 @@ import 'package:bloodpressure_keeper_app/utils/day_util.dart' ;
 
 class BloodPressureLocalDB{
   final String _BLOOD_PRESSURE_DATA = 'BLOOD_PRESSURE_DATA';
+  static String _CREATE_TABLE = "CREATE TABLE BLOOD_PRESSURE_DATA( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, saveData TEXT,rData TEXT, systolic INTEGER, diastole INTEGER, pulse INTEGER, memo TEXT, dayOfTheWeek INTEGER, registeredType INTEGER, temperature TEXT, weatherImg TEXT, weatherTemp TEXT, weatherInfo TEXT )";
+  Map<int, String> migrationScripts = {
+    1: _CREATE_TABLE,
+    2: ' ALTER TABLE BLOOD_PRESSURE_DATA ADD COLUMN sendServerYM INTEGER '
+  };
   var _db;
   Future<Database> get database async {
+    int nbrMigrationScripts = migrationScripts.length;
     if (_db != null) return _db;
     _db = openDatabase(
       join(await getDatabasesPath(), 'BLOOD_PRESSURE_DATA.db'),
-      onCreate: (db, version) => _createDb(db),
-      version: 1,
+      version: nbrMigrationScripts,
+      onCreate: (Database db, int version) async {
+        var batch = db.batch();
+        await db.execute(migrationScripts[1]!);
+        await batch.commit();
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if(oldVersion != newVersion){
+          var batch = db.batch();
+          for (int i = oldVersion + 1; i <= newVersion; i++) {
+            await db.execute(migrationScripts[i]!);
+          }
+          await batch.commit();
+        }
+      },
     );
     return _db;
-  }
-
-  //database TABLE 생성하기
-  static void _createDb(Database db) {
-    db.execute("CREATE TABLE BLOOD_PRESSURE_DATA( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, saveData TEXT,rData TEXT, systolic INTEGER, diastole INTEGER, pulse INTEGER, memo TEXT, dayOfTheWeek INTEGER, registeredType INTEGER, temperature TEXT, weatherImg TEXT, weatherTemp TEXT, weatherInfo TEXT)");
   }
 
   //Create(Insert) 메소드 작성하기
@@ -56,6 +70,7 @@ class BloodPressureLocalDB{
         weatherImg: maps[i]['weatherImg'],
         weatherTemp: maps[i]['weatherTemp'],
         weatherInfo: maps[i]['weatherInfo'],
+        sendServerYM : maps[i]['sendServerYM'],
       );
     });
   }
@@ -127,7 +142,7 @@ class BloodPressureLocalDB{
     return returnList ;
   }
 
-  //메모 수정
+  //저장데이터 수정
   Future<void> selectMemoUpset(BloodPressureItem bloodPressureItem)async{
     final db = await database ;
     await db.update(

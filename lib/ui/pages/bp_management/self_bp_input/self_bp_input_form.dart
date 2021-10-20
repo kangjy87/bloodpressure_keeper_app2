@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,20 +31,20 @@ class SelfBpInputForm extends StatelessWidget {
          * 수축혈압
          */
         Container(
-          height: 80.0,
-          padding: EdgeInsets.fromLTRB(10, 0, 20, 20),
+          height: getUiSize(53),
+          padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Image.asset(
                 'images/main_sys_icon.png',
-                height: 55,
-                width: 55,
+                height: getUiSize(39),
+                width: getUiSize(39),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: getUiSize(6)),
               SizedBox(
-                width: 80,
+                width: getUiSize(60),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -52,14 +53,14 @@ class SelfBpInputForm extends StatelessWidget {
                       '수축기 혈압',
                       style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 15.0,
+                          fontSize: getUiSize(10.5),
                           color: Colors.black),
                     ),
                     Text(
                       'SYS/mmHg',
                       style: TextStyle(
                         fontFamily: 'NanumRoundEB',
-                        fontSize: 12.0,
+                        fontSize: getUiSize(8),
                         color: Color(0xff78849e),
                       ),
                     )
@@ -77,7 +78,7 @@ class SelfBpInputForm extends StatelessWidget {
               //   ),
               Expanded(
                 child: SizedBox(
-                  height: 50,
+                  height: getUiSize(33),
                   child: TextFormField(
                     // autovalidateMode: AutovalidateMode.always,
                     // validator : (String? value) {
@@ -88,7 +89,7 @@ class SelfBpInputForm extends StatelessWidget {
                       // ignore: deprecated_member_use
                       inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                       controller: sys,
-                      style: TextStyle(fontSize: 17,height: 1),
+                      style: TextStyle(fontSize: getUiSize(12),height: 1),
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -110,20 +111,20 @@ class SelfBpInputForm extends StatelessWidget {
          * 이완기 혈압
          */
         Container(
-          height: 80.0,
-          padding: EdgeInsets.fromLTRB(10, 0, 20, 20),
+          height: getUiSize(53),
+          padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Image.asset(
                 'images/main_dia_icon.png',
-                height: 55,
-                width: 55,
+                height: getUiSize(39),
+                width: getUiSize(39),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: getUiSize(6)),
               SizedBox(
-                width: 80,
+                width: getUiSize(60),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -132,14 +133,14 @@ class SelfBpInputForm extends StatelessWidget {
                       '이완기 혈압',
                       style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 15.0,
+                          fontSize: getUiSize(10.5),
                           color: Colors.black),
                     ),
                     Text(
                       'DIA/mmHg',
                       style: TextStyle(
                         fontFamily: 'NanumRoundEB',
-                        fontSize: 12.0,
+                        fontSize: getUiSize(8),
                         color: Color(0xff78849e),
                       ),
                     )
@@ -149,7 +150,7 @@ class SelfBpInputForm extends StatelessWidget {
               Expanded(child: Text(''), flex: 1),
               Expanded(
                 child: SizedBox(
-                  height: 50,
+                  height: getUiSize(33),
                   child: TextFormField(
                     // autovalidateMode: AutovalidateMode.always,
                     // validator : (String? value) {
@@ -161,7 +162,7 @@ class SelfBpInputForm extends StatelessWidget {
                       inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                       textAlign: TextAlign.center,
                       controller: dia,
-                      style: TextStyle(fontSize: 17,height: 1),
+                      style: TextStyle(fontSize: getUiSize(12),height: 1),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(32.0)),
@@ -183,20 +184,20 @@ class SelfBpInputForm extends StatelessWidget {
          * 심박수
          */
         Container(
-          height: 80.0,
-          padding: EdgeInsets.fromLTRB(10, 0, 20, 20),
+          height: getUiSize(53),
+          padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Image.asset(
                 'images/main_pul_icon.png',
-                height: 55,
-                width: 55,
+                height: getUiSize(39),
+                width: getUiSize(39),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: getUiSize(6)),
               SizedBox(
-                width: 80,
+                width: getUiSize(60),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -205,14 +206,14 @@ class SelfBpInputForm extends StatelessWidget {
                       '심박수',
                       style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 15.0,
+                          fontSize: getUiSize(10.5),
                           color: Colors.black),
                     ),
                     Text(
                       'PUL/min',
                       style: TextStyle(
                         fontFamily: 'NanumRoundEB',
-                        fontSize: 12.0,
+                        fontSize: getUiSize(8),
                         color: Color(0xff78849e),
                       ),
                     )
@@ -222,7 +223,7 @@ class SelfBpInputForm extends StatelessWidget {
               Expanded(child: Text(''), flex: 1),
               Expanded(
                 child: SizedBox(
-                  height: 50,
+                  height: getUiSize(33),
                   child: TextFormField(
                     // autovalidateMode: AutovalidateMode.always,
                     // validator : (String? value) {
@@ -230,7 +231,7 @@ class SelfBpInputForm extends StatelessWidget {
                     //       ? '혈압지수가 너무 높습니다.' : null ;
                     // },
                       controller: pul,
-                      style: TextStyle(fontSize: 17,height: 1),
+                      style: TextStyle(fontSize: getUiSize(12),height: 1),
                       keyboardType: TextInputType.number,
                       // ignore: deprecated_member_use
                       inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
@@ -257,7 +258,7 @@ class SelfBpInputForm extends StatelessWidget {
          */
         Container(
             // height: 80.0,
-            padding: EdgeInsets.fromLTRB(10, 0, 20, 20),
+            padding: EdgeInsets.fromLTRB(getUiSize(5), 0, getUiSize(10), getUiSize(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -266,12 +267,12 @@ class SelfBpInputForm extends StatelessWidget {
                   children: [
                     Image.asset(
                       'images/memo_icon.png',
-                      height: 55,
-                      width: 55,
+                      height: getUiSize(39),
+                      width: getUiSize(39),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: getUiSize(6)),
                     SizedBox(
-                        width: 80,
+                        width: getUiSize(90),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -280,14 +281,14 @@ class SelfBpInputForm extends StatelessWidget {
                               '메모',
                               style: TextStyle(
                                   fontFamily: 'NanumRoundEB',
-                                  fontSize: 15.0,
+                                  fontSize: getUiSize(10.5),
                                   color: Colors.black),
                             ),
                             Text(
                               '선택사항',
                               style: TextStyle(
                                 fontFamily: 'NanumRoundEB',
-                                fontSize: 12.0,
+                                fontSize: getUiSize(8),
                                 color: Color(0xff78849e),
                               ),
                             )
@@ -313,7 +314,7 @@ class SelfBpInputForm extends StatelessWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(32.0)),
                             labelText: '예) 컨디션 좋음',
-                            labelStyle: TextStyle(fontSize: 13)),
+                            labelStyle: TextStyle(fontSize: getUiSize(12))),
                         textInputAction: TextInputAction.done,
                         focusNode: focusMemo,
                     )

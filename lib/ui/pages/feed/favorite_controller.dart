@@ -1,3 +1,4 @@
+//TODO:KEVIN
 import 'dart:ffi';
 
 import 'package:bloodpressure_keeper_app/model/users_dto.dart';
@@ -11,7 +12,6 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/apis/FeedsClient.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/config/config.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/CommonDto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FeedsItemDto.dart';
-import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FeedsListDto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/DioClient.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/SharedPrefUtil.dart';
@@ -19,32 +19,23 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/logger_utils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/common/BaseScaffoldController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FeedController extends GetxController {
+import 'dtos/FeedsListDto.dart';
 
-  FeedsListDto? data;
-  final List<FeedsItemDto> list = <FeedsItemDto>[].obs;
+class FavoriteController extends GetxController {
+
+  FavoriteListDto? data;
+  final List<FavoriteItemDto> list = <FavoriteItemDto>[].obs;
   int clickPosition = 0;
-
   int page = 0;
   int per_page = 50;
   bool listEnd = false;
   bool isLoading = false;
 
-  final RxBool snsInstar = true.obs, snsYoutube = true.obs, snsNaver = true.obs ;
-  set snsInstarCheck (bool value) => snsInstar.value = value;
-  bool get snsInstarCheck => snsInstar.value;
-
-  set snsYoutubeCheck (bool value) => snsYoutube.value = value;
-  bool get snsYoutubeCheck => snsYoutube.value;
-
-  set snsNaverCheck (bool value) => snsNaver.value = value;
-  bool get snsNaverCheck => snsNaver.value;
-
+  RxBool snsInstar = true.obs, snsYoutube = true.obs, snsNaver = true.obs ;
 
   ScrollController scrollController = ScrollController();
 
   final RxBool nestedScrollable = false.obs;
-
   /** 검색어 및 플랫폼 선택을 위해 */
   final FocusNode searchFocusNode = FocusNode ();
   final TextEditingController searchController = TextEditingController();
@@ -54,6 +45,7 @@ class FeedController extends GetxController {
   final refreshKey = GlobalKey<RefreshIndicatorState>();
 
   UsersDto usersInfo = UsersDto();
+  RxString strDataZeroMsg = "".obs ;
   @override
   void onInit () {
     super.onInit();
@@ -85,34 +77,32 @@ class FeedController extends GetxController {
   }
   void detailPageGo(int index)async{
     clickPosition = index;
-    Get.toNamed('${AppRoutes.FeedDetailPage}/value?page=FeedPage', arguments: list[index])!.then((value){
-
+    list[index].article!.is_like = list[index].is_like ;
+    Get.toNamed('${AppRoutes.FeedDetailPage}/value?page=FavoritePage', arguments: list[index].article)!.then((value){
+      if(value){
+        refreshFeeds(false);
+      }
     }); /** 상세페이지로!! */
   }
+
   void getInfo() async {
     usersInfo = await getUserInfo();
     print('!!!!!!!!!!!유저아이디>>>>>>>>>>>${usersInfo.id}');
   }
-  snsCheckSync()async{
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    snsInstarCheck  = (_prefs.getBool('snsInstar') == null ? true  : _prefs.getBool('snsInstar'))! ;
-    snsYoutubeCheck = (_prefs.getBool('snsYoutube') == null ? true  : _prefs.getBool('snsYoutube'))! ;
-    snsNaverCheck = (_prefs.getBool('snsNaver') == null ? true  : _prefs.getBool('snsNaver'))! ;
-  }
   snsCheck()async{
     if(platform == null || platform == ''){
       SharedPreferences _prefs = await SharedPreferences.getInstance();
-      snsInstarCheck  = (_prefs.getBool('snsInstar') == null ? true  : _prefs.getBool('snsInstar'))! ;
-      snsYoutubeCheck = (_prefs.getBool('snsYoutube') == null ? true  : _prefs.getBool('snsYoutube'))! ;
-      snsNaverCheck = (_prefs.getBool('snsNaver') == null ? true  : _prefs.getBool('snsNaver'))! ;
+      snsInstar = RxBool((_prefs.getBool('snsInstar') == null ? true  : _prefs.getBool('snsInstar'))!) ;
+      snsYoutube = RxBool((_prefs.getBool('snsYoutube') == null ? true  : _prefs.getBool('snsYoutube'))!) ;
+      snsNaver = RxBool((_prefs.getBool('snsNaver') == null ? true  : _prefs.getBool('snsNaver'))!) ;
       StringBuffer strPlatform = StringBuffer();
-      if(snsInstarCheck){
+      if(snsInstar.isTrue){
         strPlatform.write('#instagram');
       }
-      if(snsYoutubeCheck){
+      if(snsYoutube.isTrue){
         strPlatform.write('#youtube');
       }
-      if(snsNaverCheck){
+      if(snsNaver.isTrue){
         strPlatform.write('#naver-blog');
       }
       platform = strPlatform.toString();
@@ -120,21 +110,35 @@ class FeedController extends GetxController {
     getFeeds ();
   }
 
+  setSnsInStar(){
+    snsInstar = RxBool(snsInstar.isTrue ? false : true) ;
+    update();
+  }
+
+  setSnsYoutube()async{
+    snsYoutube = RxBool(snsYoutube.isTrue ? false : true) ;
+    update();
+  }
+
+  setSnsNaver()async{
+    snsNaver = RxBool(snsNaver.isTrue ? false : true) ;
+    update();
+  }
 
   snsCheckedSetting()async{
     platform = "" ;
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setBool('snsInstar', snsInstarCheck ? true : false) ;
-    _prefs.setBool('snsYoutube', snsYoutubeCheck ? true : false) ;
-    _prefs.setBool('snsNaver', snsNaverCheck ? true : false) ;
+    _prefs.setBool('snsInstar', snsInstar.isTrue ? true : false) ;
+    _prefs.setBool('snsYoutube', snsYoutube.isTrue ? true : false) ;
+    _prefs.setBool('snsNaver', snsNaver.isTrue ? true : false) ;
     StringBuffer strPlatform = StringBuffer();
-    if(snsInstarCheck){
+    if(snsInstar.isTrue){
       strPlatform.write('#instagram');
     }
-    if(snsYoutubeCheck){
+    if(snsYoutube.isTrue){
       strPlatform.write('#youtube');
     }
-    if(snsNaverCheck){
+    if(snsNaver.isTrue){
       strPlatform.write('#naver-blog');
     }
     platform = strPlatform.toString();
@@ -147,17 +151,19 @@ class FeedController extends GetxController {
     isLoading = true;
     final client = FeedsClient(DioClient.dio);
     print('>>>>>>>>>!!!!!!!!!!!${platform}');
-    await client.getFeeds(
+    await client.getFavorite(
         1 /** 1 ~ 3 */, page, per_page,SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN), SharedPrefKey.C9_KEY,platform,keyword,usersInfo.id
     ).then((result) {
 
       data = result;
+      strDataZeroMsg.value = (data == null || data!.data!.favorites!.length == 0) ? '등록된 즐겨찾기가 없습니다.' : '' ;
       //가라 데이타 ---------------------------------------------------------
       // list.add(fakeMe);
       //가라 데이타 ---------------------------------------------------------
-      list.addAllIf(data!.data!.articles!.length > 0, data!.data!.articles!);
 
-      if (data!.data!.articles!.length < per_page) {
+      list.addAllIf(data!.data!.favorites!.length > 0, data!.data!.favorites!);
+
+      if (data!.data!.favorites!.length < per_page) {
         listEnd = true;
       }
 

@@ -198,12 +198,13 @@ class BpManagementController extends GetxController {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Color(0xff454f63),
-            textColor: Colors.red,
+            textColor: Colors.white,
             fontSize: 16.0
         );
       }else{
+        DateTime nowSelectDay = dateShift(selectedDay,btn == 'B' ? -1 : 1) ;
         changeSelectedDay(
-            dateShift(selectedDay,btn == 'B' ? -1 : 1), getFocusedDay(todayIndex,selectedDay));
+            nowSelectDay, getFocusedDay(todayIndex,nowSelectDay));
         selectDayInfo();
       }
       // Fluttertoast.showToast(

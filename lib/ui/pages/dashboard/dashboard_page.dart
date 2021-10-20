@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/msg_alert_dialog/twobutton_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:bloodpressure_keeper_app/ui/pages/my/my_page.dart';
 import 'dashboard_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatelessWidget with WidgetsBindingObserver{
   List _list=[
     BpManagementPage(),
     FeedPage(),
@@ -43,6 +44,7 @@ class DashboardPage extends StatelessWidget {
           //SingleChildScrollView(child: this._list[controller.tabIndex],),
           bottomNavigationBar: BottomAppBar(
             child: Container(
+              width: double.infinity,
               //margin: EdgeInsets.only(left: 6.0, right: 6.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -59,9 +61,9 @@ class DashboardPage extends StatelessWidget {
                     },
                     child: controller.tabIndex == 0
                         ? Image.asset('images/menu_on_1.png',
-                            height: 70, width: 120)
+                            height: getUiSize (40), width: getUiSize (80))
                         : Image.asset('images/menu_off_1.png',
-                            height: 70, width: 120),
+                            height: getUiSize (40), width: getUiSize (80)),
                   ),
                   Expanded(
                     flex: 1,
@@ -73,9 +75,9 @@ class DashboardPage extends StatelessWidget {
                     },
                     child: controller.tabIndex == 1
                         ? Image.asset('images/menu_on_2.png',
-                            height: 70, width: 120)
+                            height: getUiSize (40), width: getUiSize (80))
                         : Image.asset('images/menu_off_2.png',
-                            height: 70, width: 120),
+                            height: getUiSize (40), width: getUiSize (80)),
                   ),
                   Expanded(
                     flex: 1,
@@ -87,9 +89,9 @@ class DashboardPage extends StatelessWidget {
                     },
                     child: controller.tabIndex == 2
                         ? Image.asset('images/menu_on_3.png',
-                            height: 70, width: 120)
+                            height: getUiSize (40), width: getUiSize (80))
                         : Image.asset('images/menu_off_3.png',
-                            height: 70, width: 120),
+                            height: getUiSize (40), width: getUiSize (80)),
                   ),
                   Expanded(
                     flex: 1,

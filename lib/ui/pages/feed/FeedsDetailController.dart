@@ -1,3 +1,6 @@
+
+import 'dart:collection';
+
 import 'package:bloodpressure_keeper_app/model/users_dto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/LikesDto.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/ContentsUtil.dart';
@@ -23,7 +26,10 @@ import 'dtos/MediaInfo.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/SharedPrefUtil.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FavoritesDto.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'favorite_controller.dart';
+import 'feed_controller.dart';
 
 class FeedsDetailController extends TdiOrientationController {
 
@@ -48,11 +54,21 @@ class FeedsDetailController extends TdiOrientationController {
 
 
   UsersDto usersInfo = UsersDto();
-  bool is_favorite_check = false ;
+  RxBool isFavorite = false.obs;
+  RxBool isLike = false.obs;
+  RxInt likeCount  = 0.obs ;
+  bool feedPageCheck = true ; //피드페이지먼 true 마이즐겨찾기페이지면 false
+
+  bool reSearch = false ;
   @override
   void onInit () async {
     super.onInit();
-
+    getInfo();
+    reSearch = false ;
+    if(Get.parameters['page'] != null){
+      feedPageCheck = Get.parameters['page'] == 'FeedPage' ? true : false ;
+    }
+    print('>>>>>>>>>>>>>>>>>오제발${Get.parameters['page']}');
     mediaCarouselController = CarouselController();
 
     customLogger.d("또 갈까? --> ${Get.arguments}");
@@ -62,8 +78,15 @@ class FeedsDetailController extends TdiOrientationController {
     } else if (Get.arguments.runtimeType == String) {
       data = await getFeedDetail ();
     }
-    is_favorite_check = data.is_favorite! ;
-    getInfo();
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${data.title}');
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${data.contents}');
+    //즐겨찾기가 널일경우 무조건 트루로(마이페이지> 즐겨찾기 리스트에서 널로 나온다)
+    if(data.is_favorite == null){
+      data.is_favorite = true ;
+    }
+    isFavorite.value = data.is_favorite! ;
+    isLike.value = data.is_like! ;
+    likeCount.value = data.article_detail == null ? 0 : data.article_detail!.like!;
   }
 
   @override
@@ -78,9 +101,11 @@ class FeedsDetailController extends TdiOrientationController {
   /** for share */
   Future<void> shareMe ()async {
 
-    Get.find<BaseScaffoldController>().isLoading = true;
-
+    // Get.find<BaseScaffoldController>().isLoading = true;
+    print ("미리보기 이미지 : ");
     MediaInfo _mediaInfo = ContentsUtil.getFeedsThumbNailInfo(data);
+    print ("미리보기 이미지 : ${_mediaInfo.url!}");
+    print ("id : ${data.id}");
 
     Uri url = await createDynamicLink(
         true, RouteNames.FEEDS_DETAIL, data.id.toString(),
@@ -101,23 +126,23 @@ class FeedsDetailController extends TdiOrientationController {
 
   /** 상세데이타가 없다면 로드할것!! */
   Future<FeedsItemDto> getFeedDetail () async {
-
     FeedsItemDto _result = FeedsItemDto();
-
-    await Future.delayed(Duration (milliseconds: 500)); //--> 객체 생성 까지 0.5초 대기
-    Get.find<BaseScaffoldController>().isLoading = true;
-    await feedsClient.getFeedDetail (Get.arguments).then((FeedsDetailDto result) {
-      Get.find<BaseScaffoldController>().isLoading = false;
+    if(EasyLoading != null){
+      EasyLoading.show();
+    }
+    // await Future.delayed(Duration (milliseconds: 2000)); //--> 객체 생성 까지 0.5초 대기
+    await feedsClient.getFeedDetail (Get.arguments,usersInfo.id, SharedPrefKey.C9_KEY).then((FeedsDetailDto result) {
+      if(EasyLoading != null){
+        EasyLoading.dismiss();
+      }
       _result = result.data as FeedsItemDto;
+      update();
     }).onError((DioError error, stackTrace) {
-      Get.find<BaseScaffoldController>().isLoading = false;
+      // EasyLoading.dismiss();
     });
 
     return _result;
   }
-
-
-  int get like => data.article_detail == null ? 0 : data.article_detail!.like!;
 
 
   /** 딥링크 생성 */
@@ -158,15 +183,33 @@ class FeedsDetailController extends TdiOrientationController {
 
   //즐겨찾기
   void setFavorites() async {
+    reSearch = false ;
     FavoritesDto favorites = FavoritesDto();
     favorites.media_id = 1 ;
     favorites.user_id =  '${usersInfo.id}' ;
     favorites.article_id = data.id ;
     final client = FeedsClient(DioClient.dio);
     await client.setFavorite(
-        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),favorites
+        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN), SharedPrefKey.C9_KEY,favorites
     ).then((result) {
-      is_favorite_check = true ;
+      isFavorite.value = !data.is_favorite! ;
+      data.is_favorite =  isFavorite.value ;
+      if(feedPageCheck){
+        FeedController listController = Get.find<FeedController>();
+        listController.list[listController.clickPosition] = data ;
+      }else{
+        reSearch = true ;
+      }
+
+      Fluttertoast.showToast(
+          msg: isFavorite.value ? '즐겨찾기가 추가되었습니다.':'즐겨찾기가 해제되었습니다.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color(0xff454f63),
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       update ();
 
     }).catchError((Object obj) async {
@@ -187,20 +230,40 @@ class FeedsDetailController extends TdiOrientationController {
   Future<void> setLikes () async {
     LikesDto likes = LikesDto();
     likes.media_id = 1 ;
-    likes.user_id =  '' ;
+    likes.user_id = '${usersInfo.id}' ;
     likes.article_id = data.id ;
+    likes.behavior_type = data.is_like == false ? 'like' : 'like' ;
     final client = FeedsClient(DioClient.dio);
-    await client.setLike('${data.id}','like',
-        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),likes
+    var returnServerData = await client.setLike(
+        '${data.id}',
+        likes.behavior_type!,
+        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),
+        SharedPrefKey.C9_KEY,
+        likes
     ).then((result) {
-
-
+      data.is_like = !data.is_like! ;
+      isLike.value = data.is_like! ;
+      LikesResultDto returnData = result ;
+      int intlikeCount = returnData.data!.like! ;
+      likeCount.value = intlikeCount ;
+      if(data.article_detail == null){
+        data.article_detail = ArticleDetail();
+      }
+      data.article_detail!.like =  intlikeCount ;
       update ();
-
+      if(feedPageCheck){
+        FeedController listController = Get.find<FeedController>();
+        listController.list[listController.clickPosition] = data ;
+      }else{
+        reSearch = true ;
+        // FavoriteController listController = Get.find<FavoriteController>();
+        // listController.list[listController.clickPosition].article = data ;
+      }
     }).catchError((Object obj) async {
       // non-200 error goes here.
       switch (obj.runtimeType) {
         case DioError:
+          print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.에러잔슴');
           final res = (obj as DioError).response;
           update();
           break;
@@ -208,6 +271,5 @@ class FeedsDetailController extends TdiOrientationController {
         //nothing yet;
       }
     });
-
   }
 }

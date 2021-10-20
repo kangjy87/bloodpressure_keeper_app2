@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/bp_management/self_bp_input/self_bp_input_controller.dart';
@@ -23,8 +24,8 @@ class SelfBpInputPage extends StatelessWidget {
             icon: Image.asset(
               'images/appbar_back.png',
               // fit: BoxFit.fill,
-              height: 30,
-              width: 30,
+              height: getUiSize(22),
+              width: getUiSize(22),
             ),
           ),
           title: Center(
@@ -37,10 +38,10 @@ class SelfBpInputPage extends StatelessWidget {
                   textAlign : TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'NanumRoundB',
-                      fontSize: 18,
+                      fontSize: (isSmallSize() ? getUiSize(15) : getUiSize(12)),
                       color: Color(0xff454f63)),
                 ),
-                SizedBox(width: 55,)
+                SizedBox(width: getUiSize(35),)
               ],
             )
           ),
@@ -56,71 +57,92 @@ class SelfBpInputPage extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Stack(
-                            children: [
-                              Image.asset(
-                                'images/self_bp_input_title.png',
-                                // fit: BoxFit.fill,
-                                height: 164.0,
-                                width: double.infinity,
-                              ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(220, 30, 0, 0),
-                                height: 164.0,
-                                width: double.infinity,
-                                color: Colors.transparent,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('혈압을 입력해주세요 :)',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: 'NanumRoundB',
-                                            fontSize: 14,
-                                            color: Colors.white)),
-                                    SizedBox(height: 8,),
-                                    Text('혈압건강 추이를',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: 'NanumRoundB',
-                                            fontSize: 14,
-                                            color: Colors.white)),
-                                    SizedBox(height: 8,),
-                                    Text('한 눈에 보여드릴게요!',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: 'NanumRoundB',
-                                            fontSize: 14,
-                                            color: Colors.white)),
-                                  ],
+                          Container(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: Color(0xff131522),
+                                  width: double.infinity,
+                                  height: getUiSize(97),
                                 ),
-                              ),
-                              /**
-                               *  날짜 선택 달력
-                               */
-                              Container(
-                                padding: EdgeInsets.fromLTRB(10, 160, 10, 10),
-                                child: WeekCalendarTable(
-                                  datePicker: (){
-                                    controller.selectDataPicker(context);
-                                  },
-                                  pageControllers: controller.pageControllers,
-                                  pageControllerFunction:
-                                      (PageController pageController) {
-                                    controller.pageControllers = pageController;
-                                  },
-                                  selectedDay: controller.selectedDay,
-                                  focusedDay: controller.focusedDay,
-                                  onDaySelected: (selectedDay, focusedDay) {
-                                    controller.changeSelectedDay(
-                                        selectedDay, focusedDay);
-                                  },
-                                  onPageChanged: (focusedDay) {
-                                    controller.changeFocusedDay(focusedDay);
-                                  },
+                                Positioned(
+                                    left: getUiSize (0.4),
+                                    top: getUiSize (0.1),
+                                    child: Image.asset(
+                                      'images/self_bp_input_title.png',
+                                      // fit: BoxFit.fill,
+                                      height: getUiSize(110),
+                                      width: getUiSize(280.5),
+                                      fit: BoxFit.fill,
+                                    )
                                 ),
-                              ),
-                            ],
+
+                                // Image.asset(
+                                //   'images/self_bp_input_title.png',
+                                //   // fit: BoxFit.fill,
+                                //   height: 164.0,
+                                //   width: double.infinity,
+                                //   fit: BoxFit.fill,
+                                // ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(getUiSize(0), 30, 30, 0),
+                                  height: getUiSize(110.5),
+                                  width: double.infinity,
+                                  color: Colors.transparent,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text('혈압을 입력해주세요 :)',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontFamily: 'NanumRoundB',
+                                              fontSize: (isSmallSize() ? getUiSize(12) : getUiSize(11)),
+                                              color: Colors.white)),
+                                      SizedBox(height: getUiSize(3),),
+                                      Text('혈압건강 추이를',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontFamily: 'NanumRoundB',
+                                              fontSize: (isSmallSize() ? getUiSize(12) : getUiSize(11)),
+                                              color: Colors.white)),
+                                      SizedBox(height: getUiSize(3),),
+                                      Text('한 눈에 보여드릴게요!',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontFamily: 'NanumRoundB',
+                                              fontSize: (isSmallSize() ? getUiSize(12) : getUiSize(11)),
+                                              color: Colors.white)),
+                                    ],
+                                  ),
+                                ),
+                                /**
+                                 *  날짜 선택 달력
+                                 */
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(0, getUiSize(115), 0, getUiSize(8)),
+                                  child: WeekCalendarTable(
+                                    datePicker: (){
+                                      controller.selectDataPicker(context);
+                                    },
+                                    pageControllers: controller.pageControllers,
+                                    pageControllerFunction:
+                                        (PageController pageController) {
+                                      controller.pageControllers = pageController;
+                                    },
+                                    selectedDay: controller.selectedDay,
+                                    focusedDay: controller.focusedDay,
+                                    onDaySelected: (selectedDay, focusedDay) {
+                                      controller.changeSelectedDay(
+                                          selectedDay, focusedDay);
+                                    },
+                                    onPageChanged: (focusedDay) {
+                                      controller.changeFocusedDay(focusedDay);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           /**
                            *  데이터 입력
@@ -147,14 +169,16 @@ class SelfBpInputPage extends StatelessWidget {
                       FocusScopeNode currentFocus = FocusScope.of(context);
                       currentFocus.unfocus(); //키보드 내리기
                       controller.localDbInsert((){
-                        oneButtonAlert(
-                            context,
-                            AppStrings.strSuccessTitle,
-                            AppStrings.strSuccessMsg,
-                            AppStrings.strButtonClose, () {
-                          Get.back();
-                          Get.back(result:{"date":controller.selectedDay});
-                        });
+                        // controller.serverDBInsert((){
+                          oneButtonAlert(
+                              context,
+                              AppStrings.strSuccessTitle,
+                              AppStrings.strSuccessMsg,
+                              AppStrings.strButtonClose, () {
+                            Get.back();
+                            Get.back(result:{"date":controller.selectedDay});
+                          });
+                        // });
                       });
                     })
               ],

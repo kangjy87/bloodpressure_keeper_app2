@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 
 class JoinAddInfoTitle extends StatelessWidget {
@@ -29,7 +30,7 @@ class JoinAddInfoTitle extends StatelessWidget {
                 style: TextStyle(
                     // decoration: TextDecoration.underline,
                     fontFamily: 'NanumRoundEB',
-                    fontSize: 23.0,
+                    fontSize: getUiSize(20),
                     color: Color(0xff454f63))
                 ,
               ),
@@ -39,7 +40,7 @@ class JoinAddInfoTitle extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'NanumRoundB',
-                    fontSize: 14.8,
+                    fontSize: getUiSize(11),
                     color: Color(0xff454f63)),
               ),
             ],

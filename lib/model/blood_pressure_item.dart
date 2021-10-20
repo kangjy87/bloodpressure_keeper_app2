@@ -13,6 +13,11 @@ class BloodPressureItem{
   String? weatherImg  ;       //날씨 아미지
   String? weatherTemp  ;      //날씨 온도
   String? weatherInfo  ;      //날씨 정보
+  int?    sendServerYM ;      //서버에 데이터에 전송되었는지 안되었는지 체크
+
+  //서버에 필요한 데이터
+  int? user_id ; //유저 아이디
+
 
 
   BloodPressureItem({
@@ -29,6 +34,9 @@ class BloodPressureItem{
     this.weatherImg,
     this.weatherTemp,
     this.weatherInfo,
+    this.sendServerYM,
+
+    this.user_id,
   });
 
   Map<String, dynamic> toMap(){
@@ -46,6 +54,8 @@ class BloodPressureItem{
       'weatherImg'     : weatherImg,
       'weatherTemp'    : weatherTemp,
       'weatherInfo'    : weatherInfo,
+      'sendServerYM'   : sendServerYM,
+      'user_id'        : user_id
     };
   }
 

@@ -1,5 +1,6 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
 import 'package:bloodpressure_keeper_app/model/bp_standard_model.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,7 +25,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
     return Container(
       // padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
       width: double.infinity,
-      height: 340.0,
+      height: getUiSize(240),
       child: Container(
         width: double.infinity,
         height: double.infinity,
@@ -32,10 +33,10 @@ class BpInfoViewSelectDay extends StatelessWidget {
         child: Column(
           children: [
             // Expanded(child: Text(''), flex: 1),
-            SizedBox(height: 19,),
+            SizedBox(height: getUiSize(9),),
             Container(
-              width: 250.0,
-              height: 36,
+              width: getUiSize(300),
+              height: getUiSize(28),
               // padding: const EdgeInsets.all(10.0),
               // decoration: BoxDecoration(
               //   shape: BoxShape.rectangle,
@@ -53,16 +54,16 @@ class BpInfoViewSelectDay extends StatelessWidget {
                           :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(data.rData!))} ",
                         style: TextStyle(
                             fontFamily: 'NanumRoundB',
-                            fontSize: 14.0,
+                            fontSize: getUiSize(10),
                             color: Color(0xff78849e)),
                         textAlign: TextAlign.center,),
                       Expanded(child: Text(''), flex: 1),
                       Text("${data.weatherTemp} ",style: TextStyle(
                           fontFamily: 'NanumRoundB',
-                          fontSize: 14.0,
+                          fontSize: getUiSize(10),
                           color: Color(0xff78849e)),
                         textAlign: TextAlign.center,),
-                      Visibility(visible: data.weatherImg != '',child: Image.asset(data.weatherImg!, width: 30, height: 30,),),
+                      Visibility(visible: data.weatherImg != '',child: Image.asset(data.weatherImg!, width: getUiSize(23), height: getUiSize(23),),),
                       Expanded(child: Text(''), flex: 1),
                     ],
                   ),
@@ -70,7 +71,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
               ),
             ),
             // Expanded(child: Text(''), flex: 1),
-            SizedBox(height: 20,),
+            SizedBox(height: getUiSize(9),),
             Row(
               children: [
                 Expanded(
@@ -85,8 +86,8 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         children: [
                           Image.asset(
                             'images/mini_main_sys_icon.png',
-                            height: 40,
-                            width: 40,
+                            height: getUiSize(28),
+                            width: getUiSize(28),
                           ),
                           SizedBox(
                             width: 7,
@@ -95,7 +96,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                             '${data.systolic}',
                             style: TextStyle(
                                 fontFamily: 'NanumRoundEB',
-                                fontSize: 32.0,
+                                fontSize: getUiSize(25),
                                 color: Colors.black),
                           ),
                         ],
@@ -108,7 +109,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 12.5,
+                          fontSize: getUiSize(8.5),
                           color: Color(0xff78849e),
                         ),
                       )
@@ -116,7 +117,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+                  padding: EdgeInsets.fromLTRB(0, getUiSize(20), 0, getUiSize(20)),
                   width: 2,
                   color: Color(0xfff4f5f7),
                 ),
@@ -132,8 +133,8 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         children: [
                           Image.asset(
                             'images/mini_main_dia_icon.png',
-                            height: 40,
-                            width: 40,
+                            height: getUiSize(28),
+                            width: getUiSize(28),
                           ),
                           SizedBox(
                             width: 7,
@@ -142,7 +143,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                             '${data.diastole}',
                             style: TextStyle(
                                 fontFamily: 'NanumRoundEB',
-                                fontSize: 32.0,
+                                fontSize: getUiSize(25),
                                 color: Colors.black),
                           ),
                         ],
@@ -155,7 +156,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'NanumRoundEB',
-                          fontSize: 12.5,
+                          fontSize: getUiSize(8.5),
                           color: Color(0xff78849e),
                         ),
                       )
@@ -163,7 +164,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  padding: EdgeInsets.fromLTRB(0, getUiSize(8.5), 0, getUiSize(8.5)),
                   width: 0.5,
                   child: Container(
                     color: Color(0xff78849e),
@@ -172,15 +173,15 @@ class BpInfoViewSelectDay extends StatelessWidget {
               ],
             ),
             // Expanded(child: Text(''), flex: 1),
-            SizedBox(height: 20,),
+            SizedBox(height: getUiSize(13),),
             Container(
-              padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+              padding: EdgeInsets.fromLTRB(getUiSize(13), 0, getUiSize(13), 0),
               height: 2,
               child: Container(
                 color: Color(0xfff4f5f7),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: getUiSize(13),),
             Expanded(
               flex: 1,
               child: Row(
@@ -192,8 +193,8 @@ class BpInfoViewSelectDay extends StatelessWidget {
                   ),
                   Image.asset(
                     'images/mini_main_pul_icon.png',
-                    height: 40,
-                    width: 40,
+                    height: getUiSize(28),
+                    width: getUiSize(28),
                   ),
                   Expanded(
                     child: Text(''),
@@ -202,7 +203,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     '${data.pulse}',
                     style: TextStyle(
                         fontFamily: 'NanumRoundEB',
-                        fontSize: 32.0,
+                        fontSize: getUiSize(25),
                         color: Colors.black),
                   ),
                   Expanded(
@@ -213,7 +214,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'NanumRoundEB',
-                      fontSize: 12.5,
+                      fontSize: getUiSize(8.5),
                       color: Color(0xff78849e),
                     ),
                   ),
@@ -223,7 +224,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: getUiSize(13),),
             /**
              * 메모
              */
@@ -235,21 +236,21 @@ class BpInfoViewSelectDay extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                        width: 40,
+                        width: getUiSize(40),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
                               'images/memo_icon.png',
-                              height: 30,
-                              width: 30,
+                              height: getUiSize(28),
+                              width: getUiSize(28),
                             ),
                             Text(
                               '메모',
                               style: TextStyle(
                                   fontFamily: 'NanumRoundEB',
-                                  fontSize: 12.0,
+                                  fontSize: getUiSize(10),
                                   color: Colors.black),
                             )
                           ],
@@ -273,17 +274,17 @@ class BpInfoViewSelectDay extends StatelessWidget {
                         //       borderRadius: BorderRadius.circular(32.0)),
                         //   // labelText: '',
                         // ),
-                        style: TextStyle(fontSize: 13.0, height: 1.5),),height: 35,),
+                        style: TextStyle(fontSize: 13.0, height: 1.5),),height: getUiSize(25),),
                       flex: 20,
                     ),
                     Expanded(child: Text(''), flex: 2),
                     GestureDetector(
                       child: Container(
-                        padding: EdgeInsets.only(left: 0, top: 20, right: 0, bottom: 0),
+                        padding: EdgeInsets.only(left: 0, top: getUiSize(10), right: 0, bottom: 0),
                         child: Image.asset(
                           'images/note_pencil_icon.png',
-                          height: 30,
-                          width: 30,
+                          height: getUiSize(25),
+                          width: getUiSize(25),
                         ),
                       ),
                       onTap: () {

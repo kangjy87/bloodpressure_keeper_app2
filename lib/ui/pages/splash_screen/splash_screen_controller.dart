@@ -96,31 +96,35 @@ class SplashScreenController extends GetxController {
   /**
    * KEVIN 추가분 ------------------------------------------------------------------------------------
    */
-  //데이타 로드
-  Future<void> feedAuthToken () async {
-    final client = FeedsClient(DioClient.dio);
-    await client.postToken(AuthRequestBody()).then((result) {
-      AuthTokenDto data = result;
-      SharedPrefUtil.setString(SharedPrefKey.CURATOR9_TOKEN, data.getToken());
-      setFeedCredentiaksGrant(data.access_token, () {
-        print('저장된값!!>>>>>>>>>>>>>>>>>>>>>>>>>${data.access_token}');
-        check2 = true ;
-      });
-
-    }).catchError((Object obj) async {
-      // non-200 error goes here.
-      switch (obj.runtimeType) {
-        case DioError:
-          final res = (obj as DioError).response;
-
-          AuthErrorDto errorDto = AuthErrorDto.fromJson(res?.data);
-          // customLogger.e ("error --> ${errorDto.message}");
-          //에러 핸들링 해야합니다.
-
-          break;
-        default:
-      }
-    });
+  feedAuthToken(){
+    SharedPrefUtil.setString(SharedPrefKey.CURATOR9_TOKEN,'eyJpdiI6ImRna2YyMi9jWkx2RmJMcC8zQ1ZqOXc9PSIsInZhbHVlIjoiQitMZUFGWHZ5eXp4cCsyemtsa2l3Zz09IiwibWFjIjoiMGEzMjdjODNiZmI0YzZkOTI3NjhmZmQ4YTkyNTFkMzA5MzYyMzNiYmIxZjA5YzljNWIxMWI0YjQxMjkyNTQ5NyJ9');
+    check2 = true ;
   }
+  //데이타 로드
+  // Future<void> feedAuthToken () async {
+  //   final client = FeedsClient(DioClient.dio);
+  //   await client.postToken(AuthRequestBody()).then((result) {
+  //     AuthTokenDto data = result;
+  //     SharedPrefUtil.setString(SharedPrefKey.CURATOR9_TOKEN, data.getToken());
+  //     setFeedCredentiaksGrant(data.access_token, () {
+  //       print('저장된값!???>>>>>>>>>>>>>>>>>>>>>>>>>${data.access_token}');
+  //       check2 = true ;
+  //     });
+  //
+  //   }).catchError((Object obj) async {
+  //     // non-200 error goes here.
+  //     switch (obj.runtimeType) {
+  //       case DioError:
+  //         final res = (obj as DioError).response;
+  //
+  //         AuthErrorDto errorDto = AuthErrorDto.fromJson(res?.data);
+  //         // customLogger.e ("error --> ${errorDto.message}");
+  //         //에러 핸들링 해야합니다.
+  //
+  //         break;
+  //       default:
+  //     }
+  //   });
+  // }
 ///----------------------------------------------------------------------------------------------------
 }
