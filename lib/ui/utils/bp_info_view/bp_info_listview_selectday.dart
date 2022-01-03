@@ -1,18 +1,19 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
+import 'package:bloodpressure_keeper_app/model/bloodpressure_dto.dart';
 import 'package:bloodpressure_keeper_app/model/bp_standard_model.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'bp_info_view_selectday.dart';
 
 class BpInfoListviewSelectDay extends StatelessWidget {
-  final List<BloodPressureItem> selectDayInfoList ;
+  final List<BloodPressureDto> selectDayInfoList ;
   final int lastPage ;
   final PageController pageController ;
   final String beforeBtnImg ;
   final String afterBtnImg ;
   final int position ;
   final BPStandardModel bpRiskLevel ;
-  final Function(BloodPressureItem data) detailPageClick;
+  final Function(BloodPressureDto data) detailPageClick;
   final Function() selfPageClick;
   final Function(String btn, int index,int lastIndex) setonclicked;
   BpInfoListviewSelectDay({

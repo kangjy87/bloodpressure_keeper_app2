@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.4+5
+version: 1.0.6+7
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -51,14 +51,20 @@ dev_dependencies:
   google_sign_in: ^5.0.4 #구글로그인
   firebase_core: ^1.6.0 #구글로그인
   sign_in_with_apple: ^3.0.0 #애플로그인
-  charts_flutter: ^0.11.0 #차트
+  #charts_flutter: ^0.11.0 #차트
+  charts_flutter:
+    git:
+      url: https://github.com/google/charts
+      path: charts_flutter
   firebase_messaging: ^10.0.5 #FCM 토큰
   geolocator: <=7.4.0 #위치정보 받기
   geocoding: <=2.0.0 # 위치를 통한 주소조회
   flutter_easyloading: ^3.0.0 #로딩
   firebase_crashlytics: ^2.2.1 #파이어베이스 크래쉬
   lottie: ^1.1.0 #로티 (스플래시 애니효과)
-
+  skeleton_loader: ^2.0.0+4 #피드리스트 조회시 스켈레톤
+  advertising_id: ^2.1.1 #광고아이디
+  device_info: ^2.0.3 #디바이스정보
   adaptive_dialog: ^1.1.0
   flutter_staggered_grid_view: ^0.4.0
   cached_network_image: ^3.1.0

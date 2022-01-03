@@ -16,6 +16,19 @@ Future<GetClientCredentialsGrantDto> getClientCredentiaksGrant()async{
   data.access_token = _prefs.getString('access_token');
   return data ;
 }
+/**
+ *  AccessToken 로그인하고 나서 받아오는 값
+ */
+void setUserAccessToken(String? accessToken)async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.setString('UserAccessToken', (accessToken == null ? "" : accessToken));
+}
+Future<String> getUserAccessToken()async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String? token = _prefs.getString('UserAccessToken');
+  return token == null ? "" : 'Bearer ${token}';
+}
+
 
 void setFeedCredentiaksGrant(String? value,Function saved)async{
   SharedPreferences _prefs = await SharedPreferences.getInstance();

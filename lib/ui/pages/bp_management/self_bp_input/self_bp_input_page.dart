@@ -168,8 +168,8 @@ class SelfBpInputPage extends StatelessWidget {
                     setonclicklistener: () {
                       FocusScopeNode currentFocus = FocusScope.of(context);
                       currentFocus.unfocus(); //키보드 내리기
-                      controller.localDbInsert((){
-                        // controller.serverDBInsert((){
+                      // controller.localDbInsert((){
+                        controller.serverDBInsert((){
                           oneButtonAlert(
                               context,
                               AppStrings.strSuccessTitle,
@@ -178,8 +178,18 @@ class SelfBpInputPage extends StatelessWidget {
                             Get.back();
                             Get.back(result:{"date":controller.selectedDay});
                           });
-                        // });
-                      });
+                        },(){
+                          oneButtonAlert(
+                              context,
+                              "에러",
+                              "통신이 원활하지 않아 저장에 실패하였습니다.",
+                              "종료", () {
+                            Navigator.pop(context);
+                            Get.back();
+                            Get.back();
+                          });
+                        });
+                      // });
                     })
               ],
             ),

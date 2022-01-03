@@ -1,9 +1,18 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
+import 'package:bloodpressure_keeper_app/model/bloodpressure_dto.dart';
+import 'package:bloodpressure_keeper_app/model/users_dto.dart';
+import 'package:bloodpressure_keeper_app/retrofit/blood_pressure_server.dart';
+import 'package:bloodpressure_keeper_app/retrofit/tdi_servers.dart';
 import 'package:bloodpressure_keeper_app/utils/blood_pressure_local_db.dart';
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/get_client_credentials_grant.dart';
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/login_info.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bloodpressure_keeper_app/utils/weather_util.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class BpDetailInfoController extends GetxController {
   TextEditingController resultSys = TextEditingController() ;
@@ -13,7 +22,9 @@ class BpDetailInfoController extends GetxController {
   FocusNode focusPul = FocusNode();
   TextEditingController resultMemo = TextEditingController();
   FocusNode focusMemo = FocusNode();
-  BloodPressureItem data = BloodPressureItem();
+  BloodPressureDto data = BloodPressureDto();
+  String weatherImg = "" ;
+  late String appKey = '';
 
   @override
   void onInit() {
@@ -25,16 +36,20 @@ class BpDetailInfoController extends GetxController {
      focusPul = FocusNode();
      resultMemo = TextEditingController();
      focusMemo = FocusNode();
-     data = BloodPressureItem();
+     data = BloodPressureDto();
     dataSetting();
   }
+
   dataSetting(){
     data = Get.arguments;
-    print('!!!!!!!!!!!!!!!>>>>>>>>>>>>>>${data.memo}');
+    print('!!1231231231231231231231231!!!!!!!!!!!!${data.id}!!!>>>>>>>>>>>>>>${data.memo}');
     resultSys.text = "${data.systolic}" ;
-    resultDia.text = "${data.diastole}";
-    resultPul.text = "${data.pulse}";
-    resultMemo.text = "${data.memo}" ;
+    resultDia.text = "${data.diastolic}";
+    resultPul.text = "${data.heart}";
+    resultMemo.text = data.memo == null ? "" : "${data.memo}" ;
+    if(data.weather != null && data.weather != null){
+      weatherImg = WeatherUtil.getWeatherImageFromWeatherStr(data.weather!);
+    }
     update();
   }
 
@@ -117,16 +132,51 @@ class BpDetailInfoController extends GetxController {
   Future<void> localDbInsert(Function saved)async {
     if(saveCheck()){
       data.systolic = int.parse(resultSys.text) ;
-      data.diastole = int.parse(resultDia.text);
-      data.pulse = int.parse(resultPul.text);
+      data.diastolic = int.parse(resultDia.text);
+      data.heart = int.parse(resultPul.text);
       data.memo = resultMemo.text ;
       update();
 
-      BloodPressureLocalDB db = BloodPressureLocalDB();
-      db.database ;
-      await db.selectMemoUpset(data).then((value){
-        saved.call();
+      // BloodPressureLocalDB db = BloodPressureLocalDB();
+      // db.database ;
+      // await db.selectMemoUpset(data).then((value){
+      //   saved.call();
+      // });
+    }
+  }
+
+  Future<void> serverDbInsert(Function saved, Function err)async {
+    appKey = await getUserAccessToken();
+    if(saveCheck()){
+      // BloodPressureDto savedata = BloodPressureDto();
+      data.systolic = int.parse(resultSys.text) ;
+      data.diastolic = int.parse(resultDia.text);
+      data.heart = int.parse(resultPul.text);
+      data.memo = resultMemo.text ;
+      TdiServers(bloodPressureServer: (BloodPressureServer bps) async {
+        await bps.BloodPressureUpdate(appKey, '${data.id}',data).then((value){
+        // await bps.BloodPressureUpdate(appKey, '${data.id}',data.systolic!, data.diastolic!,data.heart!,data.memo!).then((value){
+          EasyLoading.dismiss();
+          print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${value.result}');
+          print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${value.data!.user_id}');
+          // if(resp.user_id != null){
+          saved.call();
+          // }
+        }).catchError((Object obj) async {
+          print('에러된값>>>>>>>>>>>>>>>>>>>>>>>>>${obj}');
+          EasyLoading.dismiss();
+          err();
+          switch (obj.runtimeType) {
+            case DioError:
+              final res = (obj as DioError).response;
+              update();
+              break;
+            default:
+            //nothing yet;
+          }
+        });
       });
+
     }
   }
 }

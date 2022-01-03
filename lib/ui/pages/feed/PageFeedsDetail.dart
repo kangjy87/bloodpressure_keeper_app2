@@ -184,7 +184,6 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
     if(controller.data != null && controller.data.article_owner != null){
       userThumbnailURL = controller.data.article_owner!.thumbnail_url;
     }
-    print('111111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${userThumbnailURL}');
     if (userThumbnailURL == null || userThumbnailURL.isEmpty) userThumbnailURL = "";
 
 

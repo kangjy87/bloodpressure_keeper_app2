@@ -28,19 +28,37 @@ abstract class BloodPressureServer {
       );
 
 
+  //혈압조회하기
+  @GET("/api/v1/blood_pressure")
+  @Utf8Codec()
+  Future<GetBloodPressureDto> getBloodPressureList(
+      @Header('Authorization') authorization,
+      @Query("start") String start,
+      @Query ("end") String end,
+      );
+
   //혈압등록하기
   @POST("/api/v1/blood_pressure")
   @Utf8Codec()
   Future<GetBloodPressureDto> BloodPressureInsert(
       @Header('Authorization') authorization,
-      @Body() BloodPressureDto task
+      @Body() SendBloodPressureDto task
       );
 
   //혈압수정하기
-  @POST("/api/v1/blood_pressure/{id}")
+  @PUT("/api/v1/blood_pressure/{id}")
   @Utf8Codec()
-  Future<GetBloodPressureDto> BloodPressureUpdate(
+  Future<GetBloodPressureDto2> BloodPressureUpdate(
+      @Header('Authorization') authorization,
       @Path ('id') String id,
       @Body() BloodPressureDto task
       );
+  // Future<GetBloodPressureDto2> BloodPressureUpdate(
+  //     @Header('Authorization') authorization,
+  //     @Path ('id') String id,
+  //     @Query ("systolic") int systolic,
+  //     @Query ("diastolic") int diastolic,
+  //     @Query ("heart") int heart,
+  //     @Query ("memo") String memo,
+  //     );
 }

@@ -217,14 +217,16 @@ class BpManagementPage extends StatelessWidget {
                           },
                           detailPageClick: (data) {
                             controller.detailPageGo(data, () {
-                              controller.chartRefresh(); //차트 리플리쉬
-                              controller.selectDayInfo(); //정보보여지기
+                              controller.getServerBpList(true);
+                              // controller.chartRefresh(); //차트 리플리쉬
+                              // controller.selectDayInfo(); //정보보여지기
                             });
                           },
                           selfPageClick: (){
                             controller.selfBpInput(() {
-                              controller.chartRefresh(); //차트 리플리쉬
-                              controller.selectDayInfo(); //정보보여지기
+                              controller.getServerBpList(true);
+                              // controller.chartRefresh(); //차트 리플리쉬
+                              // controller.selectDayInfo(); //정보보여지기
                             });
                           },
                         ),
@@ -354,9 +356,10 @@ class BpManagementPage extends StatelessWidget {
                   backgroundColor: Color(0xff454f63),
                   onPressed: () {
                     controller.selfBpInput(() {
-                      controller.chartRefresh(); //차트 리플리쉬
-                      controller.selectDayInfo(); //정보보여지기
-                      controller.titleSetting(); //타이틀바
+                      controller.getServerBpList(true);
+                      // controller.chartRefresh(); //차트 리플리쉬
+                      // controller.selectDayInfo(); //정보보여지기
+                      // controller.titleSetting(); //타이틀바
                     });
                   });
             }));

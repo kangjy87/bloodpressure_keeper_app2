@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 String getStringDay(String yyyymmdd){
   return DateFormat('yyyy-MM-dd').format(DateTime.parse(yyyymmdd));
 }
+
 String getKorDayOfTheWeek(String strSelectDay){
   String strReturn = "";
   switch(strSelectDay){
@@ -88,7 +89,18 @@ String getStringDayOfTheWeek(int intSelectDay){
   }
   return strReturn ;
 }
-
+String getLastMonthDay(String days){
+  DateTime date = DateTime.parse(days);
+  DateTime date1 = DateTime(date.year, date.month+1,date.day) ;
+  String day = DateFormat('yyyy-MM-dd').format(DateTime(date1.year, date1.month,date1.day-1));
+  return day ;
+}
+String getAgeMonth(String days){
+  DateTime date = DateTime.parse(days);
+  DateTime date1 = DateTime(date.year, date.month-1) ;
+  String day = DateFormat('yyyy-MM').format(DateTime(date1.year, date1.month,date1.day));
+  return day ;
+}
 String getWeekDaySearch(String strSunday,int seachWeekDay){
   DateTime date = DateTime.parse(strSunday);
   String day = DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, date.day - seachWeekDay));
@@ -100,6 +112,14 @@ DateTime dateShift(DateTime date,int changeAddDay){
 }
 DateTime typeChangeDateTime(String date){
   return DateTime.parse(date);
+}
+String typeChangeString(DateTime date){
+  String day = DateFormat('yyyy-MM-dd').format(date);
+  return day;
+}
+String typeChangeStryyyymm(DateTime date){
+  String day = DateFormat('yyyy-MM').format(date);
+  return day;
 }
 Future<bool> getWeatherSearchCheck()async{
   String strSaveTime = (await getWeatherSaveTime())!;
@@ -160,7 +180,7 @@ DateTime getFocusedDay(int todayIndex, DateTime selectDay){
  * 두 날짜 차이
  */
 int dateDifference(DateTime date){
-  int day = int.parse(DateTime.now().difference(date).inMinutes.toString());
+  int day = int.parse(DateTime.now().difference(date).inDays.toString());
   return day;
 }
 /**

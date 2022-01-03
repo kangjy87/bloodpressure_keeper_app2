@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/MediaInfo.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/ContentsUtil.dart';
@@ -133,7 +134,14 @@ class MediaItemView extends StatelessWidget {
       })
           : (controller.data.article_medias == null || controller.data.article_medias!.length == 0) ?
       Container (
-
+        height: controller.orientation.value == Orientation.portrait ? isTabletSize() ? Get.width * 0.6 : Get.width : Get.height,
+        width: Get.width,
+        color: Colors.black,
+        // child: Positioned(
+        //     left: getUiSize (0.4),
+        //     top: getUiSize (0.1),
+        //     child: Expanded(child: Lottie.asset('assets/splash.json'), flex: 9),
+        // ),
       )
           :
       Container (

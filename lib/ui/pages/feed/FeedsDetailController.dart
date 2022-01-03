@@ -63,23 +63,34 @@ class FeedsDetailController extends TdiOrientationController {
   @override
   void onInit () async {
     super.onInit();
-    getInfo();
+    ////////유저 아이디 받아오기
+    usersInfo = await getUserInfo();
     reSearch = false ;
+    //어디서 넘어온 화면인지 출처 확인
     if(Get.parameters['page'] != null){
       feedPageCheck = Get.parameters['page'] == 'FeedPage' ? true : false ;
     }
-    print('>>>>>>>>>>>>>>>>>오제발${Get.parameters['page']}');
     mediaCarouselController = CarouselController();
 
-    customLogger.d("또 갈까? --> ${Get.arguments}");
+    // customLogger.d("또 갈까? --> ${Get.arguments}");
 
+    //리스트에서 디테일 화면을 들어왔을떈 서버를 안타고 공유로 바로 접속시에만 서버를 타게 해둠
+    // if (Get.arguments.runtimeType == FeedsItemDto) {
+    //   data = Get.arguments as FeedsItemDto;
+    // } else if (Get.arguments.runtimeType == String) {
+    //   data = await getFeedDetail ();
+    // }
+    //2021-11-09 리스트에서 디테일 화면으로 들어왓을때도 서버를 타도록 변경
+    print('힛 여기루 탐 ㅋㅋ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     if (Get.arguments.runtimeType == FeedsItemDto) {
-      data = Get.arguments as FeedsItemDto;
+      FeedsItemDto getData = Get.arguments as FeedsItemDto;
+      data = await getFeedDetail ('${getData.id}');
     } else if (Get.arguments.runtimeType == String) {
-      data = await getFeedDetail ();
+      data = await getFeedDetail (Get.arguments);
     }
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${data.title}');
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${data.contents}');
+    //////////////////////////////////////////////////////
+
+
     //즐겨찾기가 널일경우 무조건 트루로(마이페이지> 즐겨찾기 리스트에서 널로 나온다)
     if(data.is_favorite == null){
       data.is_favorite = true ;
@@ -94,9 +105,10 @@ class FeedsDetailController extends TdiOrientationController {
     super.onClose();
   }
 
-  void getInfo() async {
-    usersInfo = await getUserInfo();
-  }
+  // Future<void> getInfo() async {
+  //   usersInfo = await getUserInfo();
+  //   print('뭐지???>>>>>>>>>${usersInfo.id}');
+  // }
 
   /** for share */
   Future<void> shareMe ()async {
@@ -125,19 +137,21 @@ class FeedsDetailController extends TdiOrientationController {
   }
 
   /** 상세데이타가 없다면 로드할것!! */
-  Future<FeedsItemDto> getFeedDetail () async {
+  Future<FeedsItemDto> getFeedDetail (String articleId) async {
     FeedsItemDto _result = FeedsItemDto();
     if(EasyLoading != null){
       EasyLoading.show();
     }
     // await Future.delayed(Duration (milliseconds: 2000)); //--> 객체 생성 까지 0.5초 대기
-    await feedsClient.getFeedDetail (Get.arguments,usersInfo.id, SharedPrefKey.C9_KEY).then((FeedsDetailDto result) {
+    await feedsClient.getFeedDetail (articleId,usersInfo.id, SharedPrefKey.C9_KEY).then((FeedsDetailDto result) {
       if(EasyLoading != null){
         EasyLoading.dismiss();
       }
       _result = result.data as FeedsItemDto;
+      print('?!@#!@#!@#!@#!@#!@#!@#!@#!@#!!!!!!!!!!!!!!!!');
       update();
     }).onError((DioError error, stackTrace) {
+      print('?!@#!@#!@#!@#!@#!@#!@#!@#!@#ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ');
       // EasyLoading.dismiss();
     });
 
@@ -189,11 +203,11 @@ class FeedsDetailController extends TdiOrientationController {
     favorites.user_id =  '${usersInfo.id}' ;
     favorites.article_id = data.id ;
     final client = FeedsClient(DioClient.dio);
-    await client.setFavorite(
-        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN), SharedPrefKey.C9_KEY,favorites
+    await client.setFavorite(SharedPrefKey.C9_KEY,favorites
     ).then((result) {
       isFavorite.value = !data.is_favorite! ;
       data.is_favorite =  isFavorite.value ;
+      //피드면 리스트에서 즐겨찾기 상태값을 리스트로 보내고 즐겨찾기는 걍 재조회를 시켜버린다.
       if(feedPageCheck){
         FeedController listController = Get.find<FeedController>();
         listController.list[listController.clickPosition] = data ;
@@ -237,7 +251,6 @@ class FeedsDetailController extends TdiOrientationController {
     var returnServerData = await client.setLike(
         '${data.id}',
         likes.behavior_type!,
-        SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN),
         SharedPrefKey.C9_KEY,
         likes
     ).then((result) {

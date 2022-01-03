@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bloodpressure_keeper_app/utils/getPhoneInfo.dart';
 import 'package:dio/dio.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/config/config.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/SharedPrefUtil.dart';
@@ -59,14 +60,22 @@ abstract class DioClient {
 
     /** AUTH TOKEN */
     String? q_auth_token = await SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN);
-    if (options.baseUrl.startsWith(Constants.Q_API_BASE_URL) && q_auth_token != null && q_auth_token.isNotEmpty) {
-      options.headers['Authorization'] = q_auth_token;
-    }
+    options.headers['Authorization'] = q_auth_token;
+    PhoneInfo phoneInfo = await getPhoneInfo();
+    options.headers['device'] = phoneInfo.device;
+    options.headers['os_version'] = phoneInfo.osVersion;
+    options.headers['app_version'] = phoneInfo.appVersion;
+    options.headers['advertising_id'] = phoneInfo.advertsingId;
+    options.headers['os'] = phoneInfo.os;
 
-    String? api_auth_token = await SharedPrefUtil.getString(SharedPrefKey.AUTH_TOKEN);
-    if (options.baseUrl.startsWith(Constants.API_BASE_URL) && api_auth_token != null && api_auth_token.isNotEmpty) {
-      options.headers['Authorization'] = api_auth_token;
-    }
+    // if (options.baseUrl.startsWith(Constants.Q_API_BASE_URL) && q_auth_token != null && q_auth_token.isNotEmpty) {
+    //   options.headers['Authorization'] = q_auth_token;
+    // }
+    //
+    // String? api_auth_token = await SharedPrefUtil.getString(SharedPrefKey.AUTH_TOKEN);
+    // if (options.baseUrl.startsWith(Constants.API_BASE_URL) && api_auth_token != null && api_auth_token.isNotEmpty) {
+    //   options.headers['Authorization'] = api_auth_token;
+    // }
 
     customLogger.d('!!!!!!!!!!REQUEST SENT WITH FOLLOWING LOG!!!!!!!!!!\n'
         'path: ${options.baseUrl}${options.path}\n'

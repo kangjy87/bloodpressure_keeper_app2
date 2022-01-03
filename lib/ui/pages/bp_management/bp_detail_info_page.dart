@@ -117,22 +117,22 @@ class BpDetailInfoPage extends StatelessWidget {
                           child: Center(
                             child: Row(
                               children: [
-                                Expanded(child: Text(''), flex: controller.data.weatherImg != '' ? 1 : 2),
-                                Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(controller.data.saveData!)) == controller.data.rData
-                                    ?"${DateFormat('yyyy.MM.dd HH시 mm분').format(DateTime.parse(controller.data.saveData!))} "
-                                    :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(controller.data.rData!))} ",
+                                Expanded(child: Text(''), flex: controller.weatherImg != '' ? 1 : 2),
+                                Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(controller.data.created_at!)) == controller.data.date
+                                    ?"${DateFormat('yyyy.MM.dd HH시 mm분').format(DateTime.parse(controller.data.created_at!))} "
+                                    :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(controller.data.date!))} ",
                                   style: TextStyle(
                                       fontFamily: 'NanumRoundB',
                                       fontSize: getUiSize(12),
                                       color: Color(0xff78849e)),
                                   textAlign: TextAlign.center,),
                                 Expanded(child: Text(''), flex: 1),
-                                Text("${controller.data.weatherTemp} ",style: TextStyle(
+                                Text("${controller.data.temperature}℃ ",style: TextStyle(
                                     fontFamily: 'NanumRoundB',
                                     fontSize: getUiSize(12),
                                     color: Color(0xff78849e)),
                                   textAlign: TextAlign.center,),
-                                Visibility(visible: controller.data.weatherImg != '',child: Image.asset(controller.data.weatherImg!, width: getUiSize(27), height: getUiSize(27),),),
+                                Visibility(visible: controller.weatherImg != '',child: Image.asset(controller.weatherImg, width: getUiSize(27), height: getUiSize(27),),),
                                 Expanded(child: Text(''), flex: 1),
                               ],
                             ),
@@ -199,7 +199,7 @@ class BpDetailInfoPage extends StatelessWidget {
                                     // },
                                     keyboardType: TextInputType.number,
                                     // ignore: deprecated_member_use
-                                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                    // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                                     controller: controller.resultSys,
                                     style: TextStyle(fontSize: getUiSize(12),height: 1),
                                     textAlign: TextAlign.center,
@@ -271,7 +271,7 @@ class BpDetailInfoPage extends StatelessWidget {
                                     // },
                                     keyboardType: TextInputType.number,
                                     // ignore: deprecated_member_use
-                                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                    // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                                     textAlign: TextAlign.center,
                                     controller: controller.resultDia,
                                     style: TextStyle(fontSize: getUiSize(12),height: 1),
@@ -346,7 +346,7 @@ class BpDetailInfoPage extends StatelessWidget {
                                     style: TextStyle(fontSize: getUiSize(12),height: 1),
                                     keyboardType: TextInputType.number,
                                     // ignore: deprecated_member_use
-                                    inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                                    // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
@@ -447,14 +447,24 @@ class BpDetailInfoPage extends StatelessWidget {
                   setonclicklistener: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
                     currentFocus.unfocus(); //키보드 내리기
-                    controller.localDbInsert((){
+                    controller.serverDbInsert((){
                       oneButtonAlert(
                           context,
                           AppStrings.strSuccessTitle,
                           AppStrings.strSuccessMsg,
                           AppStrings.strButtonClose, () {
                         Get.back();
-                        Get.back(result:{"date":DateTime.parse(controller.data.rData!)});
+                        Get.back(result:{"date":DateTime.parse(controller.data.date!)});
+                      });
+                    },(){
+                      oneButtonAlert(
+                          context,
+                          "에러",
+                          "통신이 원활하지 않아 저장에 실패하였습니다.",
+                          "종료", () {
+                        Navigator.pop(context);
+                        Get.back();
+                        Get.back();
                       });
                     });
                   })

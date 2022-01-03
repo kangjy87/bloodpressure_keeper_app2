@@ -1,10 +1,12 @@
 import 'package:bloodpressure_keeper_app/model/bloodpressure_dto.dart';
 import 'package:bloodpressure_keeper_app/model/client_credentials_grant_dto.dart';
+import 'package:bloodpressure_keeper_app/model/users_dto.dart';
 import 'package:bloodpressure_keeper_app/retrofit/blood_pressure_server.dart';
 import 'package:bloodpressure_keeper_app/retrofit/tdi_servers.dart';
 import 'package:bloodpressure_keeper_app/utils/day_util.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/get_client_credentials_grant.dart';
 import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/last_weather_info.dart';
+import 'package:bloodpressure_keeper_app/utils/shared_preferences_info/login_info.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/routes/app_routes.dart';
@@ -25,6 +27,7 @@ class SelfBpInputController extends GetxController {
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
 
+  UsersDto usersInfo = UsersDto();
 
   //날짜 선택시
   void changeSelectedDay(DateTime sDay,DateTime fDay){
@@ -55,12 +58,14 @@ class SelfBpInputController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    initSetting();
     beforeBloodPressure();
   }
-
+  void initSetting()async{
+    usersInfo = await getUserInfo();
+  }
   void beforeBloodPressure()async{
-    GetClientCredentialsGrantDto gcDto = await getClientCredentiaksGrant();
-    appKey = "Bearer ${gcDto.access_token}" ;
+    appKey = await getUserAccessToken();
     //혈압관리에서선택한 날짜 화면 표시
     selectedDay = Get.arguments['date'];
     int todayIndex = Get.arguments['todayIndex'];
@@ -151,8 +156,47 @@ class SelfBpInputController extends GetxController {
     }
     return true ;
   }
-  Future<void> localDbInsert(Function saved)async {
+  // Future<void> localDbInsert(Function saved)async {
+  //   if(saveCheck()){
+  //     String? weatherImg ;
+  //     String? weatherTemp ;
+  //     String? weatherInfo ;
+  //     print('${DateFormat('yyyy-MM-dd').format(DateTime.now())}>>>>>>>>>>${DateFormat('yyyy-MM-dd').format(selectedDay)}>>>>>>>>>>>>날짜 비교 >>>>>>>${DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(selectedDay)}');
+  //     if(DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(selectedDay)){
+  //       weatherImg = await getWeatherImg();
+  //       weatherTemp = await getWeatherTemp();
+  //       weatherInfo = await getWeatherInfo();
+  //     }else{
+  //       weatherImg = "";
+  //       weatherTemp = "";
+  //       weatherInfo = "";
+  //     }
+  //     BloodPressureLocalDB db = BloodPressureLocalDB();
+  //     db.database ;
+  //     BloodPressureItem data =
+  //     BloodPressureItem(
+  //         dayOfTheWeek: DateFormat('EEEE').format(selectedDay),
+  //         rData: DateFormat('yyyy-MM-dd').format(selectedDay),
+  //         saveData: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+  //         registeredType: 1,
+  //         systolic: int.parse(resultSys.text),
+  //         diastole: int.parse(resultDia.text),
+  //         pulse: int.parse(resultPul.text),
+  //         memo: resultMemo.text,
+  //         weatherImg: weatherImg,
+  //         weatherTemp: weatherTemp,
+  //         weatherInfo: weatherInfo,
+  //         sendServerYM: 0 // 0 서버 비전송상태, 1 서버 전송상태
+  //     );
+  //     await db.insertAssetPortfolio(data).then((value){
+  //       saved.call();
+  //     });
+  //   }
+  // }
+  //서버에 데이터 저장시키기
+  Future<void> serverDBInsert(Function saved,Function err)async{
     if(saveCheck()){
+      EasyLoading.show();
       String? weatherImg ;
       String? weatherTemp ;
       String? weatherInfo ;
@@ -166,51 +210,49 @@ class SelfBpInputController extends GetxController {
         weatherTemp = "";
         weatherInfo = "";
       }
-      BloodPressureLocalDB db = BloodPressureLocalDB();
-      db.database ;
-      BloodPressureItem data =
-      BloodPressureItem(
-          dayOfTheWeek: DateFormat('EEEE').format(selectedDay),
-          rData: DateFormat('yyyy-MM-dd').format(selectedDay),
-          saveData: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
-          registeredType: 1,
-          systolic: int.parse(resultSys.text),
-          diastole: int.parse(resultDia.text),
-          pulse: int.parse(resultPul.text),
-          memo: resultMemo.text,
-          weatherImg: weatherImg,
-          weatherTemp: weatherTemp,
-          weatherInfo: weatherInfo,
-          sendServerYM: 0 // 0 서버 비전송상태, 1 서버 전송상태
-      );
-      await db.insertAssetPortfolio(data).then((value){
-        saved.call();
+      String? address_depth1 = await getCity_si();
+      String? address_depth2 = await getCity_gu();
+      String? address_depth3 = await getCity_dong();
+
+      print('>>>>>>>>Asdfasdfs>>>>>>>>>>>>${weatherTemp}');
+      TdiServers(bloodPressureServer: (BloodPressureServer bps) async {
+        BloodPressureDto task = BloodPressureDto();
+        task.user_id = usersInfo.id ;
+        task.date = DateFormat('yyyy-MM-dd').format(selectedDay);
+        task.diastolic = int.parse(resultDia.text);
+        task.systolic = int.parse(resultSys.text);
+        task.heart = int.parse(resultPul.text);
+        task.memo = resultMemo.text ;
+        task.temperature =  weatherTemp == "" ? 0 : double.parse(weatherTemp!) ;
+        task.weather = weatherInfo ;
+        task.address_depth1 = address_depth1 ;
+        task.address_depth2 = address_depth2 ;
+        task.address_depth3 = address_depth3 ;
+        List<BloodPressureDto> bpDto = <BloodPressureDto>[task];
+        SendBloodPressureDto sendBpDto  = SendBloodPressureDto();
+        sendBpDto.blood_pressure = bpDto ;
+        await bps.BloodPressureInsert(appKey,sendBpDto).then((value){
+          EasyLoading.dismiss();
+          print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${value.result}');
+          print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${value.data![0].user_id}');
+          // if(resp.user_id != null){
+          saved.call();
+          // }
+        }).catchError((Object obj) async {
+          print('에러된값>>>>>>>>>>>>>>>>>>>>>>>>>${obj}');
+          EasyLoading.dismiss();
+          err();
+          switch (obj.runtimeType) {
+            case DioError:
+              final res = (obj as DioError).response;
+              update();
+              break;
+            default:
+            //nothing yet;
+          }
+        });
       });
     }
-  }
-  //서버에 데이터 저장시키기
-  Future<void> serverDBInsert(Function saved)async{
-    EasyLoading.show();
-    TdiServers(bloodPressureServer: (BloodPressureServer bps) async {
-      BloodPressureDto task = BloodPressureDto();
-      await bps.BloodPressureInsert(appKey, task).then((value){
-        // print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${value.user_id}');
-        // if(resp.user_id != null){
-          saved.call();
-        // }
-      }).catchError((Object obj) async {
-        // non-200 error goes here.
-        EasyLoading.dismiss();
-        switch (obj.runtimeType) {
-          case DioError:
-            final res = (obj as DioError).response;
-            update();
-            break;
-          default:
-          //nothing yet;
-        }
-      });
-    });
   }
   selectDataPicker(BuildContext context)async{
     Future<DateTime?> future =  showDatePicker(

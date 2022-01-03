@@ -139,8 +139,24 @@ class WeatherUtil{
       }
     }
   }
-
   static String getWeatherImageFromWeatherStr(String weatherStr){
+    if(weatherStr == "맑은날 번개" || weatherStr == "맑음"
+        || weatherStr == "맑은날 번개"|| weatherStr == "맑음"){
+      return "images/weather_s.png" ;
+    }else if(weatherStr == "구름낀날 번개" || weatherStr == "구름"){
+      return "images/weather_cloud.png" ;
+    }else if(weatherStr == "비 내리는 날 번개" || weatherStr == "비"
+        || weatherStr == "소나기 내리는 날 번개"|| weatherStr == "소나기"){
+      return "images/weather_r.png" ;
+    }else if(weatherStr == "비/눈 내리는 날 번개" || weatherStr == "비/눈"
+        || weatherStr == "눈 내리는 날 번개"|| weatherStr == "눈"){
+      return "images/weather_sn.png" ;
+    }else{
+      return "images/weather_s.png" ;
+    }
+  }
+
+  static String getWeatherImageFromWeatherStr2(String weatherStr){
     if( weatherStr == '구름' || weatherStr == '흐림' || weatherStr == '구름많음' ) {
       // 구름
       return "images/weather_r.png";

@@ -87,7 +87,7 @@ class SelfBpInputForm extends StatelessWidget {
                     // },
                       keyboardType: TextInputType.number,
                       // ignore: deprecated_member_use
-                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                      // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                       controller: sys,
                       style: TextStyle(fontSize: getUiSize(12),height: 1),
                       textAlign: TextAlign.center,
@@ -159,7 +159,7 @@ class SelfBpInputForm extends StatelessWidget {
                     // },
                       keyboardType: TextInputType.number,
                       // ignore: deprecated_member_use
-                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                      // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                       textAlign: TextAlign.center,
                       controller: dia,
                       style: TextStyle(fontSize: getUiSize(12),height: 1),
@@ -234,7 +234,7 @@ class SelfBpInputForm extends StatelessWidget {
                       style: TextStyle(fontSize: getUiSize(12),height: 1),
                       keyboardType: TextInputType.number,
                       // ignore: deprecated_member_use
-                      inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                      // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(

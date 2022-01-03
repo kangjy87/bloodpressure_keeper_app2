@@ -1,4 +1,37 @@
 import 'package:shared_preferences/shared_preferences.dart';
+
+/**
+ * 도시저장
+ */
+void setCity(String si, String gu, String dong)async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.setString('city_si', (si  == null ? "" : si));
+  _prefs.setString('city_gu',(gu == null ? "" : gu));
+  _prefs.setString('city_dong',(dong == null ? "" : dong));
+}
+/**
+ * 도시 시
+ */
+Future<String?> getCity_si()async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  return (_prefs.getString('city_si') == null ? '' : _prefs.getString('city_si')) ;
+}
+/**
+ * 도시 구
+ */
+Future<String?> getCity_gu()async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  return (_prefs.getString('city_gu') == null ? '' : _prefs.getString('city_gu')) ;
+}
+/**
+ * 도시 동
+ */
+Future<String?> getCity_dong()async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  return (_prefs.getString('city_dong') == null ? '' : _prefs.getString('city_dong')) ;
+}
+
+
 /**
  * 토큰저장
  */

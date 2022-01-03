@@ -90,7 +90,7 @@ class BasicInfoForm extends StatelessWidget {
                           controller: age,
                           keyboardType: TextInputType.number,
                           // ignore: deprecated_member_use
-                          inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
+                          // inputFormatters: [WhitelistingTextInputFormatter(RegExp('[0-9]')),],
                           textAlign: TextAlign.center,
                           // decoration: InputDecoration(labelText: '19xx'),
                         ),

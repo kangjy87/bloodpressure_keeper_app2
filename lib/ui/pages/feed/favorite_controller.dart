@@ -152,7 +152,7 @@ class FavoriteController extends GetxController {
     final client = FeedsClient(DioClient.dio);
     print('>>>>>>>>>!!!!!!!!!!!${platform}');
     await client.getFavorite(
-        1 /** 1 ~ 3 */, page, per_page,SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN), SharedPrefKey.C9_KEY,platform,keyword,usersInfo.id
+        1 /** 1 ~ 3 */, page, per_page, SharedPrefKey.C9_KEY,platform,keyword,usersInfo.id
     ).then((result) {
 
       data = result;

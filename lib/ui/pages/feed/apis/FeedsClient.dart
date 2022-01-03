@@ -25,7 +25,6 @@ abstract class FeedsClient {
       @Query("media_id") int media_id,
       @Query("page") int page,
       @Query ("per_page") int per_page,
-      @Header('Authorization') authorization,
       @Header('C9') C9,
       @Query ("platform") String? platform,
       @Query ("search") String? search,
@@ -37,7 +36,6 @@ abstract class FeedsClient {
       @Query("media_id") int media_id,
       @Query("page") int page,
       @Query ("per_page") int per_page,
-      @Header('Authorization') authorization,
       @Header('C9') C9,
       @Query ("platform") String? platform,
       @Query ("search") String? search,
@@ -53,7 +51,6 @@ abstract class FeedsClient {
 
   @POST("/api/v1/favorites")
   Future<FavoritesResultDto> setFavorite(
-      @Header('Authorization') authorization,
       @Header('C9') C9,
       @Body() FavoritesDto task
       );
@@ -62,7 +59,6 @@ abstract class FeedsClient {
   Future<LikesResultDto> setLike(
       @Path ('article_id') String article_id,
       @Path ('behavior_type') String behavior_type,
-      @Header('Authorization') authorization,
       @Header('C9') C9,
       @Body() LikesDto task
       );

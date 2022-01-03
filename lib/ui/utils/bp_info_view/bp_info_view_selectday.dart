@@ -1,14 +1,17 @@
 import 'package:bloodpressure_keeper_app/model/blood_pressure_item.dart';
+import 'package:bloodpressure_keeper_app/model/bloodpressure_dto.dart';
 import 'package:bloodpressure_keeper_app/model/bp_standard_model.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
+import 'package:bloodpressure_keeper_app/utils/day_util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bloodpressure_keeper_app/utils/weather_util.dart';
 
 class BpInfoViewSelectDay extends StatelessWidget {
-  final BloodPressureItem data ;
+  final BloodPressureDto data ;
   final BPStandardModel bpRiskLevel ;
-  final Function(BloodPressureItem data) detailPageClick;
+  final Function(BloodPressureDto data) detailPageClick;
   final Function() selfPageClick;
   const BpInfoViewSelectDay({
     Key? key,
@@ -21,7 +24,11 @@ class BpInfoViewSelectDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController memoController = TextEditingController();
-    memoController.text = (data.memo!.length > 14) ?  "${data.memo!.substring(0,10)}..." : data.memo!  ;
+    memoController.text = data.memo == null ? '' : ((data.memo!.length > 14) ?  "${data.memo!.substring(0,10)}..." : data.memo!)  ;
+    String weatherImg = "" ;
+    if(data.weather != null && data.weather != null){
+      weatherImg = WeatherUtil.getWeatherImageFromWeatherStr(data.weather!);
+    }
     return Container(
       // padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
       width: double.infinity,
@@ -48,22 +55,30 @@ class BpInfoViewSelectDay extends StatelessWidget {
                 child: Center(
                   child: Row(
                     children: [
-                      Expanded(child: Text(''), flex: data.weatherImg != '' ? 1 : 2),
-                      Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(data.saveData!)) == data.rData
-                          ?"${DateFormat('yyyy.MM.dd HH시 mm분').format(DateTime.parse(data.saveData!))} "
-                          :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(data.rData!))} ",
+                      Expanded(child: Text(''), flex: weatherImg != '' ? 1 : 2),
+                      Text(getStringDay(data.created_at!) == getStringDay(data.date!)
+                          ?"${DateFormat('yyyy.MM.dd HH시 mm분').format(DateTime.parse(data.created_at!))} "
+                          :"${DateFormat('yyyy.MM.dd').format(DateTime.parse(data.date!))} ",
                         style: TextStyle(
                             fontFamily: 'NanumRoundB',
                             fontSize: getUiSize(10),
                             color: Color(0xff78849e)),
                         textAlign: TextAlign.center,),
                       Expanded(child: Text(''), flex: 1),
-                      Text("${data.weatherTemp} ",style: TextStyle(
+                      Text(getStringDay(data.created_at!) == getStringDay(data.date!)
+                          ?"${data.temperature}℃ "
+                          :"",
+                        style: TextStyle(
                           fontFamily: 'NanumRoundB',
                           fontSize: getUiSize(10),
                           color: Color(0xff78849e)),
                         textAlign: TextAlign.center,),
-                      Visibility(visible: data.weatherImg != '',child: Image.asset(data.weatherImg!, width: getUiSize(23), height: getUiSize(23),),),
+                      // Text("${data.temperature}℃ ",style: TextStyle(
+                      //     fontFamily: 'NanumRoundB',
+                      //     fontSize: getUiSize(10),
+                      //     color: Color(0xff78849e)),
+                      //   textAlign: TextAlign.center,),
+                      Visibility(visible: weatherImg != '',child: Image.asset(weatherImg, width: getUiSize(23), height: getUiSize(23),),),
                       Expanded(child: Text(''), flex: 1),
                     ],
                   ),
@@ -140,7 +155,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                             width: 7,
                           ),
                           Text(
-                            '${data.diastole}',
+                            '${data.diastolic}',
                             style: TextStyle(
                                 fontFamily: 'NanumRoundEB',
                                 fontSize: getUiSize(25),
@@ -200,7 +215,7 @@ class BpInfoViewSelectDay extends StatelessWidget {
                     child: Text(''),
                   ),
                   Text(
-                    '${data.pulse}',
+                    '${data.heart}',
                     style: TextStyle(
                         fontFamily: 'NanumRoundEB',
                         fontSize: getUiSize(25),

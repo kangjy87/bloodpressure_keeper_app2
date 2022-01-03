@@ -144,6 +144,7 @@ class JoinAddInfoController extends GetxController {
           final resp = await bps.UsersInfo(appKey, task);
           print('저장된값>>>>>>>>>>>>>>>>>>>>>>>>>${resp.data!.id}');
           if(resp.data != null){
+            setUserAccessToken(resp.data!.access_token);
             setUserAddInfo(nickName, gender, age, resp.data!.id!,(){
               print('저장이 완료');
               save.call();

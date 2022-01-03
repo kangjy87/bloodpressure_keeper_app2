@@ -120,17 +120,18 @@ FeedsItemDto fakeMe = FeedsItemDto(
     channel: null,
     article_owner_id: "3226487621",
     url : "https://www.instagram.com/p/CR5z8iuNz_U",
-    title : "테스트 데이타 입니다.",
-    contents : "불라불라 불라 ㅎㅎㅎ",
+    title : " ",
+    contents : " ",
     storage_thumbnail_url : Images.SampleImages[0].url,
     thumbnail_url : Images.SampleImages[0].url,
     thumbnail_width : Images.SampleImages[0].width,
-    thumbnail_height : Images.SampleImages[0].height,
+    thumbnail_height : 800,
+    // thumbnail_height : Images.SampleImages[0].height,
     hashtag : "",
     state : 1,
     date : DateTime.now(),
     article_owner: ArticleOwnerDto (
-        name: "한상철",
+        name: " ",
         storage_thumbnail_url : null,
         thumbnail_url: null
 
