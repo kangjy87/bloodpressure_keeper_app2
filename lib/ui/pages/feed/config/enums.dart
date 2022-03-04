@@ -2,7 +2,9 @@
 enum PlatformType {
   youtube,
   instagram,
-  channel
+  channel,
+  googlenews,
+  naverblog,
 }
 
 /** Feed media type */

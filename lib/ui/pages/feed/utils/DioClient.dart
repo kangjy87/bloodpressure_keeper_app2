@@ -65,7 +65,7 @@ abstract class DioClient {
     options.headers['device'] = phoneInfo.device;
     options.headers['os_version'] = phoneInfo.osVersion;
     options.headers['app_version'] = phoneInfo.appVersion;
-    options.headers['advertising_id'] = phoneInfo.advertsingId;
+    options.headers['advertisingId'] = phoneInfo.advertsingId;
     options.headers['os'] = phoneInfo.os;
 
     // if (options.baseUrl.startsWith(Constants.Q_API_BASE_URL) && q_auth_token != null && q_auth_token.isNotEmpty) {

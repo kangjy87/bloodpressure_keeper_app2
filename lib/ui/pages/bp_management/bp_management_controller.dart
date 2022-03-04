@@ -28,6 +28,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'main_header_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BpManagementController extends GetxController {
   PageController pageControllers = PageController() ;
@@ -49,6 +50,9 @@ class BpManagementController extends GetxController {
   HashMap<String,List<BloodPressureDto>> searchBpList = HashMap(); //조회된 데이터 리스트
   HashMap<String,List<BloodPressureDto>> searchBpAvgList = HashMap(); //조회된 데이터 일평균
   BloodPressureDto searchBpLastData = BloodPressureDto(); //조회된 날짜중 마지막 데이터
+
+  /////////////////////////////
+
   @override
   void onInit() {
     // super.onInit();
@@ -265,7 +269,6 @@ class BpManagementController extends GetxController {
     update();
     getServerBpList(false);
   }
-
 
   //셀프 혈압등록
   void selfBpInput(Function refresh)async{

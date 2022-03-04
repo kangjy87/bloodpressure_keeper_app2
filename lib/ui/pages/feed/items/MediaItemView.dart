@@ -17,15 +17,21 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/common/videos/TdiYoutubeP
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/logger_utils.dart';
 
-class MediaItemView extends StatelessWidget {
+import '../ListTypeFeedsDetailController.dart';
 
+class MediaItemView extends StatelessWidget {
+  String strControllerTag ;
+  TdiYouTubePlayer? youTubePlayer ;
+  BuildContext? mediaContext ;
+  MediaItemView({
+    required this.strControllerTag
+  });
   Widget _commonError = Container (
       color: Colors.grey,
       child: Image.asset(Images.img_placeholder, fit: BoxFit.cover,)
   );
 
   Widget _getMediaItemView (ArticleMediaItemDto item, PlatformType platform) {
-
     MediaInfo _mediaInfo = ContentsUtil.getFeedDetailMediaInfo (item, platform);
 
     switch (enumFromString(MediaType.values, item.type!)) {
@@ -38,6 +44,7 @@ class MediaItemView extends StatelessWidget {
 
         return Container(
           width: Get.width,
+          height: item.height?.toDouble(),
           color: Colors.black,
           constraints: BoxConstraints (
               minHeight: 300
@@ -45,7 +52,7 @@ class MediaItemView extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: _mediaUrl!,
             errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.black26),
-            fit: BoxFit.contain,
+            fit: BoxFit.fill, //fit: BoxFit.contain,  여기로 바뀜
             cacheKey: _mediaUrl,
           ),
         );
@@ -55,9 +62,10 @@ class MediaItemView extends StatelessWidget {
         if (_mediaInfo.url == null || _mediaInfo.url!.isEmpty) { //주소가 없는건 거르자...
           return _commonError;
         } else if (_mediaInfo.type == MediaPlayType.video_youtube) {
-          return TdiYouTubePlayer(videoId: _mediaInfo.url, mController: Get.find<FeedsDetailController>(),);
+          youTubePlayer = TdiYouTubePlayer(videoId: _mediaInfo.url, mController: Get.find<ListTypeFeedsDetailController>(tag: strControllerTag),);
+          return youTubePlayer! ;
         } else if (_mediaInfo.type == MediaPlayType.video_mp4) {
-          return TdiVidePlayer(videoUrl: _mediaInfo.url, mController: Get.find<FeedsDetailController>(),);
+          return TdiVidePlayer(videoUrl: _mediaInfo.url, mController: Get.find<ListTypeFeedsDetailController>(tag: strControllerTag),);
         } else {
           return _commonError;
         }
@@ -67,7 +75,7 @@ class MediaItemView extends StatelessWidget {
     }
   }
 
-  double _getContentProp (FeedsDetailController controller) {
+  double _getContentProp (ListTypeFeedsDetailController controller) {
     double _asp = 0.0;
     if (controller.currentMedia.width == null || controller.currentMedia.width == 0
         || controller.currentMedia.height == null || controller.currentMedia.height == 0) {
@@ -82,9 +90,10 @@ class MediaItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return GetBuilder<FeedsDetailController> (
-      init: FeedsDetailController (),
+    mediaContext = context ;
+    return GetBuilder<ListTypeFeedsDetailController> (
+      tag: strControllerTag,
+      init: ListTypeFeedsDetailController (),
       builder:(controller) =>
       (controller.data.article_medias != null && controller.data.article_medias!.length > 1) ?
       Obx (() {
@@ -96,7 +105,8 @@ class MediaItemView extends StatelessWidget {
                   CarouselSlider(
                     options: CarouselOptions(
                         aspectRatio: (controller.orientation.value == Orientation.portrait) ? 1 / 1 : Get.width / Get.height,
-                        height: controller.orientation.value == Orientation.landscape ? Get.height : Get.width,
+                        height: controller.orientation.value == Orientation.landscape ? Get.height : check_height(controller.data),
+                        // height: controller.orientation.value == Orientation.landscape ? Get.height : Get.width,
                         viewportFraction : 1,
                         onPageChanged: (index, reason) {
                           controller.mediaCarouselCurrent.value = index;
@@ -146,14 +156,19 @@ class MediaItemView extends StatelessWidget {
           :
       Container (
         width: Get.width,
-        height: controller.orientation.value == Orientation.portrait ? isTabletSize() ? Get.width * 0.6 : Get.width : Get.height,
+        height: controller.orientation.value == Orientation.portrait ? isTabletSize() ? check_height(controller.data) * 0.6 : check_height(controller.data) : Get.height,
+        // height: controller.orientation.value == Orientation.portrait ? isTabletSize() ? Get.width * 0.6 : Get.width : Get.height,
         color: Colors.black,
         alignment: Alignment.center,
-        child:  _getMediaItemView(controller.currentMedia, enumFromString(PlatformType.values, controller.data.platform!)),
+        child:  _getMediaItemView(controller.currentMedia, enumFromString(PlatformType.values,(controller.data.platform!.replaceAll('-','')))),
       )
 
       ,
     );
   }
 
+  double check_height(FeedsItemDto data){
+    print('${getUiSize (69)}shshsh노노노노노높이느는느느느는????>${Get.width}>>>>>>>>${Get.height}>>>>>>>${data.article_medias![0].height}>>>>>>>>>>>>>${data.article_medias![0].height!/Get.width}');
+    return  (data.article_medias![0].height!/Get.width >  3) ? (Get.width + getUiSize (69)) : Get.width  ;
+  }
 }

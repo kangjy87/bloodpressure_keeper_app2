@@ -8,6 +8,7 @@ class DashboardController extends GetxController with WidgetsBindingObserver{
   RxInt crossCount = (isTabletSize() ? 6 : 4).obs;
   RxBool tabletCheck = isTabletSize().obs ;
   void changeTabIndex(int index) {
+    print('>>>>>asdfsadfsadf');
     tabIndex = index;
     update();
   }

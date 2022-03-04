@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 -->
    <application
-        android:label="혈압매니저"
+        android:label="건강매니저"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -71,5 +71,10 @@
                <data android:path="callback" />
            </intent-filter>
        </activity>
+       <meta-data
+           android:name="com.google.android.gms.ads.APPLICATION_ID"
+           android:value="ca-app-pub-7018589062175673~5088960981"/>
+       <meta-data android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
+           android:value="false" />
     </application>
 </manifest>

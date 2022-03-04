@@ -1,6 +1,13 @@
 import 'package:bloodpressure_keeper_app/ui/pages/bp_management/bp_detail_info_page.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/FeedFavoriteController.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/FeedFavoriteDetailListController.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/FeedFavoriteDetailListPage.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/ListTypeFeedsDetail.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/ListTypeFeedsDetailController.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/PageFeedsDetail.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/bindings/FeedsDetailBind.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_main_page.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_page.dart';
 import 'package:get/get.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/dashboard/dashboard_binding.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/splash_screen/splash_screen_page.dart';
@@ -27,6 +34,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.BPManagemnet,
       page: ()=> BpManagementPage(),
+      binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.FeedPage,
+      page: ()=> FeedMainPage(),
       binding: DashboardBinding(),
     ),
     GetPage(
@@ -64,6 +76,19 @@ class AppPages {
       page: () => PageFeedsDetail(),
       binding: FeedsDetailBind(),
       transition: Transition.native,
+    ),
+    GetPage(
+      name: AppRoutes.ListTypeFeedDetailPage,
+      page: () => ListTypeFeedsDetail(),
+      binding: ListTypeFeedsDetailBinding(),
+      transition: Transition.native,
+      preventDuplicates : false
+    ),
+    GetPage(
+        name: AppRoutes.FeedFavoriteDetailListPage,
+        page: () => FeedFavoriteDetailListPage(),
+        binding: FeedFavoriteDetailListBinding(),
+        transition: Transition.native,
     ),
   ];
 }

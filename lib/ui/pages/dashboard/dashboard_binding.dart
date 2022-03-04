@@ -1,4 +1,5 @@
 import 'package:bloodpressure_keeper_app/ui/pages/bp_management/bp_detail_info_controller.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_main_controller.dart';
 import 'package:get/get.dart';
 import 'dashboard_controller.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/bp_management/bp_management_controller.dart';
@@ -13,7 +14,7 @@ class DashboardBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<SplashScreenController>(() => SplashScreenController());
-    Get.lazyPut<DashboardController>(() => DashboardController());
+    Get.lazyPut<DashboardController>(() => DashboardController(),tag:'mainTag');
     Get.lazyPut<BpManagementController>(() => BpManagementController());
     Get.lazyPut<FeedController>(() => FeedController());
     Get.lazyPut<MyController>(() => MyController());
@@ -22,5 +23,6 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<JoinAddInfoController>(() => JoinAddInfoController());
     Get.lazyPut<UserInfoAgreementController>(() => UserInfoAgreementController());
     Get.lazyPut<BpDetailInfoController>(() => BpDetailInfoController());
+    Get.lazyPut<FeedMainController>(() => FeedMainController());
   }
 }

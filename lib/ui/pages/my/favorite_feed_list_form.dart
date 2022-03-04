@@ -21,7 +21,9 @@ class FavoriteFeedListForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(DashboardController());
+    if(!Get.isRegistered<DashboardController>(tag:'mainTag')){
+      Get.put(DashboardController(),tag:'mainTag');
+    }
     return GetBuilder<FavoriteController> (
         init: FavoriteController (),
         builder: (controller) => RefreshIndicator(
@@ -162,9 +164,9 @@ class FavoriteFeedListForm extends StatelessWidget {
           // controller: controller.scrollController,
           physics: NeverScrollableScrollPhysics (),
           primary: false,
-          key: PageStorageKey ("fuckedOne${Get.find<DashboardController>().crossCount.value}"),
+          key: PageStorageKey ("fuckedOne${Get.find<DashboardController>(tag:'mainTag').crossCount.value}"),
           padding: EdgeInsets.symmetric(horizontal: Constants.feed_tab_horizontal_padding),
-          crossAxisCount: Get.find<DashboardController>().crossCount.value, //isTabletSize() ?  6 : 4 ,
+          crossAxisCount: Get.find<DashboardController>(tag:'mainTag').crossCount.value, //isTabletSize() ?  6 : 4 ,
           itemCount: controller.list.length,
           itemBuilder: (BuildContext context, int index) => FeedItemView (
             dto: controller.list[index].article, index: index,

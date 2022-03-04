@@ -124,7 +124,7 @@ class MyPageTitle extends StatelessWidget {
                                 Container(
                                   // padding: EdgeInsets.fromLTRB(14, 0, 0, 0),
                                     child:  Text(
-                                      '혈압 매니저가 항상 당신을 응원해요!',
+                                      '건강 매니저가 항상 당신을 응원해요!',
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundEB',
                                           fontSize: getUiSize (10.4),

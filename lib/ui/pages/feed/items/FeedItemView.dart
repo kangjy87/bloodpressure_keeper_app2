@@ -79,7 +79,6 @@ class FeedItemView extends StatelessWidget {
     List<double> _stops = [0.6, 0.9];
 
     String? _userThumbnailURL = dto!.article_owner!.thumbnail_url;
-    print('1>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${_userThumbnailURL}');
     if (_userThumbnailURL == null || _userThumbnailURL.isEmpty) _userThumbnailURL = "";
 
     String strContents = '${(dto!.hashtag == null || dto!.hashtag == '')? dto!.contents! : dto!.hashtag!}';
@@ -92,6 +91,9 @@ class FeedItemView extends StatelessWidget {
           break ;
         case 'instagram' :
           strSnsImg = 'images/sns_instar_icon.png' ;
+          break ;
+        case 'google-news' :
+          strSnsImg = 'images/sns_google_icon.png' ;
           break ;
         case 'naver-blog' :
           strSnsImg = 'images/sns_blog_icon.png' ;
@@ -112,8 +114,8 @@ class FeedItemView extends StatelessWidget {
                           children: [
                             /** 썸네일 */
                             Container(
-                              // height: _mediaInfo.height,
-                              height:  0 ,
+                              height: _mediaInfo.height,
+                              // height:  0 ,
                               constraints: BoxConstraints (
                                   minHeight: _mediaInfo.url!.startsWith ("http") ? _mediaInfo.height! : 0,
                                   minWidth: double.maxFinite

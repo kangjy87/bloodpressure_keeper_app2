@@ -21,7 +21,7 @@ Future<String> getHeaderText(BloodPressureDto? toDayBPData,int? typeCheck)async{
     //데이터가 아예 없을 경우
     case 0 :
       selectList = <String>[
-        '반가워요~🖐\n저는 당신만의 혈압매니저예요!\n오늘의 혈압을 기록해주세요. ',
+        '반가워요~🖐\n저는 당신만의 건강매니저예요!\n오늘의 혈압을 기록해주세요. ',
       ];
       break ;
     //7일 이후 데이터만 있는 경우
@@ -34,7 +34,7 @@ Future<String> getHeaderText(BloodPressureDto? toDayBPData,int? typeCheck)async{
     //7일이전 데이터는 있지만 오늘 데이터가 없을때
     case 2 :
       selectList = <String>[
-        '반가워요~🖐\n저는 당신만의 혈압매니저예요!\n오늘의 혈압을 기록해주세요. ',
+        '반가워요~🖐\n저는 당신만의 건강매니저예요!\n오늘의 혈압을 기록해주세요. ',
         '오늘 혈압 아직 기록하지 않았네요.\n혈압 관리는 꾸준함이 중요해요!👀'
       ];
       break ;
@@ -53,7 +53,7 @@ Future<String> getHeaderText(BloodPressureDto? toDayBPData,int? typeCheck)async{
           case 0 :
 
             selectList = <String>[
-              '반가워요~🖐\n저는 당신만의 혈압매니저예요!\n오늘의 혈압을 기록해주세요. ',
+              '반가워요~🖐\n저는 당신만의 건강매니저예요!\n오늘의 혈압을 기록해주세요. ',
               '오늘 혈압 아직 기록하지 않았네요.\n혈압 관리는 꾸준함이 중요해요!👀'
             ];
 

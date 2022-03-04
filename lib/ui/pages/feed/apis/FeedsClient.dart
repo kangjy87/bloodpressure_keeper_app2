@@ -1,4 +1,9 @@
+
+import 'package:bloodpressure_keeper_app/model/feed_favorite_groups_add_dto.dart';
+import 'package:bloodpressure_keeper_app/model/get_favorite_groups_dto.dart';
+import 'package:bloodpressure_keeper_app/model/set_add_favorite_groups.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FeedsDetailDto.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/FeedsKeywordsDto.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:bloodpressure_keeper_app/ui/pages/feed/config/config.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/dtos/CommonDto.dart';
@@ -61,5 +66,41 @@ abstract class FeedsClient {
       @Path ('behavior_type') String behavior_type,
       @Header('C9') C9,
       @Body() LikesDto task
+      );
+
+  @GET('/api/v1/keywords/suggestion')
+  Future<FeedsKeywordsListDto> getKeywordsList (
+      @Header('C9') C9,
+      @Query("media_id") int media_id,
+      @Query("sort") String? sort,
+      @Query ("page") int? page,
+      @Query ("per_page") int? per_page
+      );
+
+  @GET('/api/v1/favorite-groups')
+  Future<GetFavoriteGroup> getFavoriteGroups (
+      @Header('C9') C9,
+      @Query("media_id") int media_id,
+      @Query("user_id") String user_id,
+      @Query("page") int page,
+      @Query("per_page") int per_page,
+      @Query("search") String search,
+      );
+
+  @POST('/api/v1/favorite-groups')
+  Future<FeedFavoriteGroupsAddDto> addFavoriteGroups (
+      @Header('C9') C9,
+      @Body() SetAddFavoriteGroups data
+      );
+
+  @GET('/api/v1/favorites')
+  Future<FavoriteListDto> getFavoritesGroupDetailList (
+      @Header('C9') C9,
+      @Query ('page') int page,
+      @Query ('per_page') int per_page,
+      @Query ('group_id') String group_id,
+      @Query ('group_use') String group_use,
+      @Query ("media_id") int? media_id,
+      @Query ("user_id") String user_id,
       );
 }

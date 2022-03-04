@@ -1,3 +1,4 @@
+import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'splash_screen_controller.dart';
@@ -30,8 +31,9 @@ class SplashScreenPage extends StatelessWidget{
           child: Center(
             child: Column(
               children: [
-                Expanded(child: Text(''), flex: 1),
-                Expanded(child: Lottie.asset('assets/splash.json'), flex: 9),
+                // Expanded(child: Text(''), flex: 4),
+                Expanded(child: Lottie.asset('assets/splash_hm2.json'), flex: 9),
+                // Expanded(child: Text(''), flex: 1),
               ],
             ),
           ),

@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget{
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('혈압매니저',
+                                  Text('건강매니저',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundB',
@@ -66,7 +66,7 @@ class LoginPage extends StatelessWidget{
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Text('당신의 혈압 관리 매니저',
+                                  Text('당신의 건강 관리 매니저',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontFamily: 'NanumRoundR',

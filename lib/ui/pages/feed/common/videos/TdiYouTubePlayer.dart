@@ -7,27 +7,31 @@ import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/logger_utils.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../feed_controller.dart';
 import 'TdiOrientationController.dart';
 
 class TdiYouTubePlayer extends StatefulWidget {
 
   String? videoId;
   TdiOrientationController? mController;
-
   TdiYouTubePlayer ({
     this.videoId,
     this.mController
   });
 
   @override
-  _TdiYouTubePlayerState createState() => _TdiYouTubePlayerState();
+  TdiYouTubePlayerState createState() => TdiYouTubePlayerState();
+
+  //context를 반환하는 함수 'of'를 static으로 생성한다.
+  TdiYouTubePlayerState of(BuildContext context) =>
+      context.findAncestorStateOfType<TdiYouTubePlayerState>()!;
 }
 
-class _TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
+class TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
 
   /// for youtube ---------------------------------------------------------------
   late YoutubePlayerController _youtubePlayerController;
-
+  set player(YoutubePlayerController value) => setState(() => _youtubePlayerController = value);
   late PlayerState _playerState;
   late YoutubeMetaData _videoMetaData;
   double _volume = 100;
@@ -52,13 +56,18 @@ class _TdiYouTubePlayerState extends State<TdiYouTubePlayer> {
       ),
     )..addListener(() {
       setState(() {
+        Get.find<FeedController>().youtubePlayerController =  _youtubePlayerController ;
         _playerState = _youtubePlayerController.value.playerState;
         _videoMetaData = _youtubePlayerController.metadata;
         _isPlayerReady = true;
       });
     });
   }
-
+  onPlayerStop(){
+    if(_youtubePlayerController != null){
+      _youtubePlayerController.pause();
+    }
+  }
   @override
   void dispose() {
     super.dispose();

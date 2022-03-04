@@ -41,7 +41,9 @@ class ContentsUtil {
         case PlatformType.instagram :
           _mediaInfo.height = _mediaInfo.height = _mediaInfo.width;
           break;
-
+        case PlatformType.googlenews :
+          _mediaInfo.height = _mediaInfo.height = _mediaInfo.width;
+          break;
         case PlatformType.youtube :
         ///유튜브는 별도로 가로세로 비율을 고정해달라는 요청
           _mediaInfo.height = _mediaInfo.width! * (3/4);

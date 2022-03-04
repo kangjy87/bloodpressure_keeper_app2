@@ -30,8 +30,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
+  webview_flutter: ^3.0.0                  # for webview
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   flutter_localizations:
     sdk: flutter
   retrofit_generator: any
@@ -39,26 +41,27 @@ dev_dependencies:
   build_runner: any
   logger: ^1.0.0
   shared_preferences: ^2.0.5 #SharedPreferences 사용을 위해
-  permission_handler: ^7.0.0 #수동 퍼미션 사용
+  permission_handler: ^9.2.0 #수동 퍼미션 사용
   table_calendar: ^3.0.1 #날짜선택
   fluttertoast: ^8.0.8 #토스트메시지
   sqflite: ^2.0.0+3 #SQLITE 사용
   path_provider: ^2.0.2 #SQLITE 사용
   intl: ^0.17.0 #날짜받아오기
-  #flutter_blue: ^0.8.0 #블루투스 IOS대응 (flutter_ble_lib: ^2.3.2 #BLE 사용)
+#  flutter_ble_lib: ^2.3.2 #블루투스 IOS대응 (flutter_ble_lib: ^2.3.2 #BLE 사용)
   flutter_kakao_login: ^3.3.0
   firebase_auth: ^3.1.0 #구글로그인
   google_sign_in: ^5.0.4 #구글로그인
   firebase_core: ^1.6.0 #구글로그인
   sign_in_with_apple: ^3.0.0 #애플로그인
+  fab_circular_menu: ^1.0.2 #플로팅메뉴
   #charts_flutter: ^0.11.0 #차트
   charts_flutter:
     git:
       url: https://github.com/google/charts
       path: charts_flutter
   firebase_messaging: ^10.0.5 #FCM 토큰
-  geolocator: <=7.4.0 #위치정보 받기
-  geocoding: <=2.0.0 # 위치를 통한 주소조회
+  geolocator: ^8.2.0 #위치정보 받기
+  geocoding: ^2.0.2 # 위치를 통한 주소조회
   flutter_easyloading: ^3.0.0 #로딩
   firebase_crashlytics: ^2.2.1 #파이어베이스 크래쉬
   lottie: ^1.1.0 #로티 (스플래시 애니효과)
@@ -71,12 +74,15 @@ dev_dependencies:
   youtube_player_flutter: ^8.0.0
   video_player: ^2.1.12
   carousel_slider: ^4.0.0
-  flutter_html: ^2.1.1                      # for youtube player
+  flutter_html:
+    path: ./local/flutter_html-2.2.1
+#  flutter_html: ^2.1.1                      # for youtube player
   #flutter_tags: ^0.4.9+1                    # for tag cloud but not support null safety
-  webview_flutter: ^2.0.12                  # for webview
+#  webview_flutter: ^2.0.12                  # for webview
   url_launcher: ^6.0.9                      # for native browser
   share_plus: ^2.1.4                        # for share to sns
   firebase_dynamic_links: ^2.0.9            # dynamic links
+  google_mobile_ads: ^0.13.6   #광고
   #flutter_statusbar_manager : ^2.0.0        # for control status bar but not support null safety
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -93,6 +99,7 @@ flutter:
   assets:
     - images/
     - assets/splash.json
+    - assets/splash_hm2.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

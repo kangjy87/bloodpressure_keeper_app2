@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_controller.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_main_controller.dart';
+import 'package:bloodpressure_keeper_app/ui/pages/feed/feed_main_page.dart';
 import 'package:bloodpressure_keeper_app/ui/pages/feed/utils/GeneralUtils.dart';
 import 'package:bloodpressure_keeper_app/ui/utils/msg_alert_dialog/twobutton_alert.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,8 +16,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class DashboardPage extends StatelessWidget with WidgetsBindingObserver{
   List _list=[
-    BpManagementPage(),
     FeedPage(),
+    BpManagementPage(),
     MyPage(),
   ];
   late DateTime backbuttonpressedTime;
@@ -37,7 +40,10 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver{
   }
   @override
   Widget build(BuildContext context) {
+    print('asdfsdfsdfsadfsadfsadfsadfsadfsadfsadfsadfsdafsadf');
     return WillPopScope(child: GetBuilder<DashboardController>(
+      tag: 'mainTag',
+      init: DashboardController(),
       builder: (controller) {
         return Scaffold(
           body: this._list[controller.tabIndex],
@@ -57,12 +63,15 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver{
                   GestureDetector(
                     //update the bottom app bar view each time an item is clicked
                     onTap: () {
+                      if(controller.tabIndex == 0){
+                        Get.find<FeedController>().searchFeeds(null);
+                      }
                       controller.changeTabIndex(0);
                     },
                     child: controller.tabIndex == 0
-                        ? Image.asset('images/menu_on_1.png',
+                        ? Image.asset('images/menu_on_2.png',
                             height: getUiSize (40), width: getUiSize (80))
-                        : Image.asset('images/menu_off_1.png',
+                        : Image.asset('images/menu_off_2.png',
                             height: getUiSize (40), width: getUiSize (80)),
                   ),
                   Expanded(
@@ -74,9 +83,9 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver{
                       controller.changeTabIndex(1);
                     },
                     child: controller.tabIndex == 1
-                        ? Image.asset('images/menu_on_2.png',
+                        ? Image.asset('images/menu_on_1.png',
                             height: getUiSize (40), width: getUiSize (80))
-                        : Image.asset('images/menu_off_2.png',
+                        : Image.asset('images/menu_off_1.png',
                             height: getUiSize (40), width: getUiSize (80)),
                   ),
                   Expanded(
@@ -153,16 +162,20 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver{
     ),
     // onWillPop: onWillPop,
         onWillPop: () async {
-          twoButtonAlert(
-              context,
-              '종료',
-              '앱을 종료 하시겠습니까?',
-              '아니요', () {
-            Get.back();
-          },
-              '예', () {
-            exit(0);
-          });
+          if(Get.find<FeedMainController>().pageList.value.length > 1){
+            Get.find<FeedMainController>().onback();
+          }else{
+            twoButtonAlert(
+                context,
+                '종료',
+                '앱을 종료 하시겠습니까?',
+                '아니요', () {
+              Get.back();
+            },
+                '예', () {
+              exit(0);
+            });
+          }
       return false;
     }
     );

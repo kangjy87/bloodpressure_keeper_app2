@@ -30,6 +30,7 @@ class FavoritesDto {
   String? updated_at;
   String? created_at ;
   int? id ;
+  int? group_id ;
 
   FavoritesDto({
     this.media_id,
@@ -37,7 +38,8 @@ class FavoritesDto {
     this.article_id,
     this.updated_at,
     this.created_at,
-    this.id
+    this.id,
+    this.group_id
   });
 
   factory FavoritesDto.fromJson (Map<String, dynamic> json) => _$FavoritesDtoFromJson (json);

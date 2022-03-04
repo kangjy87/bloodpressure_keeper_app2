@@ -71,7 +71,7 @@ class TdiServers {
     options.headers['device'] = phoneInfo.device;
     options.headers['os_version'] = phoneInfo.osVersion;
     options.headers['app_version'] = phoneInfo.appVersion;
-    options.headers['advertising_id'] = phoneInfo.advertsingId;
+    options.headers['advertisingId'] = phoneInfo.advertsingId;
     options.headers['os'] = phoneInfo.os;
     // /** AUTH TOKEN */
     // String? q_auth_token = await SharedPrefUtil.getString(SharedPrefKey.CURATOR9_TOKEN);

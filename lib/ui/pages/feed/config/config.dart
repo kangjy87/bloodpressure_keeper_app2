@@ -112,7 +112,7 @@ FeedsItemDto skeletonData = FeedsItemDto(
   ),
 );
 FeedsItemDto fakeMe = FeedsItemDto(
-    id: 333,
+    id: 121212121212,
     media_id: 999,
     platform: "instagram",
     type: "keyword",
@@ -310,11 +310,11 @@ class Constants {
   static const String androidApplicationId = "com.appkeeper.bloodpressure_keeper_app";
   static const String appleBundleId = "com.appkeeper.bloodpressure_keeper_app";
   static const String deeplink_prefix_domain = "https://bloodpressurekeeperapp.page.link";
-  // static const String Q_API_BASE_URL = "https://dev.api.curator9.com";
-  static const String Q_API_BASE_URL = "https://api.curator9.com";
+  static const String Q_API_BASE_URL = "https://dev.api.curator9.com";  //테스트 (베포시 필수 변경)
+  // static const String Q_API_BASE_URL = "https://api.curator9.com"; //라이브
   static const String API_BASE_URL = 'https://dev.tt.tdi9.com';
-  // static const String CDN_URL = "https://chuncheon.blob.core.windows.net/chuncheon/";
-  static const String CDN_URL = "https://c9bloodpressure.azureedge.net/";
+  static const String CDN_URL = "https://chuncheon.blob.core.windows.net/chuncheon/"; // 테스트 (베포시 필수 변경)
+  // static const String CDN_URL = "https://c9bloodpressure.azureedge.net/"; //라이브
 
   static final general_horizontal_padding = getUiSize(15);
   static final narrow_horizontal_padding = getUiSize(20);

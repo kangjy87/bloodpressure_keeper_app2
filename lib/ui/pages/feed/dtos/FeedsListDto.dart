@@ -103,9 +103,11 @@ class FavoriteItemDto {
   int? media_id;
   String? user_id;
   int? article_id;
+  int? group_id ;
   DateTime? created_at;
   DateTime? updated_at;
   bool? is_like ;
+  FavoriteGroup? favorite_group ;
   FeedsItemDto? article;
 
   FavoriteItemDto ({
@@ -113,13 +115,35 @@ class FavoriteItemDto {
     this.media_id,
     this.user_id,
     this.article_id,
+    this.group_id,
     this.created_at,
     this.updated_at,
     this.is_like,
+    this.favorite_group,
     this.article
   });
 
   factory FavoriteItemDto.fromJson (Map<String, dynamic> json) => _$FavoriteItemDtoFromJson (json);
   Map<String, dynamic> toJson () => _$FavoriteItemDtoToJson (this);
 
+}
+
+@JsonSerializable ()
+class FavoriteGroup{
+  int? id ;
+  int? media_id ;
+  String? user_id ;
+  String? group_name ;
+  String? created_at ;
+  String? updated_at ;
+  FavoriteGroup({
+    this.id,
+    this.media_id,
+    this.user_id,
+    this.group_name,
+    this.created_at,
+    this.updated_at,
+  });
+  factory FavoriteGroup.fromJson(Map<String, dynamic> json) => _$FavoriteGroupFromJson(json);
+  Map<String, dynamic> toJson() => _$FavoriteGroupToJson(this);
 }

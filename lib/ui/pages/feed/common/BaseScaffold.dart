@@ -9,12 +9,15 @@ class BaseScaffold extends StatelessWidget {
   Widget? body;
   Color? backgroundColor;
   VoidCallback? onBackgroundTab;
-
+  Widget? bottomNavigationBar;
+  Widget? floatingActionButton ;
   BaseScaffold ({
     this.appBar,
     this.body,
     this.backgroundColor,
-    this.onBackgroundTab
+    this.onBackgroundTab,
+    this.bottomNavigationBar,
+    this.floatingActionButton
   });
 
   //프로그레스 뷰
@@ -44,8 +47,9 @@ class BaseScaffold extends StatelessWidget {
       builder: (controller) => Obx (() {
         return Stack (
           children: [
-
             Scaffold(
+              floatingActionButton :  floatingActionButton,
+              bottomNavigationBar: bottomNavigationBar,
               appBar: appBar,
               body: Stack (
                 children: [

@@ -313,7 +313,7 @@ class PageFeedsDetail extends GetView<FeedsDetailController> {
             children: [
               Column(
                 children: [
-                  MediaItemView(),
+                  MediaItemView(strControllerTag: '',),
                   // if (orientation == Orientation.portrait)
                     Container (height: getUiSize(32),)
                 ],
